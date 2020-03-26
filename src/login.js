@@ -1,5 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Button, Container, TextField, Typography, makeStyles } from '@material-ui/core'
+
+export const Login = () => {
+  const [email, setEmail] = useState('')
+
+  return <LoginDisplay email={email} onEmailChange={(newEmail) => setEmail(newEmail)} />
+}
 
 const useStyles = makeStyles((theme) => ({
   loginContainer: {
@@ -17,11 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export const Login = () => {
-  return <LoginDisplay />
-}
-
-const LoginDisplay = () => {
+const LoginDisplay = ({email, onEmailChange, password, onPasswordChange}) => {
   const classes = useStyles()
   return (
     <Container maxWidth="xs">
@@ -37,6 +39,9 @@ const LoginDisplay = () => {
             fullWidth
             label='Email Address'
             autoFocus
+            data-email
+            value={email}
+            onChange={({target}) => onEmailChange(target.value)}
           />
           <TextField
             variant='outlined'
@@ -45,6 +50,9 @@ const LoginDisplay = () => {
             fullWidth
             label='Password'
             type='password'
+            value={password}
+            onChange={({target}) => onPasswordChange(target.value)}
+            data-password
           />
           <Button
             type='submit'
