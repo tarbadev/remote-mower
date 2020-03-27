@@ -1,0 +1,20 @@
+language: node_js
+node_js: 13.11.0
+os: osx
+osx_image: xcode11.3
+git:
+  depth: false
+  quiet: true
+jobs:
+  include:
+    - stage: test
+    - stage: build
+      script: yarn electron-build
+
+stages:
+  - test
+  - build
+
+branches:
+  only:
+    - master
