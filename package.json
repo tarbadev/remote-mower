@@ -7,9 +7,11 @@
   "description": "Desktop application for Remote Mower using the husqvarna API",
   "license": "ISC",
   "homepage": "./",
-  "main": "src/start.js",
+  "main": "public/electron.js",
   "scripts": {
     "electron": "NODE_ENV=dev electron .",
+    "electron-build": "yarn build && electron-builder -mwl",
+    "postinstall": "electron-builder install-app-deps",
     "start": "BROWSER=none react-scripts start",
     "build": "react-scripts build",
     "test": "jest",
@@ -19,6 +21,7 @@
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.9.0",
     "electron": "^8.2.0",
+    "electron-builder": "^22.4.1",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
     "fetch-mock": "^9.3.1",
@@ -71,5 +74,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "build": {
+    "appId": "com.tarbadev.remote-mower",
+    "mac": {
+      "category": "public.app-category.utilities"
+    }
   }
 }
