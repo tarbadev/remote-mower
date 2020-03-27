@@ -3,30 +3,31 @@
   "version": "0.0.1",
   "private": true,
   "author": "Tarbadev",
-  "homepage": "https://github.com/tarbadev/remote-mower",
+  "repository": "https://github.com/tarbadev/remote-mower",
   "description": "Desktop application for Remote Mower using the husqvarna API",
-  "main": "main.js",
   "license": "ISC",
+  "homepage": "./",
+  "main": "src/start.js",
   "scripts": {
-    "start": "nodemon --watch . --ignore '**/*.spec.js' --exec 'electron .'",
+    "electron": "NODE_ENV=dev electron .",
+    "start": "BROWSER=none react-scripts start",
+    "build": "react-scripts build",
     "test": "jest",
-    "test:watch": "npm run test -- --watchAll"
+    "test:watch": "npm run test -- --watchAll",
+    "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "@babel/core": "^7.9.0",
-    "@babel/preset-env": "^7.9.0",
-    "@babel/preset-react": "^7.9.4",
-    "@babel/register": "^7.9.0",
     "electron": "^8.2.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
-    "jest": "^25.2.0",
+    "jest": "^24.9.0",
     "jest-enzyme": "^7.1.2",
     "jest-junit": "^10.0.0",
-    "nodemon": "^2.0.2"
+    "react-scripts": "3.4.1"
   },
   "dependencies": {
     "@material-ui/core": "^4.9.7",
+    "electron-is-dev": "^1.1.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
   },
@@ -46,5 +47,20 @@
     "moduleNameMapper": {
       "^src(.*)$": "<rootDir>/src$1"
     }
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
