@@ -1,10 +1,20 @@
 import React, { useState } from 'react'
-import { Button, Container, TextField, Typography, makeStyles } from '@material-ui/core'
+import { Button, Container, makeStyles, TextField, Typography } from '@material-ui/core'
+import { useAppContext } from './StoreProvider'
+import { login } from './LoginService'
 
-export const Login = () => {
+export const Login = ({history}) => {
+  const { dispatch } = useAppContext()
   const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
-  return <LoginDisplay email={email} onEmailChange={(newEmail) => setEmail(newEmail)} />
+  return <LoginDisplay
+    email={email}
+    onEmailChange={(newEmail) => setEmail(newEmail)}
+    password={password}
+    onPasswordChange={(newPassword) => setPassword(newPassword)}
+    onSubmitButtonClicked={() => dispatch(login(email, password, () => history.push('/home')))}
+  />
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -23,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const LoginDisplay = ({email, onEmailChange, password, onPasswordChange}) => {
+const LoginDisplay = ({ email, onEmailChange, password, onPasswordChange, onSubmitButtonClicked }) => {
   const classes = useStyles()
   return (
     <Container maxWidth="xs">
@@ -41,7 +51,7 @@ const LoginDisplay = ({email, onEmailChange, password, onPasswordChange}) => {
             autoFocus
             data-email
             value={email}
-            onChange={({target}) => onEmailChange(target.value)}
+            onChange={({ target }) => onEmailChange(target.value)}
           />
           <TextField
             variant='outlined'
@@ -51,15 +61,16 @@ const LoginDisplay = ({email, onEmailChange, password, onPasswordChange}) => {
             label='Password'
             type='password'
             value={password}
-            onChange={({target}) => onPasswordChange(target.value)}
+            onChange={({ target }) => onPasswordChange(target.value)}
             data-password
           />
           <Button
-            type='submit'
             fullWidth
             variant='contained'
             color='primary'
             className={classes.submit}
+            data-submit
+            onClick={onSubmitButtonClicked}
           >
             Sign In
           </Button>
