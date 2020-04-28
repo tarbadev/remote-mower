@@ -4,10 +4,6 @@ const path = require('path')
 const NodeEnvironment = require('jest-environment-node')
 
 class CustomEnvironment extends NodeEnvironment {
-  constructor(config) {
-    super(config);
-    this.app = null
-  }
   async setup() {
     await super.setup()
 
@@ -19,7 +15,6 @@ class CustomEnvironment extends NodeEnvironment {
     await this.app.start()
 
     this.global.client = this.app.client
-    this.global.appUrl = 'http://localhost:3000'
   }
 
   async teardown() {

@@ -1,6 +1,4 @@
-import { fillInput, goToUrl, tapOnButton, isElementVisible } from './helpers.po'
-
-export const goTo = async () => await goToUrl('/')
+import { fillInput, tapOnButton, isElementVisible } from './helpers.po'
 
 export const isVisible = async () => await isElementVisible('[data-login-container]')
 

@@ -25,8 +25,6 @@ export const getTextByCssSelector = selector => {
   )
 }
 
-export const goToUrl = async (url) => await global.client.url(`${global.appUrl}${url}`)
-
 export const waitForElementExist = async (selector) => await global.client.waitForExist(selector)
 
 export const isElementVisible = async (selector) => await global.client.isVisible(selector)

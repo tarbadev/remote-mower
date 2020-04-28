@@ -6,7 +6,6 @@ describe('Login', () => {
   const password = process.env.E2E_PASSWORD
 
   it('Displays the home page on successful login', async () => {
-    await LoginPage.goTo()
     expect(await LoginPage.isVisible()).toBeTruthy()
 
     await LoginPage.fillFormAndSubmit({ email, password })
