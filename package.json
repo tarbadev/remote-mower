@@ -71,8 +71,6 @@
         "rootDir": "<rootDir>/e2e",
         "verbose": true,
         "errorOnDeprecated": true,
-        "globalSetup": "<rootDir>/globalSetup.js",
-        "globalTeardown": "<rootDir>/globalTeardown.js",
         "testEnvironment": "<rootDir>/customEnvironment.js",
         "reporters": [
           "default",
