@@ -37,7 +37,7 @@ const LoginDisplay = ({ email, onEmailChange, password, onPasswordChange, onSubm
   const classes = useStyles()
   return (
     <Container maxWidth="xs">
-      <div className={classes.loginContainer}>
+      <div className={classes.loginContainer} data-login-container>
         <Typography component='h1' variant='h5'>
           Log in
         </Typography>

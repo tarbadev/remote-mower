@@ -26,10 +26,12 @@
     "enzyme-adapter-react-16": "^1.15.2",
     "fetch-mock": "^9.3.1",
     "jest": "^24.9.0",
+    "jest-environment-node": "^25.4.0",
     "jest-enzyme": "^7.1.2",
     "jest-junit": "^10.0.0",
     "node-fetch": "^2.6.0",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "spectron": "^10.0.1"
   },
   "dependencies": {
     "@material-ui/core": "^4.9.7",
@@ -41,24 +43,43 @@
     "react-router-dom": "^5.1.2"
   },
   "jest": {
-    "resetMocks": true,
-    "setupFilesAfterEnv": [
-      "jest-enzyme"
-    ],
-    "testEnvironment": "enzyme",
-    "testEnvironmentOptions": {
-      "enzymeAdapter": "react16"
-    },
-    "reporters": [
-      "default",
-      "jest-junit"
-    ],
-    "moduleNameMapper": {
-      "^src(.*)$": "<rootDir>/src$1"
-    },
-    "transform": {
-      "^.+\\.js$": "babel-jest"
-    }
+    "projects": [
+      {
+        "displayName": "Unit Tests",
+        "rootDir": "<rootDir>/src",
+        "resetMocks": true,
+        "setupFilesAfterEnv": [
+          "jest-enzyme"
+        ],
+        "testEnvironment": "enzyme",
+        "testEnvironmentOptions": {
+          "enzymeAdapter": "react16"
+        },
+        "reporters": [
+          "default",
+          "jest-junit"
+        ],
+        "moduleNameMapper": {
+          "^src(.*)$": "<rootDir>/src$1"
+        },
+        "transform": {
+          "^.+\\.js$": "babel-jest"
+        }
+      },
+      {
+        "displayName": "E2E Tests",
+        "rootDir": "<rootDir>/e2e",
+        "verbose": true,
+        "errorOnDeprecated": true,
+        "globalSetup": "<rootDir>/globalSetup.js",
+        "globalTeardown": "<rootDir>/globalTeardown.js",
+        "testEnvironment": "<rootDir>/customEnvironment.js",
+        "reporters": [
+          "default",
+          "jest-junit"
+        ]
+      }
+    ]
   },
   "eslintConfig": {
     "extends": "react-app"
