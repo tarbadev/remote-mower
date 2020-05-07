@@ -1,4 +1,5 @@
-const { app, BrowserWindow, Menu } = require('electron')
+const { app, BrowserWindow, Menu, ipcMain } = require('electron')
+const { setPassword, findPassword } = require('keytar')
 const path = require('path')
 const isDev = require('electron-is-dev')
 const log = require('electron-log')
@@ -54,6 +55,10 @@ function createWindow() {
   mainWindow.on('closed', () => {
     mainWindow = null
   })
+
+  if (isDev) {
+    mainWindow.webContents.openDevTools()
+  }
 }
 
 app.on('ready', function () {
@@ -90,5 +95,20 @@ app.on('activate', () => {
   }
 })
 
-
 app.allowRendererProcessReuse = false
+
+const SERVICE_NAME = 'RemoteMower'
+
+ipcMain.on('store-token', (event, token) => {
+  log.info('Storing token')
+  setPassword(SERVICE_NAME, SERVICE_NAME, token)
+    .then(() => log.info('Token stored'))
+    .catch(() => log.error('Error while storing token'))
+})
+
+ipcMain.on('retrieve-token', async (event, arg) => {
+  log.info('Retrieving token')
+  let token = await findPassword(SERVICE_NAME)
+  log.info(token)
+  event.sender.send('retrieve-token-result', token)
+})

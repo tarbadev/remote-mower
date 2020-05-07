@@ -3,8 +3,7 @@
 set -e
 
 COMMIT=$1
-CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
-VERSION=$("$CURRENT_DIR/get_build_version.sh")
+VERSION=$(awk -F': ' '/"version"/{print$2}' package.json | tr -d "\"" | tr -d ",")
 REPO="tarbadev/remote-mower"
 GITHUB="https://api.github.com"
 

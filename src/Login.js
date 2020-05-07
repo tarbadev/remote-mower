@@ -13,7 +13,7 @@ export const Login = ({history}) => {
     onEmailChange={(newEmail) => setEmail(newEmail)}
     password={password}
     onPasswordChange={(newPassword) => setPassword(newPassword)}
-    onSubmitButtonClicked={() => dispatch(login(email, password, () => history.push('/home')))}
+    onSubmitButtonClicked={() => dispatch(login(email, password, () => history.push('/')))}
   />
 }
 

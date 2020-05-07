@@ -1,4 +1,5 @@
 import { fetchAction } from './AppMiddleware'
+import { storeToken } from './LoginRepository'
 
 export const login = (email, password, onSuccess) => fetchAction({
   url: 'https://iam-api.dss.husqvarnagroup.net/api/v3/token',
@@ -12,5 +13,10 @@ export const login = (email, password, onSuccess) => fetchAction({
       }
     }
   },
-  onSuccess: onSuccess,
+  onSuccess: response => onLoginSuccess(response, onSuccess),
 })
+
+const onLoginSuccess = (response, onSuccess) => {
+  storeToken(response.data.id)
+  onSuccess()
+}

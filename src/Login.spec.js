@@ -59,7 +59,10 @@ describe('Login', () => {
     loginView.editEmail(email)
     loginView.clickOnSubmit()
 
-    expect(context.dispatch).toHaveBeenNthCalledWith(1, LoginService.login(email, '', expect.any(Function)))
+    const expectedCall = LoginService.login(email, '', expect.any(Function))
+    expectedCall.onSuccess = expect.any(Function)
+
+    expect(context.dispatch).toHaveBeenNthCalledWith(1, expectedCall)
   })
 
   it('redirects to home when login successful', () => {
@@ -75,6 +78,6 @@ describe('Login', () => {
 
     loginView.clickOnSubmit()
 
-    expect(pushSpy).toHaveBeenCalledWith('/home')
+    expect(pushSpy).toHaveBeenCalledWith('/')
   })
 })

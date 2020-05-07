@@ -6,15 +6,17 @@ jobs:
   unit-test:
     name: "Unit Tests"
     if: "!startsWith(github.event.head_commit.message, 'Bump version in package.json to ')"
-    runs-on: ubuntu-latest
+    runs-on: macOS-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: borales/actions-yarn@v2.0.0
+      - name: "Install Node.js 13.11.0"
+        uses: actions/setup-node@v1
         with:
-          cmd: --frozen-lockfile
-      - uses: borales/actions-yarn@v2.0.0
-        with:
-          cmd: test src
+          node-version: 13.11.0
+      - name: "Install dependencies"
+        run: yarn --frozen-lockfile
+      - name: "Run Unit Tests"
+        run: yarn test src
 
   build:
     name: "Build"
@@ -28,6 +30,8 @@ jobs:
           node-version: 13.11.0
       - name: "Install dependencies"
         run: yarn --frozen-lockfile
+      - name: "Replace package.json with new version"
+        run: ./ci/replace_version.sh
       - name: "Build applications"
         run: yarn electron-build
         env:

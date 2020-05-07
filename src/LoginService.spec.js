@@ -1,14 +1,16 @@
 import { fetchAction } from './AppMiddleware'
 import { login } from './LoginService'
+import { storeToken } from './LoginRepository'
+
+jest.mock('./LoginRepository')
 
 describe('LoginService', () => {
   describe('login', () => {
     it('calls the login API', () => {
-      const onSuccessSpy = jest.fn()
       const email = 'someone@example.com'
       const password = 'super-secret'
 
-      expect(login(email, password, onSuccessSpy)).toEqual(fetchAction({
+      expect(login(email, password, jest.fn())).toEqual(fetchAction({
         url: 'https://iam-api.dss.husqvarnagroup.net/api/v3/token',
         method: 'POST',
         body: {
@@ -20,8 +22,34 @@ describe('LoginService', () => {
             }
           }
         },
-        onSuccess: onSuccessSpy,
+        onSuccess: expect.any(Function),
       }))
+    })
+
+    it('calls callback on success', () => {
+      const onSuccessSpy = jest.fn()
+      const email = 'someone@example.com'
+      const password = 'super-secret'
+      const data = {
+        data: {
+          id: "fdca6a6a-e973-4160-8684-7f30ae7cdda1",
+          type: "token",
+          attributes: {
+            expires_in: 863999,
+            refresh_token: "4bf3bfbb-24ed-4645-8fcf-b65c1d67921e",
+            provider: "husqvarna",
+            user_id: "8a9b70ee-5201-4f73-8ebd-97828524143f",
+            scope: "iam:read iam:write",
+            client_id: "iam-password-client"
+          }
+        }
+      }
+
+      let loginAction = login(email, password, onSuccessSpy)
+      loginAction.onSuccess(data)
+
+      expect(storeToken).toHaveBeenCalledWith(data.data.id)
+      expect(onSuccessSpy).toHaveBeenCalled()
     })
   })
 })

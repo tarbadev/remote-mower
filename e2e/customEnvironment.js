@@ -7,19 +7,29 @@ class CustomEnvironment extends NodeEnvironment {
   async setup() {
     await super.setup()
 
-    const appPath = process.env.APP_PATH ? process.env.APP_PATH : electronPath
+    const appPath = this.getAppPath()
 
     console.log(`Application path: ${appPath}`)
 
-    this.app = new Application({
-      args: [path.join(__dirname, '..')],
-      path: appPath,
-    })
+    this.app = this.getApplication(appPath)
     await this.app.start()
+    await this.app.client.waitUntilWindowLoaded(20000)
 
+    this.global.restart = () => this.restart()
     this.global.client = this.app.client
 
     this.screenshotPath = './screenshots/'
+  }
+
+  getAppPath() {
+    return process.env.APP_PATH ? process.env.APP_PATH : electronPath
+  }
+
+  getApplication(appPath) {
+    return new Application({
+      args: [path.join(__dirname, '..')],
+      path: appPath,
+    })
   }
 
   async teardown() {
@@ -42,6 +52,11 @@ class CustomEnvironment extends NodeEnvironment {
 
   cleanUpString(stringToClean) {
     return encodeURIComponent(stringToClean.replace(/\s+/g, '-'))
+  }
+
+  async restart() {
+    await this.app.restart();
+    this.global.client = this.app.client
   }
 }
 

@@ -11,8 +11,8 @@ export const App = () => {
       <main>
         <Container maxWidth='xl'>
           <Switch>
-            <Route exact path="/" component={Login} />
-            <Route exact path="/home" component={Home} />
+            <Route exact path="/" component={Home} />
+            <Route exact path="/login" component={Login} />
           </Switch>
         </Container>
       </main>
