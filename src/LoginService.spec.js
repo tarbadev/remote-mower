@@ -1,5 +1,5 @@
 import { fetchAction } from './AppMiddleware'
-import { login, logout } from './LoginService'
+import { login, LoginError, logout } from './LoginService'
 import { storeToken, deleteToken } from './LoginRepository'
 
 jest.mock('./LoginRepository')
@@ -10,7 +10,7 @@ describe('LoginService', () => {
       const email = 'someone@example.com'
       const password = 'super-secret'
 
-      expect(login(email, password, jest.fn())).toEqual(fetchAction({
+      expect(login(email, password, jest.fn(), jest.fn())).toEqual(fetchAction({
         url: 'https://iam-api.dss.husqvarnagroup.net/api/v3/token',
         method: 'POST',
         body: {
@@ -23,6 +23,7 @@ describe('LoginService', () => {
           }
         },
         onSuccess: expect.any(Function),
+        onError: expect.any(Function),
       }))
     })
 
@@ -52,6 +53,42 @@ describe('LoginService', () => {
 
       expect(storeToken).toHaveBeenCalledWith(data.data.id)
       expect(onSuccessSpy).toHaveBeenCalled()
+    })
+
+    it('calls error callback on error with WRONG_LOGIN when error is 400',  () => {
+      const onErrorSpy = jest.fn()
+      const email = 'someone@example.com'
+      const password = 'super-secret'
+
+      let loginAction = login(email, password, jest.fn(), onErrorSpy)
+
+      loginAction.onError({ message: '400', stacktrace: 'some stack' })
+
+      expect(onErrorSpy).toHaveBeenCalledWith(LoginError.WRONG_LOGIN)
+    })
+
+    it('calls error callback on error with NO_NETWORK when error is TypeError: Failed to fetch',  () => {
+      const onErrorSpy = jest.fn()
+      const email = 'someone@example.com'
+      const password = 'super-secret'
+
+      let loginAction = login(email, password, jest.fn(), onErrorSpy)
+
+      loginAction.onError({ message: 'Failed to fetch', stacktrace: 'some stack' })
+
+      expect(onErrorSpy).toHaveBeenCalledWith(LoginError.NO_NETWORK)
+    })
+
+    it('calls error callback on error with OTHER when error is not known',  () => {
+      const onErrorSpy = jest.fn()
+      const email = 'someone@example.com'
+      const password = 'super-secret'
+
+      let loginAction = login(email, password, jest.fn(), onErrorSpy)
+
+      loginAction.onError({ message: 'No idea what this is!', stacktrace: 'some stack' })
+
+      expect(onErrorSpy).toHaveBeenCalledWith(LoginError.OTHER)
     })
   })
 

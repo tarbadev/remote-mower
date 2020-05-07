@@ -3,6 +3,7 @@ import { mount } from 'enzyme'
 import { Login } from './Login'
 import { mockAppContext } from './testUtils'
 import * as LoginService from './LoginService'
+import { LoginError } from './LoginService'
 
 class LoginViewHelper {
   constructor(loginContainer) {
@@ -10,6 +11,7 @@ class LoginViewHelper {
     this.emailSelector = '[data-email] input'
     this.passwordSelector = '[data-password] input'
     this.submitSelector = '[data-submit] button'
+    this.errorMessageSelector = '[data-error-message]'
   }
 
   editEmail(email) {
@@ -30,6 +32,10 @@ class LoginViewHelper {
 
   clickOnSubmit() {
     this.loginContainer.find(this.submitSelector).simulate('click')
+  }
+
+  getErrorMessage() {
+    return this.loginContainer.find(this.errorMessageSelector).at(0).text()
   }
 }
 
@@ -59,8 +65,9 @@ describe('Login', () => {
     loginView.editEmail(email)
     loginView.clickOnSubmit()
 
-    const expectedCall = LoginService.login(email, '', expect.any(Function))
+    const expectedCall = LoginService.login(email, '', expect.any(Function), expect.any(Function))
     expectedCall.onSuccess = expect.any(Function)
+    expectedCall.onError = expect.any(Function)
 
     expect(context.dispatch).toHaveBeenNthCalledWith(1, expectedCall)
   })
@@ -79,5 +86,55 @@ describe('Login', () => {
     loginView.clickOnSubmit()
 
     expect(pushSpy).toHaveBeenCalledWith('/')
+  })
+
+  describe('when login errors out', () => {
+    it('displays a wrong login message when error is WRONG_LOGIN', () => {
+      mockAppContext()
+      const pushSpy = jest.fn()
+
+      const login = mount(<Login history={{ push: pushSpy }} />)
+      const loginView = new LoginViewHelper(login)
+
+      jest
+        .spyOn(LoginService, 'login')
+        .mockImplementation((email, password, onSuccess, onError) => onError(LoginError.WRONG_LOGIN))
+
+      loginView.clickOnSubmit()
+
+      expect(loginView.getErrorMessage()).toBe('Email or password incorrect')
+    })
+
+    it('displays a wrong login message when error is NO_NETWORK', () => {
+      mockAppContext()
+      const pushSpy = jest.fn()
+
+      const login = mount(<Login history={{ push: pushSpy }} />)
+      const loginView = new LoginViewHelper(login)
+
+      jest
+        .spyOn(LoginService, 'login')
+        .mockImplementation((email, password, onSuccess, onError) => onError(LoginError.NO_NETWORK))
+
+      loginView.clickOnSubmit()
+
+      expect(loginView.getErrorMessage()).toBe('A network issue happened, please verify your internet connection')
+    })
+
+    it('displays a wrong login message when error is OTHER', () => {
+      mockAppContext()
+      const pushSpy = jest.fn()
+
+      const login = mount(<Login history={{ push: pushSpy }} />)
+      const loginView = new LoginViewHelper(login)
+
+      jest
+        .spyOn(LoginService, 'login')
+        .mockImplementation((email, password, onSuccess, onError) => onError(LoginError.OTHER))
+
+      loginView.clickOnSubmit()
+
+      expect(loginView.getErrorMessage()).toBe('An unknown error happened: contact the developer')
+    })
   })
 })

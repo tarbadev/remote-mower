@@ -2,6 +2,17 @@ export const waitForElementExist = async (selector) => await global.client.waitF
 
 export const isElementVisible = async (selector) => await global.client.isVisible(selector)
 
-export const fillInput = async (selector, value) => await global.client.$(`${selector} input`).setValue(value)
+export const fillInput = async (selector, value) => {
+  const fullSelector = `${selector} input`
+
+  await global.client
+    .waitForVisible(fullSelector)
+    .click(fullSelector)
+    .keys('Shift')
+    .keys('Home')
+    .keys('Backspace')
+    .keys('Shift')
+    .setValue(fullSelector, value)
+}
 
 export const tapOnButton = async (selector) => await global.client.click(selector)

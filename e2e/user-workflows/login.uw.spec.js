@@ -5,6 +5,14 @@ describe('Login', () => {
   const email = process.env.E2E_EMAIL
   const password = process.env.E2E_PASSWORD
 
+  it('Displays an error message on login failure', async () => {
+    expect(await LoginPage.isVisible()).toBeTruthy()
+
+    await LoginPage.fillFormAndSubmit({ email: 'test', password: 'somethingwrong' })
+    await LoginPage.waitForErrorMessageDisplayed()
+    expect(await LoginPage.isErrorMessageVisible()).toBeTruthy()
+  })
+
   it('Displays the home page on successful login and stores credentials', async () => {
     expect(await LoginPage.isVisible()).toBeTruthy()
 
