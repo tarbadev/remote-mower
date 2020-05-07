@@ -62,20 +62,55 @@ function createWindow() {
 }
 
 app.on('ready', function () {
-  const menu = Menu.buildFromTemplate([{
-    label: app.name,
-    submenu: [
-      {
-        label: 'About Remote Mower',
-        role: 'about',
-      },
-      {
-        label: 'Quit',
-        role: 'quit',
-      },
-    ],
-  }])
+  const isMac = process.platform === 'darwin'
+  const appName = 'Remote Mower'
 
+  const template = [
+    ...(isMac ? [{
+      label: appName,
+      submenu: [
+        { role: 'about', label: `About ${appName}` },
+        { type: 'separator' },
+        { role: 'services' },
+        { type: 'separator' },
+        { role: 'hide', label: `Hide ${appName}` },
+        { role: 'hideothers' },
+        { role: 'unhide' },
+        { type: 'separator' },
+        { role: 'quit', label: `Quit ${appName}` }
+      ]
+    }] : []),
+    { role: 'fileMenu' },
+    { role: 'editMenu' },
+    {
+      label: 'View',
+      submenu: [
+        { role: 'reload' },
+        { role: 'forcereload' },
+        { type: 'separator' },
+        { role: 'resetzoom' },
+        { role: 'zoomin' },
+        { role: 'zoomout' },
+        { type: 'separator' },
+        { role: 'togglefullscreen' }
+      ]
+    },
+    { role: 'windowMenu' },
+    {
+      role: 'help',
+      submenu: [
+        {
+          label: 'Learn More',
+          click: async () => {
+            const { shell } = require('electron')
+            await shell.openExternal('https://github.com/tarbadev/remote-mower')
+          }
+        }
+      ]
+    }
+  ]
+
+  const menu = Menu.buildFromTemplate(template)
   Menu.setApplicationMenu(menu)
 
   createWindow()
