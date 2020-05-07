@@ -5,9 +5,8 @@ set -e
 CURRENT_VERSION=$(awk -F': ' '/"version"/{print$2}' package.json | tr -d "\"" | tr -d ",")
 NEW_VERSION="$CURRENT_VERSION"
 LAST_COMMIT_TYPE=$(git log --oneline -1 --pretty=%B | awk -F'[]#[]' '{print $2}')
-export SEMVER_LAST_TAG=$(git describe --abbrev=0 --tags 2>/dev/null)
 
-if [ -n "$LAST_COMMIT_TYPE" ] && [ -n "$SEMVER_LAST_TAG" ]; then
+if [ -n "$LAST_COMMIT_TYPE" ]; then
   SEMVER_RELEASE_LEVEL=""
   if [[ "$LAST_COMMIT_TYPE" == *"finish"* ]]; then
     SEMVER_RELEASE_LEVEL="minor"
