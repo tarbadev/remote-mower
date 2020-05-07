@@ -13,3 +13,10 @@ export const retrieveToken = async () => {
     ipcRenderer.send('retrieve-token')
   }))
 }
+
+export const deleteToken = () => {
+  return new Promise(((resolve, reject) => {
+    ipcRenderer.on('delete-token-result', (event) => resolve())
+    ipcRenderer.send('delete-token')
+  }))
+}

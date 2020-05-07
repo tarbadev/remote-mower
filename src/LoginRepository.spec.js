@@ -1,4 +1,4 @@
-import { retrieveToken, storeToken } from './LoginRepository'
+import { deleteToken, retrieveToken, storeToken } from './LoginRepository'
 import { ipcRenderer } from 'electron'
 
 jest.mock(
@@ -21,7 +21,7 @@ describe('LoginRepository', () => {
   })
 
   describe('retrieveToken',  () => {
-    it('calls the login API', async () => {
+    it('calls the main process', async () => {
       const token = 'SuperSecureToken'
 
       ipcRenderer.on.mockImplementationOnce((channel, listener) => listener({}, token))
@@ -30,6 +30,18 @@ describe('LoginRepository', () => {
 
       expect(ipcRenderer.send).toHaveBeenCalledWith('retrieve-token')
       expect(ipcRenderer.on).toHaveBeenCalledWith('retrieve-token-result', expect.any(Function))
+    })
+  })
+
+  describe('deleteToken',  () => {
+    it('calls the main process', async () => {
+
+      ipcRenderer.on.mockImplementationOnce((channel, listener) => listener())
+
+      await deleteToken()
+
+      expect(ipcRenderer.send).toHaveBeenCalledWith('delete-token')
+      expect(ipcRenderer.on).toHaveBeenCalledWith('delete-token-result', expect.any(Function))
     })
   })
 })

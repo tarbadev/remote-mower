@@ -1,6 +1,6 @@
 import { fetchAction } from './AppMiddleware'
-import { login } from './LoginService'
-import { storeToken } from './LoginRepository'
+import { login, logout } from './LoginService'
+import { storeToken, deleteToken } from './LoginRepository'
 
 jest.mock('./LoginRepository')
 
@@ -26,7 +26,7 @@ describe('LoginService', () => {
       }))
     })
 
-    it('calls callback on success', () => {
+    it('calls callback on success', async () => {
       const onSuccessSpy = jest.fn()
       const email = 'someone@example.com'
       const password = 'super-secret'
@@ -46,9 +46,23 @@ describe('LoginService', () => {
       }
 
       let loginAction = login(email, password, onSuccessSpy)
-      loginAction.onSuccess(data)
+
+      storeToken.mockResolvedValueOnce()
+      await loginAction.onSuccess(data)
 
       expect(storeToken).toHaveBeenCalledWith(data.data.id)
+      expect(onSuccessSpy).toHaveBeenCalled()
+    })
+  })
+
+  describe('logout', () => {
+    it('deletes the token and calls the callback', async () => {
+      const onSuccessSpy = jest.fn()
+
+      deleteToken.mockResolvedValueOnce()
+
+      await logout(onSuccessSpy)
+
       expect(onSuccessSpy).toHaveBeenCalled()
     })
   })

@@ -3,6 +3,7 @@ import { mount } from 'enzyme'
 import { Home } from './Home'
 import { mockAppContext } from './testUtils'
 import { BrowserRouter } from 'react-router-dom'
+import * as LoginService from './LoginService'
 
 const { act } = require('react-dom/test-utils')
 
@@ -11,6 +12,7 @@ class HomeViewHelper {
     this.homeWrapper = homeWrapper
     this.redirectSelector = 'Redirect'
     this.homeContainerSelector = '[data-home-container]'
+    this.logoutButtonSelector = '[data-logout-button] button'
   }
 
   isRedirectingToLoginPage() {
@@ -23,7 +25,11 @@ class HomeViewHelper {
   }
 
   isVisible() {
-    return this.homeWrapper.find(this.homeContainerSelector).length === 1
+    return this.homeWrapper.find(this.homeContainerSelector).length >= 1
+  }
+
+  logout() {
+    this.homeWrapper.find(this.logoutButtonSelector).simulate('click')
   }
 }
 
@@ -60,6 +66,28 @@ describe('Home', () => {
 
     expect(homeView.isRedirectingToLoginPage()).toBeFalsy()
     expect(homeView.isVisible()).toBeTruthy()
+  })
+
+  it('Redirects to login page when logging out', async () => {
+    mockAppContext().isUserLoggedIn.mockResolvedValueOnce(true)
+
+    const home = mount(<BrowserRouter><Home /></BrowserRouter>)
+    const homeView = new HomeViewHelper(home)
+
+    await waitForUpdate(home)
+
+    jest
+      .spyOn(LoginService, 'logout')
+      .mockImplementation(onSuccess => onSuccess())
+
+    mockAppContext().isUserLoggedIn.mockResolvedValueOnce(false)
+    await act(async () => {
+      homeView.logout()
+    })
+    await waitForUpdate(home)
+
+    expect(homeView.isRedirectingToLoginPage()).toBeTruthy()
+    expect(homeView.isVisible()).toBeFalsy()
   })
 })
 

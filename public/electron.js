@@ -1,5 +1,5 @@
 const { app, BrowserWindow, Menu, ipcMain } = require('electron')
-const { setPassword, findPassword } = require('keytar')
+const { setPassword, findPassword, deletePassword } = require('keytar')
 const path = require('path')
 const isDev = require('electron-is-dev')
 const log = require('electron-log')
@@ -134,16 +134,23 @@ app.allowRendererProcessReuse = false
 
 const SERVICE_NAME = 'RemoteMower'
 
-ipcMain.on('store-token', (event, token) => {
-  log.info('Storing token')
-  setPassword(SERVICE_NAME, SERVICE_NAME, token)
-    .then(() => log.info('Token stored'))
-    .catch(() => log.error('Error while storing token'))
+ipcMain.on('store-token', async (event, token) => {
+  log.debug('Storing token')
+  await setPassword(SERVICE_NAME, SERVICE_NAME, token)
+  event.sender.send('store-token-result')
+  log.debug('Token stored')
 })
 
 ipcMain.on('retrieve-token', async (event, arg) => {
-  log.info('Retrieving token')
+  log.debug('Retrieving token')
   let token = await findPassword(SERVICE_NAME)
-  log.info(token)
   event.sender.send('retrieve-token-result', token)
+  log.debug('Token retrieved')
+})
+
+ipcMain.on('delete-token', async (event, arg) => {
+  log.debug('Deleting token')
+  let token = await deletePassword(SERVICE_NAME, SERVICE_NAME)
+  event.sender.send('delete-token-result', token)
+  log.debug('Token deleted')
 })

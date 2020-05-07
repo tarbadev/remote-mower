@@ -14,5 +14,12 @@ describe('Login', () => {
 
     await global.restart()
     expect(await HomePage.isVisible()).toBeTruthy()
-  }, 20000)
+
+    await HomePage.logout()
+    await LoginPage.waitForPageDisplayed()
+    expect(await LoginPage.isVisible()).toBeTruthy()
+
+    await global.restart()
+    expect(await LoginPage.isVisible()).toBeTruthy()
+  }, 30000)
 })
