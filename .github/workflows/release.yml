@@ -1,0 +1,139 @@
+name: Release
+on:
+  push:
+    branches: [ 'master' ]
+jobs:
+  unit-test:
+    name: "Unit Tests"
+    if: "!startsWith(github.event.head_commit.message, 'Bump version in package.json to ')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: borales/actions-yarn@v2.0.0
+        with:
+          cmd: --frozen-lockfile
+      - uses: borales/actions-yarn@v2.0.0
+        with:
+          cmd: test src
+
+  build:
+    name: "Build"
+    needs: unit-test
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: "Install Node.js 13.11.0"
+        uses: actions/setup-node@v1
+        with:
+          node-version: 13.11.0
+      - name: "Install dependencies"
+        run: yarn --frozen-lockfile
+      - name: "Build applications"
+        run: yarn electron-build
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - name: "Cleanup dist folder"
+        run: rm -rf dist/win-unpacked dist/mac
+      - name: "Upload dist folder"
+        uses: actions/upload-artifact@v1
+        with:
+          name: "dist"
+          path: dist
+
+  e2e-test-macos:
+    name: "E2E tests - macOS"
+    needs: build
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: "dist"
+          path: dist
+      - name: "Install Node.js 13.11.0"
+        uses: actions/setup-node@v1
+        with:
+          node-version: 13.11.0
+      - name: "Install dependencies"
+        run: yarn --frozen-lockfile
+      - name: "Run E2E Tests"
+        shell: bash
+        run: |
+          export CURRENT_VERSION=$(./ci/get_build_version.sh)
+          export APP_PATH="/Volumes/Remote Mower $CURRENT_VERSION/Remote Mower.app/Contents/MacOS/Remote Mower"
+          export DMG_NAME="dist/remote-mower-$CURRENT_VERSION.dmg"
+          sudo hdiutil attach $DMG_NAME
+
+          mkdir screenshots
+
+          yarn test e2e --detectOpenHandles
+        env:
+          E2E_EMAIL: ${{ secrets.e2eEmail }}
+          E2E_PASSWORD: ${{ secrets.e2ePassword }}
+      - name: "Upload failed tests screenshots"
+        uses: actions/upload-artifact@v1
+        if: ${{ failure() }}
+        with:
+          name: "macOsScreenshots"
+          path: screenshots
+
+  e2e-test-windows:
+    name: "E2E tests - Windows"
+    needs: build
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: "dist"
+          path: dist
+      - name: "Install Node.js 13.11.0"
+        uses: actions/setup-node@v1
+        with:
+          node-version: 13.11.0
+      - name: "Install dependencies"
+        run: yarn --frozen-lockfile
+      - name: "Run E2E Tests"
+        shell: bash
+        run: |
+          export CURRENT_VERSION=$(./ci/get_build_version.sh)
+          export APP_PATH="dist/Remote Mower $CURRENT_VERSION.exe"
+
+          mkdir screenshots
+
+          yarn test e2e --detectOpenHandles
+        env:
+          E2E_EMAIL: ${{ secrets.e2eEmail }}
+          E2E_PASSWORD: ${{ secrets.e2ePassword }}
+      - name: "Upload failed tests screenshots"
+        uses: actions/upload-artifact@v1
+        if: ${{ failure() }}
+        with:
+          name: "windowsScreenshots"
+          path: screenshots
+
+  deploy:
+    name: "Deploy"
+    if: "startsWith(github.event.head_commit.message, '[finish') || startsWith(github.event.head_commit.message, '[fix')"
+    needs:
+      - e2e-test-macos
+      - e2e-test-windows
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: "Install Node.js 13.11.0"
+        uses: actions/setup-node@v1
+        with:
+          node-version: 13.11.0
+      - name: "Install dependencies"
+        run: yarn --frozen-lockfile
+      - name: "Replace package.json with new version"
+        run: ./ci/replace_version.sh
+      - name: "Build and publish applications"
+        run: yarn publish-app
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - name: "Finalize release"
+        run: ./ci/finalize_release.sh ${{ github.sha }}
+        env:
+          GH_TOKEN: ${{ github.token }}
