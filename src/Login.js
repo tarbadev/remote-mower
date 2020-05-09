@@ -29,7 +29,7 @@ export const Login = ({ history }) => {
     onEmailChange={(newEmail) => setEmail(newEmail)}
     password={password}
     onPasswordChange={(newPassword) => setPassword(newPassword)}
-    onSubmitButtonClicked={() => dispatch(login(email, password, () => history.push('/'), onLoginError))}
+    submitForm={() => dispatch(login(email, password, () => history.push('/'), onLoginError))}
     errorMessage={errorMessage}
     onErrorMessageButtonClose={() => setErrorMessage('')}
   />
@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const LoginDisplay = ({ email, onEmailChange, password, onPasswordChange, onSubmitButtonClicked, errorMessage, onErrorMessageButtonClose }) => {
+const LoginDisplay = ({ email, onEmailChange, password, onPasswordChange, submitForm, errorMessage, onErrorMessageButtonClose }) => {
   const classes = useStyles()
 
   const Alert = (props) => {
@@ -71,7 +71,7 @@ const LoginDisplay = ({ email, onEmailChange, password, onPasswordChange, onSubm
         <Typography component='h1' variant='h5'>
           Log in
         </Typography>
-        <form className={classes.form}>
+        <form className={classes.form} onSubmit={submitForm}>
           <TextField
             variant='outlined'
             margin='normal'
@@ -100,7 +100,8 @@ const LoginDisplay = ({ email, onEmailChange, password, onPasswordChange, onSubm
             color='primary'
             className={classes.submit}
             data-submit
-            onClick={onSubmitButtonClicked}
+            type='submit'
+            onClick={submitForm}
           >
             Sign In
           </Button>
