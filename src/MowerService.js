@@ -14,6 +14,23 @@ export const MowerActivity = {
 
 Object.freeze(MowerActivity)
 
+export const MowerState = {
+  UNKNOWN: 'UNKNOWN',
+  NOT_APPLICABLE: 'NOT_APPLICABLE',
+  PAUSED: 'PAUSED',
+  IN_OPERATION: 'IN_OPERATION',
+  WAIT_UPDATING: 'WAIT_UPDATING',
+  WAIT_POWER_UP: 'WAIT_POWER_UP',
+  RESTRICTED: 'RESTRICTED',
+  OFF: 'OFF',
+  STOPPED: 'STOPPED',
+  ERROR: 'ERROR',
+  FATAL_ERROR: 'FATAL_ERROR',
+  ERROR_AT_POWER_UP: 'ERROR_AT_POWER_UP',
+}
+
+Object.freeze(MowerState)
+
 export const getMowerStatus = async () => {
   return retrieveToken().then(token => {
     const options = {
@@ -29,7 +46,8 @@ export const getMowerStatus = async () => {
       const mower = data[0]
       return {
         batteryLevel: mower.status.batteryPercent,
-        activity: mower.status.mowerStatus.activity
+        activity: mower.status.mowerStatus.activity,
+        state: mower.status.mowerStatus.state,
       }
     })
   })

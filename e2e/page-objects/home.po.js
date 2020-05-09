@@ -30,4 +30,17 @@ export const getMowerActivity = async () => {
   return await getTextFromElement(selector)
 }
 
+export const getMowerState = async () => {
+  const selector = 'span[data-mower-state]'
+  await global.client.waitUntil(
+    async () => await global.client.$(selector).getText() !== '',
+    {
+      timeout: 5000,
+      timeoutMsg: 'expected mower state to not be empty after 5s'
+    }
+  )
+
+  return await getTextFromElement(selector)
+}
+
 export const logout = async () => await tapOnButton('div[data-logout-button]')

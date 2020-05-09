@@ -13,13 +13,14 @@ import SvgIcon from '@material-ui/core/SvgIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
-import { getMowerStatus, MowerActivity } from './MowerService'
+import { getMowerStatus, MowerActivity, MowerState } from './MowerService'
 import Battery50Icon from '@material-ui/icons/Battery50'
 
 export const Home = () => {
   const [userLoggedIn, setUserLoggedIn] = useState()
   const [batteryLevel, setBatteryLevel] = useState(0)
   const [mowerActivity, setMowerActivity] = useState('')
+  const [mowerState, setMowerState] = useState('')
   const { isUserLoggedIn } = useAppContext()
 
   const isLoggedInAsync = useCallback(async () => {
@@ -59,6 +60,39 @@ export const Home = () => {
           default:
             setMowerActivity('Unknown')
         }
+        switch (status.state) {
+          case MowerState.NOT_APPLICABLE:
+            setMowerState('Not Applicable')
+            break
+          case MowerState.PAUSED:
+            setMowerState('Paused')
+            break
+          case MowerState.IN_OPERATION:
+            setMowerState('In operation')
+            break
+          case MowerState.WAIT_UPDATING:
+            setMowerState('Downloading new firmware')
+            break
+          case MowerState.WAIT_POWER_UP:
+            setMowerState('Performing power up tests')
+            break
+          case MowerState.RESTRICTED:
+            setMowerState('Restricted: Cannot mow because because of week calendar or override park')
+            break
+          case MowerState.OFF:
+            setMowerState('Mower turned off')
+            break
+          case MowerState.STOPPED:
+            setMowerState('Mower stopped. Manual action required')
+            break
+          case MowerState.ERROR:
+          case MowerState.FATAL_ERROR:
+          case MowerState.ERROR_AT_POWER_UP:
+            setMowerState('Error happened')
+            break
+          default:
+            setMowerState('Unknown')
+        }
       })
     }
   }, [userLoggedIn])
@@ -73,6 +107,7 @@ export const Home = () => {
     onLogoutButtonClicked={() => logout(isLoggedInAsync)}
     batteryLevel={batteryLevel}
     mowerActivity={mowerActivity}
+    mowerState={mowerState}
   />
 }
 
@@ -103,7 +138,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const HomeDisplay = ({ onLogoutButtonClicked, batteryLevel, mowerActivity }) => {
+const HomeDisplay = ({ onLogoutButtonClicked, batteryLevel, mowerActivity, mowerState }) => {
   const classes = useStyles()
 
   return <Container data-home-container className={classes.root}>
@@ -126,6 +161,7 @@ const HomeDisplay = ({ onLogoutButtonClicked, batteryLevel, mowerActivity }) => 
     <main className={classes.content}>
       <Typography data-battery-level><Battery50Icon />{batteryLevel}</Typography>
       <Typography>Activity: <span data-mower-activity>{mowerActivity}</span></Typography>
+      <Typography>State: <span data-mower-state>{mowerState}</span></Typography>
     </main>
   </Container>
 }

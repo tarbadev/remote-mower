@@ -26,4 +26,10 @@ describe('Home', () => {
 
     expect(await HomePage.getMowerActivity()).not.toBeNaN()
   })
+
+  it('Displays the mower state', async () => {
+    expect(await HomePage.isVisible()).toBeTruthy()
+
+    expect(await HomePage.getMowerState()).not.toBeNaN()
+  })
 })
