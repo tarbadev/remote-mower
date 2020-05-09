@@ -70,7 +70,7 @@ jobs:
 
           mkdir screenshots
 
-          yarn test e2e --detectOpenHandles
+          yarn test-e2e
         env:
           E2E_EMAIL: ${{ secrets.e2eEmail }}
           E2E_PASSWORD: ${{ secrets.e2ePassword }}
@@ -105,7 +105,7 @@ jobs:
 
           mkdir screenshots
 
-          yarn test e2e --detectOpenHandles
+          yarn test-e2e
         env:
           E2E_EMAIL: ${{ secrets.e2eEmail }}
           E2E_PASSWORD: ${{ secrets.e2ePassword }}

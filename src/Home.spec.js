@@ -4,6 +4,9 @@ import { Home } from './Home'
 import { mockAppContext } from './testUtils'
 import { BrowserRouter } from 'react-router-dom'
 import * as LoginService from './LoginService'
+import { getBatteryLevel} from './MowerService'
+
+jest.mock('./MowerService')
 
 const { act } = require('react-dom/test-utils')
 
@@ -13,6 +16,7 @@ class HomeViewHelper {
     this.redirectSelector = 'Redirect'
     this.homeContainerSelector = '[data-home-container]'
     this.logoutButtonSelector = '[data-logout-button] button'
+    this.batteryLevelSelector = 'p[data-battery-level]'
   }
 
   isRedirectingToLoginPage() {
@@ -30,6 +34,10 @@ class HomeViewHelper {
 
   logout() {
     this.homeWrapper.find(this.logoutButtonSelector).simulate('click')
+  }
+
+  getBatteryLevel() {
+    return this.homeWrapper.find(this.batteryLevelSelector).text()
   }
 }
 
@@ -58,6 +66,7 @@ describe('Home', () => {
 
   it('Displays home page when user is logged in', async () => {
     mockAppContext().isUserLoggedIn.mockResolvedValueOnce(true)
+    getBatteryLevel.mockResolvedValueOnce(54)
 
     const home = mount(<Home />)
     const homeView = new HomeViewHelper(home)
@@ -70,6 +79,7 @@ describe('Home', () => {
 
   it('Redirects to login page when logging out', async () => {
     mockAppContext().isUserLoggedIn.mockResolvedValueOnce(true)
+    getBatteryLevel.mockResolvedValueOnce(54)
 
     const home = mount(<BrowserRouter><Home /></BrowserRouter>)
     const homeView = new HomeViewHelper(home)
@@ -88,6 +98,19 @@ describe('Home', () => {
 
     expect(homeView.isRedirectingToLoginPage()).toBeTruthy()
     expect(homeView.isVisible()).toBeFalsy()
+  })
+
+  it('Displays the battery level', async () => {
+    mockAppContext().isUserLoggedIn.mockResolvedValueOnce(true)
+    getBatteryLevel.mockResolvedValueOnce(54)
+
+    const home = mount(<Home />)
+    const homeView = new HomeViewHelper(home)
+
+    await waitForUpdate(home)
+
+    expect(homeView.isVisible()).toBeTruthy()
+    expect(homeView.getBatteryLevel()).toBe('54')
   })
 })
 

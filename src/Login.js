@@ -58,6 +58,11 @@ const LoginDisplay = ({ email, onEmailChange, password, onPasswordChange, submit
     return <MuiAlert elevation={6} variant="filled" {...props} />
   }
 
+  const submitFormCallback = event => {
+    event.preventDefault()
+    submitForm()
+  }
+
   return (
     <Container maxWidth="xs" data-login-container>
       <Snackbar
@@ -71,7 +76,7 @@ const LoginDisplay = ({ email, onEmailChange, password, onPasswordChange, submit
         <Typography component='h1' variant='h5'>
           Log in
         </Typography>
-        <form className={classes.form} onSubmit={submitForm}>
+        <form className={classes.form} onSubmit={submitFormCallback}>
           <TextField
             variant='outlined'
             margin='normal'
@@ -101,7 +106,7 @@ const LoginDisplay = ({ email, onEmailChange, password, onPasswordChange, submit
             className={classes.submit}
             data-submit
             type='submit'
-            onClick={submitForm}
+            onClick={submitFormCallback}
           >
             Sign In
           </Button>

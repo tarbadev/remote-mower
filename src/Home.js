@@ -11,9 +11,14 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import SvgIcon from '@material-ui/core/SvgIcon'
 import ListItemText from '@material-ui/core/ListItemText'
+import { makeStyles } from '@material-ui/core/styles'
+import Typography from '@material-ui/core/Typography'
+import { getBatteryLevel } from './MowerService'
+import Battery50Icon from '@material-ui/icons/Battery50'
 
 export const Home = () => {
   const [userLoggedIn, setUserLoggedIn] = useState()
+  const [batteryLevel, setBatteryLevel] = useState(0)
   const { isUserLoggedIn } = useAppContext()
 
   const isLoggedInAsync = useCallback(async () => {
@@ -24,13 +29,22 @@ export const Home = () => {
     isLoggedInAsync()
   }, [isLoggedInAsync])
 
+  useEffect(() => {
+    if (userLoggedIn) {
+      getBatteryLevel().then(setBatteryLevel)
+    }
+  }, [userLoggedIn])
+
   if (userLoggedIn == null) {
     return <div />
   } else if (!userLoggedIn) {
     return <Redirect to='/login' />
   }
 
-  return <HomeDisplay onLogoutButtonClicked={() => logout(isLoggedInAsync)} />
+  return <HomeDisplay
+    onLogoutButtonClicked={() => logout(isLoggedInAsync)}
+    batteryLevel={batteryLevel}
+  />
 }
 
 const LogoutIcon = (props) => {
@@ -44,21 +58,44 @@ const LogoutIcon = (props) => {
   )
 }
 
-const HomeDisplay = ({ onLogoutButtonClicked }) => {
-  return <Container data-home-container>
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+  },
+  drawer: {
+    flexShrink: 0,
+  },
+  drawerContainer: {
+    overflow: 'auto',
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3),
+  },
+}))
+
+const HomeDisplay = ({ onLogoutButtonClicked, batteryLevel }) => {
+  const classes = useStyles()
+
+  return <Container data-home-container className={classes.root}>
     <Button onClick={onLogoutButtonClicked} data-logout-button>Logout</Button>
     <Drawer
-      variant="permanent"
-      anchor="left"
+      variant='permanent'
+      anchor='left'
+      className={classes.drawer}
     >
-      <Divider />
-      <List>
-        <ListItem button onClick={onLogoutButtonClicked} data-logout-button>
-          <ListItemIcon><LogoutIcon /></ListItemIcon>
-          <ListItemText primary='Logout' />
-        </ListItem>
-      </List>
+      <div className={classes.drawerContainer}>
+        <Divider />
+        <List>
+          <ListItem button onClick={onLogoutButtonClicked} data-logout-button>
+            <ListItemIcon><LogoutIcon /></ListItemIcon>
+            <ListItemText primary='Logout' />
+          </ListItem>
+        </List>
+      </div>
     </Drawer>
-    <div>Home</div>
+    <main className={classes.content}>
+      <Typography data-battery-level><Battery50Icon />{batteryLevel}</Typography>
+    </main>
   </Container>
 }

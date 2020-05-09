@@ -16,3 +16,5 @@ export const fillInput = async (selector, value) => {
 }
 
 export const tapOnButton = async (selector) => await global.client.click(selector)
+
+export const getTextFromElement = async (selector) => global.client.getText(selector)

@@ -5,6 +5,13 @@ describe('Login', () => {
   const email = process.env.E2E_EMAIL
   const password = process.env.E2E_PASSWORD
 
+  beforeEach(async () => {
+    if (await HomePage.isVisible()) {
+      await HomePage.logout()
+      await LoginPage.waitForPageDisplayed()
+    }
+  })
+
   it('Displays an error message on login failure', async () => {
     expect(await LoginPage.isVisible()).toBeTruthy()
 

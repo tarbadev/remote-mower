@@ -19,7 +19,7 @@
     "start": "BROWSER=none react-scripts start",
     "electron": "NODE_ENV=dev electron .",
     "test": "jest",
-    "test-e2e": "yarn test e2e",
+    "test-e2e": "yarn test e2e --runInBand --detectOpenHandles",
     "test-unit": "yarn test src",
     "test:watch": "yarn test --watchAll",
     "eject": "react-scripts eject"
@@ -73,7 +73,8 @@
           "jest-junit"
         ],
         "moduleNameMapper": {
-          "^src(.*)$": "<rootDir>/src$1"
+          "^src(.*)$": "<rootDir>$1",
+          "^testResources(.*)$": "<rootDir>/../testResources$1"
         },
         "transform": {
           "^.+\\.js$": "babel-jest"
