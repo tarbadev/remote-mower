@@ -13,12 +13,13 @@ import SvgIcon from '@material-ui/core/SvgIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
-import { getMowerStatus } from './MowerService'
+import { getMowerStatus, MowerActivity } from './MowerService'
 import Battery50Icon from '@material-ui/icons/Battery50'
 
 export const Home = () => {
   const [userLoggedIn, setUserLoggedIn] = useState()
   const [batteryLevel, setBatteryLevel] = useState(0)
+  const [mowerActivity, setMowerActivity] = useState('')
   const { isUserLoggedIn } = useAppContext()
 
   const isLoggedInAsync = useCallback(async () => {
@@ -33,6 +34,31 @@ export const Home = () => {
     if (userLoggedIn) {
       getMowerStatus().then(status => {
         setBatteryLevel(status.batteryLevel)
+        switch (status.activity) {
+          case MowerActivity.NOT_APPLICABLE:
+            setMowerActivity('Manual start required')
+            break
+          case MowerActivity.MOWING:
+            setMowerActivity('Mowing')
+            break
+          case MowerActivity.GOING_TO_CS:
+            setMowerActivity('Going to Charging Station')
+            break
+          case MowerActivity.CHARGING:
+            setMowerActivity('Charging')
+            break
+          case MowerActivity.LEAVING_CS:
+            setMowerActivity('Leaving Charging Station')
+            break
+          case MowerActivity.PARKED_IN_CS:
+            setMowerActivity('Parked in Charging Station')
+            break
+          case MowerActivity.STOPPED_IN_GARDEN:
+            setMowerActivity('Mower stopped. Manual action required')
+            break
+          default:
+            setMowerActivity('Unknown')
+        }
       })
     }
   }, [userLoggedIn])
@@ -46,6 +72,7 @@ export const Home = () => {
   return <HomeDisplay
     onLogoutButtonClicked={() => logout(isLoggedInAsync)}
     batteryLevel={batteryLevel}
+    mowerActivity={mowerActivity}
   />
 }
 
@@ -76,7 +103,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const HomeDisplay = ({ onLogoutButtonClicked, batteryLevel }) => {
+const HomeDisplay = ({ onLogoutButtonClicked, batteryLevel, mowerActivity }) => {
   const classes = useStyles()
 
   return <Container data-home-container className={classes.root}>
@@ -98,6 +125,7 @@ const HomeDisplay = ({ onLogoutButtonClicked, batteryLevel }) => {
     </Drawer>
     <main className={classes.content}>
       <Typography data-battery-level><Battery50Icon />{batteryLevel}</Typography>
+      <Typography>Activity: <span data-mower-activity>{mowerActivity}</span></Typography>
     </main>
   </Container>
 }

@@ -2,7 +2,7 @@ import { retrieveToken } from './LoginRepository'
 import { request } from './Utils'
 
 import response from 'testResources/mowers.json'
-import { getMowerStatus } from './MowerService'
+import { getMowerStatus, MowerActivity } from './MowerService'
 
 jest.mock('./LoginRepository')
 jest.mock('./Utils')
@@ -24,7 +24,12 @@ describe('MowerService', () => {
       request.mockResolvedValueOnce(response)
       retrieveToken.mockResolvedValueOnce(token)
 
-      expect(await getMowerStatus()).toEqual({ batteryLevel: 67 })
+      const expectedStatus = {
+        batteryLevel: 67,
+        activity: MowerActivity.PARKED_IN_CS,
+      }
+
+      expect(await getMowerStatus()).toEqual(expectedStatus)
 
       expect(retrieveToken).toHaveBeenCalled()
       expect(request).toHaveBeenCalledWith(expectedRequestOptions)

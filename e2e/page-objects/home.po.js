@@ -13,7 +13,20 @@ export const getBatteryLevel = async () => {
       timeout: 5000,
       timeoutMsg: 'expected battery level to be different than 0 after 5s'
     }
-  );
+  )
+  return await getTextFromElement(selector)
+}
+
+export const getMowerActivity = async () => {
+  const selector = 'span[data-mower-activity]'
+  await global.client.waitUntil(
+    async () => await global.client.$(selector).getText() !== '',
+    {
+      timeout: 5000,
+      timeoutMsg: 'expected mower activity to not be empty after 5s'
+    }
+  )
+
   return await getTextFromElement(selector)
 }
 
