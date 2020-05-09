@@ -4,7 +4,7 @@ import { Home } from './Home'
 import { mockAppContext } from './testUtils'
 import { BrowserRouter } from 'react-router-dom'
 import * as LoginService from './LoginService'
-import { getBatteryLevel} from './MowerService'
+import { getMowerStatus} from './MowerService'
 
 jest.mock('./MowerService')
 
@@ -66,7 +66,7 @@ describe('Home', () => {
 
   it('Displays home page when user is logged in', async () => {
     mockAppContext().isUserLoggedIn.mockResolvedValueOnce(true)
-    getBatteryLevel.mockResolvedValueOnce(54)
+    getMowerStatus.mockResolvedValueOnce(54)
 
     const home = mount(<Home />)
     const homeView = new HomeViewHelper(home)
@@ -79,7 +79,7 @@ describe('Home', () => {
 
   it('Redirects to login page when logging out', async () => {
     mockAppContext().isUserLoggedIn.mockResolvedValueOnce(true)
-    getBatteryLevel.mockResolvedValueOnce(54)
+    getMowerStatus.mockResolvedValueOnce(54)
 
     const home = mount(<BrowserRouter><Home /></BrowserRouter>)
     const homeView = new HomeViewHelper(home)
@@ -102,7 +102,7 @@ describe('Home', () => {
 
   it('Displays the battery level', async () => {
     mockAppContext().isUserLoggedIn.mockResolvedValueOnce(true)
-    getBatteryLevel.mockResolvedValueOnce(54)
+    getMowerStatus.mockResolvedValueOnce({ batteryLevel: 54 })
 
     const home = mount(<Home />)
     const homeView = new HomeViewHelper(home)

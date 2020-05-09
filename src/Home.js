@@ -13,7 +13,7 @@ import SvgIcon from '@material-ui/core/SvgIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
-import { getBatteryLevel } from './MowerService'
+import { getMowerStatus } from './MowerService'
 import Battery50Icon from '@material-ui/icons/Battery50'
 
 export const Home = () => {
@@ -31,7 +31,9 @@ export const Home = () => {
 
   useEffect(() => {
     if (userLoggedIn) {
-      getBatteryLevel().then(setBatteryLevel)
+      getMowerStatus().then(status => {
+        setBatteryLevel(status.batteryLevel)
+      })
     }
   }, [userLoggedIn])
 
