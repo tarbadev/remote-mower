@@ -5,13 +5,18 @@ import { mockAppContext } from './testUtils'
 import * as LoginService from './LoginService'
 import { LoginError } from './LoginService'
 
+const mockTranslate = jest.fn()
+jest.mock(
+  'react-i18next',
+  () => ({ useTranslation: () => ({ t: mockTranslate }) }),
+)
+
 class LoginViewHelper {
   constructor(loginContainer) {
     this.loginContainer = loginContainer
     this.emailSelector = '[data-email] input'
     this.passwordSelector = '[data-password] input'
     this.submitSelector = '[data-submit] button'
-    this.errorMessageSelector = '[data-error-message]'
   }
 
   editEmail(email) {
@@ -33,13 +38,13 @@ class LoginViewHelper {
   clickOnSubmit() {
     this.loginContainer.find(this.submitSelector).simulate('click')
   }
-
-  getErrorMessage() {
-    return this.loginContainer.find(this.errorMessageSelector).at(0).text()
-  }
 }
 
 describe('Login', () => {
+  beforeEach(() => {
+    mockTranslate.mockReturnValue('Some translation happened')
+  })
+
   it('Updates the form values on change', () => {
     const login = mount(<Login />)
 
@@ -53,6 +58,11 @@ describe('Login', () => {
 
     loginView.editPassword(password)
     expect(loginView.getPassword()).toEqual(password)
+
+    expect(mockTranslate).toHaveBeenCalledWith('login.title')
+    expect(mockTranslate).toHaveBeenCalledWith('login.emailLabel')
+    expect(mockTranslate).toHaveBeenCalledWith('login.passwordLabel')
+    expect(mockTranslate).toHaveBeenCalledWith('login.submitLabel')
   })
 
   it('sends the request to login with the parameters', () => {
@@ -102,7 +112,7 @@ describe('Login', () => {
 
       loginView.clickOnSubmit()
 
-      expect(loginView.getErrorMessage()).toBe('Email or password incorrect')
+      expect(mockTranslate).toHaveBeenCalledWith('login.error.wrongLogin')
     })
 
     it('displays a wrong login message when error is NO_NETWORK', () => {
@@ -118,7 +128,7 @@ describe('Login', () => {
 
       loginView.clickOnSubmit()
 
-      expect(loginView.getErrorMessage()).toBe('A network issue happened, please verify your internet connection')
+      expect(mockTranslate).toHaveBeenCalledWith('login.error.networkIssue')
     })
 
     it('displays a wrong login message when error is OTHER', () => {
@@ -134,7 +144,7 @@ describe('Login', () => {
 
       loginView.clickOnSubmit()
 
-      expect(loginView.getErrorMessage()).toBe('An unknown error happened: contact the developer')
+      expect(mockTranslate).toHaveBeenCalledWith('login.error.other')
     })
   })
 })

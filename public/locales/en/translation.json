@@ -1,0 +1,13 @@
+{
+  "login": {
+    "title": "Log in",
+    "emailLabel": "Email",
+    "passwordLabel": "Password",
+    "submitLabel": "Sign in",
+    "error": {
+      "wrongLogin": "Email or password incorrect",
+      "networkIssue": "A network issue happened, please verify your internet connection",
+      "other": "An unknown error happened: contact the developer"
+    }
+  }
+}
