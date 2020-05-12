@@ -5,6 +5,7 @@ import { login, LoginError } from './LoginService'
 import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
 import { useTranslation } from 'react-i18next'
+import { Loader } from './Loader'
 
 export const Login = ({ history }) => {
   const { dispatch } = useAppContext()
@@ -24,10 +25,6 @@ export const Login = ({ history }) => {
         setErrorMessage('other')
     }
   }
-
-  const Loader = () => (
-    <div>Loading...</div>
-  )
 
   return <Suspense fallback={<Loader />}>
     <LoginDisplay

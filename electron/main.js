@@ -1,38 +1,38 @@
-const { app, BrowserWindow, Menu, ipcMain } = require('electron')
-const { setPassword, findPassword, deletePassword } = require('keytar')
+const { app, BrowserWindow, Menu, ipcMain, protocol } = require('electron')
 const path = require('path')
-const isDev = require('electron-is-dev')
+const isDev = require('electron-is-dev') && process.env.NODE_ENV === 'development'
 const log = require('electron-log')
 const { autoUpdater } = require('electron-updater')
 
+const backend = require("../lib/backend")
+const fs = require("fs")
+const Protocol = require('./protocol')
+
 autoUpdater.logger = log
 autoUpdater.logger.transports.file.level = 'info'
+
 log.info('App starting...')
 
-function logMessage(text) {
-  log.info(text)
-}
-
 autoUpdater.on('checking-for-update', () => {
-  logMessage('Checking for update...')
+  log.info('Checking for update...')
 })
 autoUpdater.on('update-available', (info) => {
-  logMessage('Update available.')
+  log.info('Update available.')
 })
 autoUpdater.on('update-not-available', (info) => {
-  logMessage('Update not available.')
+  log.info('Update not available.')
 })
 autoUpdater.on('error', (err) => {
-  logMessage('Error in auto-updater. ' + err)
+  log.info('Error in auto-updater. ' + err)
 })
 autoUpdater.on('download-progress', (progressObj) => {
-  let log_message = "Download speed: " + progressObj.bytesPerSecond
+  let log_message = 'Download speed: ' + progressObj.bytesPerSecond
   log_message = log_message + ' - Downloaded ' + progressObj.percent + '%'
-  log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')'
-  logMessage(log_message)
+  log_message = log_message + ' (' + progressObj.transferred + '/' + progressObj.total + ')'
+  log.info(log_message)
 })
 autoUpdater.on('update-downloaded', (info) => {
-  logMessage('Update downloaded')
+  log.info('Update downloaded')
 })
 
 let mainWindow
@@ -43,14 +43,10 @@ function createWindow() {
     height: 720,
     webPreferences: {
       nodeIntegration: true,
-    },
+      contextIsolation: true,
+      preload: path.join(__dirname, "preload.js")
+    }
   })
-
-  mainWindow.loadURL(
-    isDev
-      ? 'http://localhost:3000'
-      : `file://${path.join(__dirname, '../build/index.html')}`,
-  )
 
   mainWindow.on('closed', () => {
     mainWindow = null
@@ -58,10 +54,21 @@ function createWindow() {
 
   if (isDev) {
     mainWindow.webContents.openDevTools()
+  } else {
+    mainWindow.webContents.openDevTools()
+    protocol.registerBufferProtocol(Protocol.scheme, Protocol.requestHandler)
   }
+
+  backend.mainBindings(ipcMain, mainWindow, fs, isDev ? '.' : Protocol.distPath)
+
+  return mainWindow.loadURL(
+    isDev
+      ? 'http://localhost:40992'
+      : `${Protocol.scheme}://rse/index.html`,
+  )
 }
 
-app.on('ready', function () {
+function createMenu() {
   const isMac = process.platform === 'darwin'
   const appName = 'Remote Mower'
 
@@ -77,8 +84,8 @@ app.on('ready', function () {
         { role: 'hideothers' },
         { role: 'unhide' },
         { type: 'separator' },
-        { role: 'quit', label: `Quit ${appName}` }
-      ]
+        { role: 'quit', label: `Quit ${appName}` },
+      ],
     }] : []),
     { role: 'fileMenu' },
     { role: 'editMenu' },
@@ -92,8 +99,8 @@ app.on('ready', function () {
         { role: 'zoomin' },
         { role: 'zoomout' },
         { type: 'separator' },
-        { role: 'togglefullscreen' }
-      ]
+        { role: 'togglefullscreen' },
+      ],
     },
     { role: 'windowMenu' },
     {
@@ -104,23 +111,37 @@ app.on('ready', function () {
           click: async () => {
             const { shell } = require('electron')
             await shell.openExternal('https://github.com/tarbadev/remote-mower')
-          }
-        }
-      ]
-    }
+          },
+        },
+      ],
+    },
   ]
 
   const menu = Menu.buildFromTemplate(template)
   Menu.setApplicationMenu(menu)
+}
 
-  createWindow()
+protocol.registerSchemesAsPrivileged([{
+  scheme: Protocol.scheme,
+  privileges: {
+    standard: true,
+    secure: true,
+  },
+}])
+
+app.on('ready', function () {
+  createMenu()
 
   autoUpdater.checkForUpdatesAndNotify()
+
+  createWindow()
 })
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
+  } else {
+    backend.clearMainBindings(ipcMain)
   }
 })
 
@@ -131,26 +152,3 @@ app.on('activate', () => {
 })
 
 app.allowRendererProcessReuse = false
-
-const SERVICE_NAME = 'RemoteMower'
-
-ipcMain.on('store-token', async (event, token) => {
-  log.debug('Storing token')
-  await setPassword(SERVICE_NAME, SERVICE_NAME, token)
-  event.sender.send('store-token-result')
-  log.debug('Token stored')
-})
-
-ipcMain.on('retrieve-token', async (event, arg) => {
-  log.debug('Retrieving token')
-  let token = await findPassword(SERVICE_NAME)
-  event.sender.send('retrieve-token-result', token)
-  log.debug('Token retrieved')
-})
-
-ipcMain.on('delete-token', async (event, arg) => {
-  log.debug('Deleting token')
-  let token = await deletePassword(SERVICE_NAME, SERVICE_NAME)
-  event.sender.send('delete-token-result', token)
-  log.debug('Token deleted')
-})

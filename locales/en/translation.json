@@ -1,0 +1,40 @@
+{
+  "login": {
+    "title": "Log in",
+    "emailLabel": "Email",
+    "passwordLabel": "Password",
+    "submitLabel": "Sign in",
+    "error": {
+      "wrongLogin": "Email or password incorrect",
+      "networkIssue": "A network issue happened, please verify your internet connection",
+      "other": "An unknown error happened: contact the developer"
+    }
+  },
+  "home": {
+    "logoutLabel": "Logout",
+    "activity": {
+      "label": "Activity",
+      "unknown":  "Unknown",
+      "notApplicable": "Manual start required",
+      "mowing":  "Mowing",
+      "goingToCs": "Going to Charging Station",
+      "charging":  "Charging",
+      "leavingCs": "Leaving Charging Station",
+      "parkedInCs":  "Parked in Charging Station",
+      "stoppedInGarden": "Mower stopped. Manual action required"
+    },
+    "state": {
+      "label": "State",
+      "unknown":  "Unknown",
+      "notApplicable": "Not Applicable",
+      "paused":  "Paused",
+      "inOperation": "In operation",
+      "waitUpdating":  "Downloading new firmware",
+      "waitPowerUp": "Performing power up tests",
+      "restricted":  "Restricted: Cannot mow because because of week calendar or override park",
+      "off": "Mower turned off",
+      "stopped":  "Mower stopped. Manual action required",
+      "error": "Error happened"
+    }
+  }
+}

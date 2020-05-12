@@ -10,35 +10,49 @@
   "description": "Desktop application for Remote Mower using the husqvarna API",
   "license": "ISC",
   "homepage": "./",
-  "main": "public/electron.js",
+  "main": "electron/main.js",
   "scripts": {
-    "build": "react-scripts build",
-    "electron-build": "yarn build && electron-builder -mw",
+    "build-shared": "babel ./src/shared -d ./lib",
+    "build": "webpack --mode=production --config ./webpack.production.js",
+    "electron-build": "yarn build && electron-builder -m",
     "postinstall": "electron-builder install-app-deps",
     "publish-app": "yarn electron-build --publish always",
-    "start": "BROWSER=none react-scripts start",
-    "electron": "NODE_ENV=dev electron .",
+    "dev-server": "webpack-dev-server --config ./webpack.development.js",
+    "start": "concurrently \"yarn dev-server\" \"cross-env NODE_ENV=development electron .\" -k",
+    "prod-start": "yarn build && cross-env NODE_ENV=production electron .",
     "test": "jest",
     "test-e2e": "yarn test e2e --runInBand --detectOpenHandles",
     "test-unit": "yarn test src",
-    "test:watch": "yarn test --watchAll",
-    "eject": "react-scripts eject"
+    "test:watch": "yarn test --watchAll"
   },
   "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.6",
     "@babel/plugin-transform-runtime": "^7.9.0",
+    "babel-loader": "^8.1.0",
+    "concurrently": "^5.2.0",
+    "copy-webpack-plugin": "^5.1.1",
+    "cross-env": "^7.0.2",
+    "csp-html-webpack-plugin": "^4.0.0",
     "electron": "^8.2.4",
     "electron-builder": "^22.6.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
     "fetch-mock": "^9.3.1",
+    "html-loader": "^1.1.0",
+    "html-webpack-plugin": "^4.3.0",
     "jest": "^24.9.0",
     "jest-circus": "^25.5.3",
     "jest-environment-node": "^25.5.0",
     "jest-enzyme": "^7.1.2",
     "jest-junit": "^10.0.0",
+    "mini-css-extract-plugin": "^0.9.0",
     "node-fetch": "^2.6.0",
     "react-scripts": "3.4.1",
-    "spectron": "^10.0.1"
+    "spectron": "^10.0.1",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.11.0",
+    "webpack-merge": "^4.2.2"
   },
   "dependencies": {
     "@material-ui/core": "^4.9.12",
@@ -49,14 +63,15 @@
     "electron-log": "^4.1.2",
     "electron-updater": "^4.3.1",
     "i18next": "^19.4.4",
-    "i18next-browser-languagedetector": "^4.1.1",
-    "i18next-http-backend": "^1.0.9",
     "keytar": "^5.6.0",
+    "lodash": "^4.17.15",
+    "lodash.merge": "^4.6.2",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-i18next": "^11.4.0",
-    "react-router-dom": "^5.1.2"
+    "react-router-dom": "^5.1.2",
+    "uuid": "^8.0.0"
   },
   "jest": {
     "projects": [
@@ -114,6 +129,12 @@
     ]
   },
   "build": {
+    "extends": null,
+    "files": [
+      "build/dist/**/*",
+      "lib/**/*",
+      "electron/**/*"
+    ],
     "appId": "com.tarbadev.remote-mower",
     "productName": "Remote Mower",
     "mac": {

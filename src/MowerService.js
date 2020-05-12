@@ -1,5 +1,5 @@
 import { retrieveToken } from './LoginRepository'
-import { request } from './Utils'
+const { request } = window.api
 
 export const MowerActivity = {
   UNKNOWN: 'UNKNOWN',

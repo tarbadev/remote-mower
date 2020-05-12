@@ -1,8 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { useAppContext } from './StoreProvider'
+import React, { Suspense, useCallback, useEffect, useState } from 'react'
 import { Redirect } from 'react-router-dom'
-import Container from '@material-ui/core/Container'
-import Button from '@material-ui/core/Button'
 import { logout } from './LoginService'
 import Drawer from '@material-ui/core/Drawer'
 import Divider from '@material-ui/core/Divider'
@@ -13,8 +10,12 @@ import SvgIcon from '@material-ui/core/SvgIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
-import { getMowerStatus, MowerActivity, MowerState } from './MowerService'
 import Battery50Icon from '@material-ui/icons/Battery50'
+import { useTranslation } from 'react-i18next'
+
+import { getMowerStatus, MowerActivity, MowerState } from './MowerService'
+import { useAppContext } from './StoreProvider'
+import { Loader } from './Loader'
 
 export const Home = () => {
   const [userLoggedIn, setUserLoggedIn] = useState()
@@ -37,78 +38,80 @@ export const Home = () => {
         setBatteryLevel(status.batteryLevel)
         switch (status.activity) {
           case MowerActivity.NOT_APPLICABLE:
-            setMowerActivity('Manual start required')
+            setMowerActivity('notApplicable')
             break
           case MowerActivity.MOWING:
-            setMowerActivity('Mowing')
+            setMowerActivity('mowing')
             break
           case MowerActivity.GOING_TO_CS:
-            setMowerActivity('Going to Charging Station')
+            setMowerActivity('goingToCs')
             break
           case MowerActivity.CHARGING:
-            setMowerActivity('Charging')
+            setMowerActivity('charging')
             break
           case MowerActivity.LEAVING_CS:
-            setMowerActivity('Leaving Charging Station')
+            setMowerActivity('leavingCs')
             break
           case MowerActivity.PARKED_IN_CS:
-            setMowerActivity('Parked in Charging Station')
+            setMowerActivity('parkedInCs')
             break
           case MowerActivity.STOPPED_IN_GARDEN:
-            setMowerActivity('Mower stopped. Manual action required')
+            setMowerActivity('stoppedInGarden')
             break
           default:
-            setMowerActivity('Unknown')
+            setMowerActivity('unknown')
         }
         switch (status.state) {
           case MowerState.NOT_APPLICABLE:
-            setMowerState('Not Applicable')
+            setMowerState('notApplicable')
             break
           case MowerState.PAUSED:
-            setMowerState('Paused')
+            setMowerState('paused')
             break
           case MowerState.IN_OPERATION:
-            setMowerState('In operation')
+            setMowerState('inOperation')
             break
           case MowerState.WAIT_UPDATING:
-            setMowerState('Downloading new firmware')
+            setMowerState('waitUpdating')
             break
           case MowerState.WAIT_POWER_UP:
-            setMowerState('Performing power up tests')
+            setMowerState('waitPowerUp')
             break
           case MowerState.RESTRICTED:
-            setMowerState('Restricted: Cannot mow because because of week calendar or override park')
+            setMowerState('restricted')
             break
           case MowerState.OFF:
-            setMowerState('Mower turned off')
+            setMowerState('off')
             break
           case MowerState.STOPPED:
-            setMowerState('Mower stopped. Manual action required')
+            setMowerState('stopped')
             break
           case MowerState.ERROR:
           case MowerState.FATAL_ERROR:
           case MowerState.ERROR_AT_POWER_UP:
-            setMowerState('Error happened')
+            setMowerState('error')
             break
           default:
-            setMowerState('Unknown')
+            setMowerState('unknown')
         }
       })
     }
   }, [userLoggedIn])
 
   if (userLoggedIn == null) {
-    return <div />
+    return <Loader />
   } else if (!userLoggedIn) {
     return <Redirect to='/login' />
   }
 
-  return <HomeDisplay
-    onLogoutButtonClicked={() => logout(isLoggedInAsync)}
-    batteryLevel={batteryLevel}
-    mowerActivity={mowerActivity}
-    mowerState={mowerState}
-  />
+  return <Suspense fallback={<Loader />}>
+    <HomeDisplay
+      onLogoutButtonClicked={() => logout(isLoggedInAsync)}
+      batteryLevel={batteryLevel}
+      mowerActivity={mowerActivity}
+      mowerState={mowerState}
+    />
+  </Suspense>
 }
 
 const LogoutIcon = (props) => {
@@ -122,46 +125,55 @@ const LogoutIcon = (props) => {
   )
 }
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-  },
-  drawer: {
-    flexShrink: 0,
-  },
-  drawerContainer: {
-    overflow: 'auto',
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
-  },
-}))
+const useStyles = makeStyles((theme) => {
+  const drawerWidth = 150
+
+  return {
+    root: {
+      display: 'flex',
+    },
+    drawer: {
+      width: drawerWidth,
+      flexShrink: 0,
+    },
+    drawerPaper: {
+      width: drawerWidth,
+    },
+    content: {
+      flexGrow: 1,
+      backgroundColor: theme.palette.background.default,
+      padding: theme.spacing(1),
+    },
+  }
+})
 
 const HomeDisplay = ({ onLogoutButtonClicked, batteryLevel, mowerActivity, mowerState }) => {
+  const { t } = useTranslation()
   const classes = useStyles()
 
-  return <Container data-home-container className={classes.root}>
-    <Button onClick={onLogoutButtonClicked} data-logout-button>Logout</Button>
+  return <div data-home-container className={classes.root}>
     <Drawer
       variant='permanent'
       anchor='left'
       className={classes.drawer}
+      classes={{
+        paper: classes.drawerPaper,
+      }}
     >
       <div className={classes.drawerContainer}>
         <Divider />
         <List>
           <ListItem button onClick={onLogoutButtonClicked} data-logout-button>
             <ListItemIcon><LogoutIcon /></ListItemIcon>
-            <ListItemText primary='Logout' />
+            <ListItemText primary={t('home.logoutLabel')} />
           </ListItem>
         </List>
       </div>
     </Drawer>
     <main className={classes.content}>
       <Typography data-battery-level><Battery50Icon />{batteryLevel}</Typography>
-      <Typography>Activity: <span data-mower-activity>{mowerActivity}</span></Typography>
-      <Typography>State: <span data-mower-state>{mowerState}</span></Typography>
+      <Typography>{t('home.activity.label')}: <span data-mower-activity>{t(`home.activity.${mowerActivity}`)}</span></Typography>
+      <Typography>{t('home.state.label')}: <span data-mower-state>{t(`home.state.${mowerState}`)}</span></Typography>
     </main>
-  </Container>
+  </div>
 }

@@ -13,7 +13,6 @@ class CustomEnvironment extends NodeEnvironment {
 
     this.app = this.getApplication(appPath)
     await this.app.start()
-    await this.app.client.waitUntilWindowLoaded(20000)
 
     this.global.restart = () => this.restart()
     this.global.client = this.app.client
@@ -56,7 +55,6 @@ class CustomEnvironment extends NodeEnvironment {
 
   async restart() {
     await this.app.restart()
-    await this.app.client.waitUntilWindowLoaded(20000)
     this.global.client = this.app.client
   }
 }
