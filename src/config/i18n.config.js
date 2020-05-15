@@ -1,18 +1,12 @@
 import i18n from 'i18next'
-import Backend from '../shared/backend'
+const { initReactI18next } = require('react-i18next')
 
 i18n
-  .use(Backend)
+  .use(initReactI18next)
   .init({
-    backend: {
-      loadPath: '/locales/{{lng}}/{{ns}}.json',
-      addPath: '/locales/{{lng}}/{{ns}}.missing.json',
-      jsonIndent: 2,
-    },
     debug: false,
     saveMissing: true,
     saveMissingTo: 'current',
-    lng: 'en',
 
     fallbackLng: 'en',
 
@@ -23,6 +17,7 @@ i18n
     react: {
       wait: false,
     },
+    initImmediate: false,
   }, (error, t) => {
     if (error) {
       console.log(error)

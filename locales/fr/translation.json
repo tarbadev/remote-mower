@@ -36,5 +36,17 @@
       "stopped":  "À l'arrêt. Action manuelle requise",
       "error": "Une erreur est survenue"
     }
+  },
+  "menu": {
+    "about": "À propos de",
+    "language": {
+      "label": "Langue"
+    },
+    "hide": "Cacher",
+    "quit": "Quitter",
+    "view": "Vue",
+    "help": {
+      "learnMore": "En savoir plus"
+    }
   }
 }

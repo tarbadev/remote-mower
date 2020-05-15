@@ -12,7 +12,9 @@ class CustomEnvironment extends NodeEnvironment {
     console.log(`Application path: ${appPath}`)
 
     this.app = this.getApplication(appPath)
+
     await this.app.start()
+    await this.waitForClientLoaded()
 
     this.global.restart = () => this.restart()
     this.global.client = this.app.client
@@ -40,8 +42,8 @@ class CustomEnvironment extends NodeEnvironment {
   async handleTestEvent(event, state) {
     if (event.name === 'test_fn_failure') {
       const fullTestName = this.getTestName(event.test)
-      const filePath = this.screenshotPath + fullTestName + '.png';
-      this.app.client.saveScreenshot(filePath);
+      const filePath = this.screenshotPath + fullTestName + '.png'
+      this.app.client.saveScreenshot(filePath)
     }
   }
 
@@ -53,8 +55,13 @@ class CustomEnvironment extends NodeEnvironment {
     return encodeURIComponent(stringToClean.replace(/\s+/g, '-'))
   }
 
+  async waitForClientLoaded() {
+    await this.app.client.waitForExist('div#root', 20000)
+  }
+
   async restart() {
     await this.app.restart()
+    await this.waitForClientLoaded()
     this.global.client = this.app.client
   }
 }

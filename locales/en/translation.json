@@ -36,5 +36,17 @@
       "stopped":  "Mower stopped. Manual action required",
       "error": "Error happened"
     }
+  },
+  "menu": {
+    "about": "About",
+    "language": {
+      "label": "Language"
+    },
+    "hide": "Hide",
+    "quit": "Quit",
+    "view": "View",
+    "help": {
+      "learnMore": "Learn more"
+    }
   }
 }

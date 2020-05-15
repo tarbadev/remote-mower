@@ -14,7 +14,7 @@
   "scripts": {
     "build-shared": "babel ./src/shared -d ./lib",
     "build": "webpack --mode=production --config ./webpack.production.js",
-    "electron-build": "yarn build && electron-builder -m",
+    "electron-build": "yarn build && electron-builder -mw",
     "postinstall": "electron-builder install-app-deps",
     "publish-app": "yarn electron-build --publish always",
     "dev-server": "webpack-dev-server --config ./webpack.development.js",
@@ -31,7 +31,6 @@
     "@babel/plugin-transform-runtime": "^7.9.0",
     "babel-loader": "^8.1.0",
     "concurrently": "^5.2.0",
-    "copy-webpack-plugin": "^5.1.1",
     "cross-env": "^7.0.2",
     "csp-html-webpack-plugin": "^4.0.0",
     "electron": "^8.2.4",
@@ -63,6 +62,8 @@
     "electron-log": "^4.1.2",
     "electron-updater": "^4.3.1",
     "i18next": "^19.4.4",
+    "i18next-electron-language-detector": "^0.0.10",
+    "i18next-fs-backend": "^1.0.3",
     "keytar": "^5.6.0",
     "lodash": "^4.17.15",
     "lodash.merge": "^4.6.2",
@@ -133,7 +134,8 @@
     "files": [
       "build/dist/**/*",
       "lib/**/*",
-      "electron/**/*"
+      "electron/**/*",
+      "locales/**/*"
     ],
     "appId": "com.tarbadev.remote-mower",
     "productName": "Remote Mower",

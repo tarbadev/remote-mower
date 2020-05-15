@@ -1,7 +1,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CspHtmlWebpackPlugin = require('csp-html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
 const merge = require('webpack-merge')
 const base = require('./webpack.config')
 const path = require('path')
@@ -30,8 +29,5 @@ module.exports = merge(base, {
         },
       },
     ),
-    new CopyWebpackPlugin([
-      { from: 'locales', to: path.join(base.output.path, 'locales') },
-    ]),
   ],
 })

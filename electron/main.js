@@ -4,9 +4,8 @@ const isDev = require('electron-is-dev') && process.env.NODE_ENV === 'developmen
 const log = require('electron-log')
 const { autoUpdater } = require('electron-updater')
 
-const backend = require("../lib/backend")
-const fs = require("fs")
 const Protocol = require('./protocol')
+const i18n = require('./i18n.config')
 
 autoUpdater.logger = log
 autoUpdater.logger.transports.file.level = 'info'
@@ -16,10 +15,10 @@ log.info('App starting...')
 autoUpdater.on('checking-for-update', () => {
   log.info('Checking for update...')
 })
-autoUpdater.on('update-available', (info) => {
+autoUpdater.on('update-available', () => {
   log.info('Update available.')
 })
-autoUpdater.on('update-not-available', (info) => {
+autoUpdater.on('update-not-available', () => {
   log.info('Update not available.')
 })
 autoUpdater.on('error', (err) => {
@@ -31,7 +30,7 @@ autoUpdater.on('download-progress', (progressObj) => {
   log_message = log_message + ' (' + progressObj.transferred + '/' + progressObj.total + ')'
   log.info(log_message)
 })
-autoUpdater.on('update-downloaded', (info) => {
+autoUpdater.on('update-downloaded', () => {
   log.info('Update downloaded')
 })
 
@@ -42,10 +41,12 @@ function createWindow() {
     width: 1280,
     height: 720,
     webPreferences: {
-      nodeIntegration: true,
+      nodeIntegration: false,
+      nodeIntegrationInWorker: false,
+      nodeIntegrationInSubFrames: false,
       contextIsolation: true,
-      preload: path.join(__dirname, "preload.js")
-    }
+      preload: path.join(__dirname, 'preload.js'),
+    },
   })
 
   mainWindow.on('closed', () => {
@@ -55,11 +56,8 @@ function createWindow() {
   if (isDev) {
     mainWindow.webContents.openDevTools()
   } else {
-    mainWindow.webContents.openDevTools()
     protocol.registerBufferProtocol(Protocol.scheme, Protocol.requestHandler)
   }
-
-  backend.mainBindings(ipcMain, mainWindow, fs, isDev ? '.' : Protocol.distPath)
 
   return mainWindow.loadURL(
     isDev
@@ -67,6 +65,15 @@ function createWindow() {
       : `${Protocol.scheme}://rse/index.html`,
   )
 }
+
+i18n.on('languageChanged', lng => {
+  log.debug(`Language changed to ${lng}, rebuilding menu`)
+  mainWindow.webContents.send('language-changed', lng)
+  createMenu()
+})
+
+ipcMain.on('get-i18n-language', (event, lng) => event.returnValue = i18n.language)
+ipcMain.on('get-i18n-bundle', (event, lng) => event.returnValue = i18n.getResourceBundle(lng, 'translation'))
 
 function createMenu() {
   const isMac = process.platform === 'darwin'
@@ -76,21 +83,21 @@ function createMenu() {
     ...(isMac ? [{
       label: appName,
       submenu: [
-        { role: 'about', label: `About ${appName}` },
+        { role: 'about', label: `${i18n.t('menu.about')} ${appName}` },
         { type: 'separator' },
         { role: 'services' },
         { type: 'separator' },
-        { role: 'hide', label: `Hide ${appName}` },
+        { role: 'hide', label: `${i18n.t('menu.hide')} ${appName}` },
         { role: 'hideothers' },
         { role: 'unhide' },
         { type: 'separator' },
-        { role: 'quit', label: `Quit ${appName}` },
+        { role: 'quit', label: `${i18n.t('menu.quit')} ${appName}` },
       ],
     }] : []),
     { role: 'fileMenu' },
     { role: 'editMenu' },
     {
-      label: 'View',
+      label: i18n.t('menu.view'),
       submenu: [
         { role: 'reload' },
         { role: 'forcereload' },
@@ -104,10 +111,27 @@ function createMenu() {
     },
     { role: 'windowMenu' },
     {
+      label: i18n.t('menu.language.label'),
+      submenu: [
+        {
+          label: 'English',
+          click: () => {
+            i18n.changeLanguage('en')
+          },
+        },
+        {
+          label: 'Français',
+          click: () => {
+            i18n.changeLanguage('fr')
+          },
+        },
+      ],
+    },
+    {
       role: 'help',
       submenu: [
         {
-          label: 'Learn More',
+          label: i18n.t('menu.help.learnMore'),
           click: async () => {
             const { shell } = require('electron')
             await shell.openExternal('https://github.com/tarbadev/remote-mower')
@@ -140,8 +164,6 @@ app.on('ready', function () {
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
-  } else {
-    backend.clearMainBindings(ipcMain)
   }
 })
 
