@@ -1,11 +1,11 @@
-const { app, BrowserWindow, Menu, ipcMain, protocol } = require('electron')
+const { app, BrowserWindow, ipcMain, protocol } = require('electron')
 const path = require('path')
 const isDev = require('electron-is-dev') && process.env.NODE_ENV === 'development'
 const log = require('electron-log')
 const autoUpdater = require('./autoUpdate')
-
 const Protocol = require('./protocol')
 const i18n = require('./i18n.config')
+const createMenu = require('./menu')
 
 log.info('App starting...')
 
@@ -44,81 +44,11 @@ function createWindow() {
 i18n.on('languageChanged', lng => {
   log.debug(`Language changed to ${lng}, rebuilding menu`)
   mainWindow.webContents.send('language-changed', lng)
-  createMenu()
+  createMenu(i18n)
 })
 
 ipcMain.on('get-i18n-language', (event, lng) => event.returnValue = i18n.language)
 ipcMain.on('get-i18n-bundle', (event, lng) => event.returnValue = i18n.getResourceBundle(lng, 'translation'))
-
-function createMenu() {
-  const isMac = process.platform === 'darwin'
-  const appName = 'Remote Mower'
-
-  const template = [
-    ...(isMac ? [{
-      label: appName,
-      submenu: [
-        { role: 'about', label: `${i18n.t('menu.about')} ${appName}` },
-        { type: 'separator' },
-        { role: 'services' },
-        { type: 'separator' },
-        { role: 'hide', label: `${i18n.t('menu.hide')} ${appName}` },
-        { role: 'hideothers' },
-        { role: 'unhide' },
-        { type: 'separator' },
-        { role: 'quit', label: `${i18n.t('menu.quit')} ${appName}` },
-      ],
-    }] : []),
-    { role: 'fileMenu' },
-    { role: 'editMenu' },
-    {
-      label: i18n.t('menu.view'),
-      submenu: [
-        { role: 'reload' },
-        { role: 'forcereload' },
-        { type: 'separator' },
-        { role: 'resetzoom' },
-        { role: 'zoomin' },
-        { role: 'zoomout' },
-        { type: 'separator' },
-        { role: 'togglefullscreen' },
-      ],
-    },
-    { role: 'windowMenu' },
-    {
-      label: i18n.t('menu.language.label'),
-      submenu: [
-        {
-          label: 'English',
-          click: () => {
-            i18n.changeLanguage('en')
-          },
-        },
-        {
-          label: 'Français',
-          click: () => {
-            i18n.changeLanguage('fr')
-          },
-        },
-      ],
-    },
-    {
-      role: 'help',
-      submenu: [
-        {
-          label: i18n.t('menu.help.learnMore'),
-          click: async () => {
-            const { shell } = require('electron')
-            await shell.openExternal('https://github.com/tarbadev/remote-mower')
-          },
-        },
-      ],
-    },
-  ]
-
-  const menu = Menu.buildFromTemplate(template)
-  Menu.setApplicationMenu(menu)
-}
 
 protocol.registerSchemesAsPrivileged([{
   scheme: Protocol.scheme,
@@ -129,7 +59,7 @@ protocol.registerSchemesAsPrivileged([{
 }])
 
 app.on('ready', function () {
-  createMenu()
+  createMenu(i18n)
 
   createWindow()
 
