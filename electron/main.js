@@ -2,37 +2,12 @@ const { app, BrowserWindow, Menu, ipcMain, protocol } = require('electron')
 const path = require('path')
 const isDev = require('electron-is-dev') && process.env.NODE_ENV === 'development'
 const log = require('electron-log')
-const { autoUpdater } = require('electron-updater')
+const autoUpdater = require('./autoUpdate')
 
 const Protocol = require('./protocol')
 const i18n = require('./i18n.config')
 
-autoUpdater.logger = log
-autoUpdater.logger.transports.file.level = 'info'
-
 log.info('App starting...')
-
-autoUpdater.on('checking-for-update', () => {
-  log.info('Checking for update...')
-})
-autoUpdater.on('update-available', () => {
-  log.info('Update available.')
-})
-autoUpdater.on('update-not-available', () => {
-  log.info('Update not available.')
-})
-autoUpdater.on('error', (err) => {
-  log.info('Error in auto-updater. ' + err)
-})
-autoUpdater.on('download-progress', (progressObj) => {
-  let log_message = 'Download speed: ' + progressObj.bytesPerSecond
-  log_message = log_message + ' - Downloaded ' + progressObj.percent + '%'
-  log_message = log_message + ' (' + progressObj.transferred + '/' + progressObj.total + ')'
-  log.info(log_message)
-})
-autoUpdater.on('update-downloaded', () => {
-  log.info('Update downloaded')
-})
 
 let mainWindow
 
@@ -156,9 +131,9 @@ protocol.registerSchemesAsPrivileged([{
 app.on('ready', function () {
   createMenu()
 
-  autoUpdater.checkForUpdatesAndNotify()
-
   createWindow()
+
+  autoUpdater.checkForUpdatesAndNotify()
 })
 
 app.on('window-all-closed', () => {
