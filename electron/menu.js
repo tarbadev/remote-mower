@@ -1,6 +1,7 @@
 const { Menu } = require('electron')
+const i18n = require('./i18n.config')
 
-function createMenu(i18n) {
+const createMenu = () => {
   const isMac = process.platform === 'darwin'
   const appName = 'Remote Mower'
 

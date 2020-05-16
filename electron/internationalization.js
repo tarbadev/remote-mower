@@ -1,5 +1,6 @@
 const { ipcRenderer } = require('electron')
 const log = require('electron-log')
+const i18n = require('./i18n.config')
 
 const i18nNamespace = 'translation'
 
@@ -23,9 +24,11 @@ const bindI18nClient = (i18nClientArg, changeLanguage) => {
   addResourceAndChangeLanguage(language)
 }
 
-const mainBindings = (i18n, ipcMain) => {
+const mainBindings = (ipcMain, languageChangeCallback) => {
   ipcMain.on('get-i18n-language', event => event.returnValue = i18n.language)
   ipcMain.on('get-i18n-bundle', (event, lng) => event.returnValue = i18n.getResourceBundle(lng, 'translation'))
+
+  i18n.on('languageChanged', languageChangeCallback)
 }
 
 module.exports = {

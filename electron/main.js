@@ -2,11 +2,10 @@ const { app, BrowserWindow, ipcMain, protocol } = require('electron')
 const path = require('path')
 const isDev = require('electron-is-dev') && process.env.NODE_ENV === 'development'
 const log = require('electron-log')
-const autoUpdater = require('./autoUpdate')
 const Protocol = require('./protocol')
-const i18n = require('./i18n.config')
 const createMenu = require('./menu')
-const { mainBindings } = require('./internationalization')
+const autoUpdater = require('./autoUpdate')
+const internationalization = require('./internationalization')
 
 log.info('App starting...')
 
@@ -42,12 +41,6 @@ function createWindow() {
   )
 }
 
-i18n.on('languageChanged', lng => {
-  log.debug(`Language changed to ${lng}, rebuilding menu`)
-  mainWindow.webContents.send('language-changed', lng)
-  createMenu(i18n)
-})
-
 protocol.registerSchemesAsPrivileged([{
   scheme: Protocol.scheme,
   privileges: {
@@ -56,14 +49,19 @@ protocol.registerSchemesAsPrivileged([{
   },
 }])
 
-app.on('ready', function () {
-  mainBindings(i18n, ipcMain)
+const languageChangedCallback = lng => {
+  log.debug(`Language changed to ${lng}, rebuilding menu`)
+  mainWindow.webContents.send('language-changed', lng)
+  createMenu()
+}
 
-  createMenu(i18n)
+app.on('ready', function () {
+  internationalization.mainBindings(ipcMain, languageChangedCallback)
+  autoUpdater.mainBindings()
+
+  createMenu()
 
   createWindow()
-
-  autoUpdater.checkForUpdatesAndNotify()
 })
 
 app.on('window-all-closed', () => {

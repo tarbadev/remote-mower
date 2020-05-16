@@ -3,12 +3,10 @@ const Backend = require('i18next-fs-backend')
 const LanguageDetector = require('i18next-electron-language-detector')
 const path = require('path')
 
-i18next
-  .use(Backend)
-  .use(LanguageDetector)
-
 if (!i18next.isInitialized) {
   i18next
+    .use(Backend)
+    .use(LanguageDetector)
     .init({
       backend: {
         loadPath: path.join(__dirname, '../locales/{{lng}}/{{ns}}.json'),

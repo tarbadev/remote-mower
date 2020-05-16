@@ -31,4 +31,8 @@ autoUpdater.on('update-downloaded', () => {
   log.info('Update downloaded')
 })
 
-module.exports = autoUpdater
+const mainBindings = () => {
+  autoUpdater.checkForUpdatesAndNotify()
+}
+
+module.exports = { mainBindings }
