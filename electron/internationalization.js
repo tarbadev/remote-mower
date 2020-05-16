@@ -23,6 +23,12 @@ const bindI18nClient = (i18nClientArg, changeLanguage) => {
   addResourceAndChangeLanguage(language)
 }
 
+const mainBindings = (i18n, ipcMain) => {
+  ipcMain.on('get-i18n-language', event => event.returnValue = i18n.language)
+  ipcMain.on('get-i18n-bundle', (event, lng) => event.returnValue = i18n.getResourceBundle(lng, 'translation'))
+}
+
 module.exports = {
   bindI18nClient,
+  mainBindings,
 }

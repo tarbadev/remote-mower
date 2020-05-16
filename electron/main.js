@@ -6,6 +6,7 @@ const autoUpdater = require('./autoUpdate')
 const Protocol = require('./protocol')
 const i18n = require('./i18n.config')
 const createMenu = require('./menu')
+const { mainBindings } = require('./internationalization')
 
 log.info('App starting...')
 
@@ -47,9 +48,6 @@ i18n.on('languageChanged', lng => {
   createMenu(i18n)
 })
 
-ipcMain.on('get-i18n-language', (event, lng) => event.returnValue = i18n.language)
-ipcMain.on('get-i18n-bundle', (event, lng) => event.returnValue = i18n.getResourceBundle(lng, 'translation'))
-
 protocol.registerSchemesAsPrivileged([{
   scheme: Protocol.scheme,
   privileges: {
@@ -59,6 +57,8 @@ protocol.registerSchemesAsPrivileged([{
 }])
 
 app.on('ready', function () {
+  mainBindings(i18n, ipcMain)
+
   createMenu(i18n)
 
   createWindow()
