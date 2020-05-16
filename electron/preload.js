@@ -1,35 +1,16 @@
 const {
   contextBridge,
-  ipcRenderer,
 } = require('electron')
 const { net } = require('electron').remote
 const log = require('electron-log')
 const { setPassword, findPassword, deletePassword } = require('keytar')
+const {bindI18nClient} = require('./internationalization')
 
 const SERVICE_NAME = 'RemoteMower'
-const i18nNamespace = 'translation'
 
 contextBridge.exposeInMainWorld(
   'api', {
-    bindI18nClient: (i18nClientArg, changeLanguage, callback) => {
-      const addResourceAndChangeLanguage = lng => {
-        if (!i18nClientArg.hasResourceBundle(lng, i18nNamespace)) {
-          log.debug(`Add resource ${lng}`)
-          const resourceBundle = ipcRenderer.sendSync('get-i18n-bundle', lng)
-          i18nClientArg.addResourceBundle(lng, i18nNamespace, resourceBundle)
-        }
-        changeLanguage(lng)
-      }
-
-      ipcRenderer.on('language-changed', (event, lng) => {
-        addResourceAndChangeLanguage(lng)
-      })
-
-      const language = ipcRenderer.sendSync('get-i18n-language').split('-')[0]
-
-      log.debug(`Loading initial resource ${language}`)
-      addResourceAndChangeLanguage(language)
-    },
+    bindI18nClient,
     secureStoreToken: async token => {
       log.debug('Storing token')
       await setPassword(SERVICE_NAME, SERVICE_NAME, token)
