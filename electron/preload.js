@@ -4,7 +4,7 @@ const {
 const { net } = require('electron').remote
 const log = require('electron-log')
 const { setPassword, findPassword, deletePassword } = require('keytar')
-const {bindI18nClient} = require('./internationalization')
+const { bindI18nClient } = require('./internationalization')
 
 const SERVICE_NAME = 'RemoteMower'
 

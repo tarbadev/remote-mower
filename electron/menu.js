@@ -1,5 +1,5 @@
 const { Menu } = require('electron')
-const i18n = require('./i18n.config')
+const { mapKeyToTranslation, changeLanguage } = require('./internationalization')
 
 const createMenu = () => {
   const isMac = process.platform === 'darwin'
@@ -9,21 +9,21 @@ const createMenu = () => {
     ...(isMac ? [{
       label: appName,
       submenu: [
-        { role: 'about', label: `${i18n.t('menu.about')} ${appName}` },
+        { role: 'about', label: `${mapKeyToTranslation('menu.about')} ${appName}` },
         { type: 'separator' },
         { role: 'services' },
         { type: 'separator' },
-        { role: 'hide', label: `${i18n.t('menu.hide')} ${appName}` },
+        { role: 'hide', label: `${mapKeyToTranslation('menu.hide')} ${appName}` },
         { role: 'hideothers' },
         { role: 'unhide' },
         { type: 'separator' },
-        { role: 'quit', label: `${i18n.t('menu.quit')} ${appName}` },
+        { role: 'quit', label: `${mapKeyToTranslation('menu.quit')} ${appName}` },
       ],
     }] : []),
     { role: 'fileMenu' },
     { role: 'editMenu' },
     {
-      label: i18n.t('menu.view'),
+      label: mapKeyToTranslation('menu.view'),
       submenu: [
         { role: 'reload' },
         { role: 'forcereload' },
@@ -37,19 +37,15 @@ const createMenu = () => {
     },
     { role: 'windowMenu' },
     {
-      label: i18n.t('menu.language.label'),
+      label: mapKeyToTranslation('menu.language.label'),
       submenu: [
         {
           label: 'English',
-          click: () => {
-            i18n.changeLanguage('en')
-          },
+          click: () => changeLanguage('en'),
         },
         {
           label: 'Français',
-          click: () => {
-            i18n.changeLanguage('fr')
-          },
+          click: () => changeLanguage('fr'),
         },
       ],
     },
@@ -57,7 +53,7 @@ const createMenu = () => {
       role: 'help',
       submenu: [
         {
-          label: i18n.t('menu.help.learnMore'),
+          label: mapKeyToTranslation('menu.help.learnMore'),
           click: async () => {
             const { shell } = require('electron')
             await shell.openExternal('https://github.com/tarbadev/remote-mower')

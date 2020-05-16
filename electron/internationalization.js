@@ -34,4 +34,6 @@ const mainBindings = (ipcMain, languageChangeCallback) => {
 module.exports = {
   bindI18nClient,
   mainBindings,
+  mapKeyToTranslation: key => i18n.t(key),
+  changeLanguage: language => i18n.changeLanguage(language),
 }
