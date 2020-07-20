@@ -65,7 +65,7 @@
     "i18next-electron-language-detector": "^0.0.10",
     "i18next-fs-backend": "^1.0.3",
     "keytar": "^5.6.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "lodash.merge": "^4.6.2",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
