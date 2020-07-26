@@ -66,20 +66,17 @@ describe('Login', () => {
   })
 
   it('sends the request to login with the parameters', () => {
-    const context = mockAppContext()
     const email = 'someone@example.com'
 
     const login = mount(<Login />)
     const loginView = new LoginViewHelper(login)
 
+    jest.spyOn(LoginService, 'login')
+
     loginView.editEmail(email)
     loginView.clickOnSubmit()
 
-    const expectedCall = LoginService.login(email, '', expect.any(Function), expect.any(Function))
-    expectedCall.onSuccess = expect.any(Function)
-    expectedCall.onError = expect.any(Function)
-
-    expect(context.dispatch).toHaveBeenNthCalledWith(1, expectedCall)
+    expect(LoginService.login).toHaveBeenCalledWith(email, '', expect.any(Function), expect.any(Function))
   })
 
   it('redirects to home when login successful', () => {

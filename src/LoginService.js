@@ -1,5 +1,6 @@
-import { fetchAction } from './AppMiddleware'
 import { deleteToken, storeToken } from './LoginRepository'
+import RequestError from './shared/RequestError'
+const { request } = window.api
 
 export const LoginError = {
   WRONG_LOGIN: 10,
@@ -9,29 +10,32 @@ export const LoginError = {
 
 Object.freeze(LoginError)
 
-export const login = (email, password, onSuccess, onError) => fetchAction({
-  url: 'https://iam-api.dss.husqvarnagroup.net/api/v3/token',
-  method: 'POST',
-  body: {
-    data: {
-      type: 'token',
-      attributes: {
-        username: email,
-        password: password,
+export const login = async (email, password, onSuccess, onError) => {
+  const requestOptions = {
+    url: 'https://iam-api.dss.husqvarnagroup.net/api/v3/token',
+    method: 'POST',
+    body: {
+      data: {
+        type: 'token',
+        attributes: {
+          username: email,
+          password: password,
+        },
       },
     },
-  },
-  onSuccess: response => storeToken(response.data.id).then(onSuccess),
-  onError: error => {
-    if (error.message === '400') {
-      onError(LoginError.WRONG_LOGIN)
-    } else if (error.message === 'Failed to fetch') {
-      onError(LoginError.NO_NETWORK)
-    } else {
-      onError(LoginError.OTHER)
-    }
-  },
-})
+  }
+  return request(requestOptions)
+    .then(response => storeToken(response.data.id).then(onSuccess))
+    .catch(error => {
+      if (error === '400') {
+        onError(LoginError.WRONG_LOGIN)
+      } else if (error === RequestError.NO_NETWORK) {
+        onError(LoginError.NO_NETWORK)
+      } else {
+        onError(LoginError.OTHER)
+      }
+    })
+}
 
 export const logout = onSuccess => {
   return deleteToken().then(onSuccess)

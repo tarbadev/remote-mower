@@ -1,33 +1,12 @@
-import { fetchAction } from './AppMiddleware'
 import { login, LoginError, logout } from './LoginService'
 import { storeToken, deleteToken } from './LoginRepository'
+import RequestError from './shared/RequestError'
 
 jest.mock('./LoginRepository')
 
 describe('LoginService', () => {
   describe('login', () => {
-    it('calls the login API', () => {
-      const email = 'someone@example.com'
-      const password = 'super-secret'
-
-      expect(login(email, password, jest.fn(), jest.fn())).toEqual(fetchAction({
-        url: 'https://iam-api.dss.husqvarnagroup.net/api/v3/token',
-        method: 'POST',
-        body: {
-          data: {
-            type: "token",
-            attributes: {
-              username: email,
-              password: password
-            }
-          }
-        },
-        onSuccess: expect.any(Function),
-        onError: expect.any(Function),
-      }))
-    })
-
-    it('calls callback on success', async () => {
+    it('calls the login API', async () => {
       const onSuccessSpy = jest.fn()
       const email = 'someone@example.com'
       const password = 'super-secret'
@@ -46,47 +25,61 @@ describe('LoginService', () => {
         }
       }
 
-      let loginAction = login(email, password, onSuccessSpy)
-
+      window.api.request.mockResolvedValueOnce(data)
       storeToken.mockResolvedValueOnce()
-      await loginAction.onSuccess(data)
+
+      await login(email, password, onSuccessSpy)
+
+      expect(window.api.request).toHaveBeenCalledWith({
+        url: 'https://iam-api.dss.husqvarnagroup.net/api/v3/token',
+        method: 'POST',
+        body: {
+          data: {
+            type: "token",
+            attributes: {
+              username: email,
+              password: password
+            }
+          }
+        }
+      })
 
       expect(storeToken).toHaveBeenCalledWith(data.data.id)
       expect(onSuccessSpy).toHaveBeenCalled()
     })
 
-    it('calls error callback on error with WRONG_LOGIN when error is 400',  () => {
+    it('calls error callback on error with WRONG_LOGIN when error is 400',  async () => {
       const onErrorSpy = jest.fn()
       const email = 'someone@example.com'
       const password = 'super-secret'
 
-      let loginAction = login(email, password, jest.fn(), onErrorSpy)
+      window.api.request.mockRejectedValue('400')
 
-      loginAction.onError({ message: '400', stacktrace: 'some stack' })
+      await login(email, password, jest.fn(), onErrorSpy)
 
       expect(onErrorSpy).toHaveBeenCalledWith(LoginError.WRONG_LOGIN)
     })
 
-    it('calls error callback on error with NO_NETWORK when error is TypeError: Failed to fetch',  () => {
+    it('calls error callback on error with NO_NETWORK when error is NO_NETWORK',  async () => {
       const onErrorSpy = jest.fn()
       const email = 'someone@example.com'
       const password = 'super-secret'
 
-      let loginAction = login(email, password, jest.fn(), onErrorSpy)
+      window.api.request.mockRejectedValue(RequestError.NO_NETWORK)
 
-      loginAction.onError({ message: 'Failed to fetch', stacktrace: 'some stack' })
+      await login(email, password, jest.fn(), onErrorSpy)
 
       expect(onErrorSpy).toHaveBeenCalledWith(LoginError.NO_NETWORK)
     })
 
-    it('calls error callback on error with OTHER when error is not known',  () => {
+    it('calls error callback on error with OTHER when error is not known',  async () => {
       const onErrorSpy = jest.fn()
       const email = 'someone@example.com'
       const password = 'super-secret'
 
-      let loginAction = login(email, password, jest.fn(), onErrorSpy)
+      window.api.request.mockRejectedValue(401)
 
-      loginAction.onError({ message: 'No idea what this is!', stacktrace: 'some stack' })
+      await login(email, password, jest.fn(), onErrorSpy)
 
       expect(onErrorSpy).toHaveBeenCalledWith(LoginError.OTHER)
     })

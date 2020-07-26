@@ -3,6 +3,7 @@ const {
 } = require('electron')
 const { net } = require('electron').remote
 const log = require('electron-log')
+const RequestError = require('../src/shared/RequestError')
 const { setPassword, findPassword, deletePassword } = require('keytar')
 const { bindI18nClient } = require('./internationalization')
 
@@ -28,15 +29,35 @@ contextBridge.exposeInMainWorld(
       log.debug('Token deleted')
       return result
     },
-    request: async (url) => {
-      return await new Promise(resolve => {
-        const request = net.request(url)
+    request: async ({ body, ...options }) => {
+      return await new Promise((resolve, reject) => {
+        if (!navigator.onLine) {
+          reject(RequestError.NO_NETWORK)
+        }
+
+        const headers = {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        }
+
+        const defaults = { headers }
+        const requestOptions = {
+          ...defaults,
+          ...options,
+        }
+
+        log.debug(`Starting ${options.method} request to ${options.url}`)
+
+        const request = net.request(requestOptions)
+
         request.on('response', response => {
           if (response.statusCode >= 400) {
-            throw new Error(`Http error: ${response.statusCode}`)
+            log.error(`Request failed with status ${response.statusCode}`)
+            reject(response.statusCode)
           } else {
             let content = ''
             response.on('end', () => {
+              log.debug('Request successful')
               resolve(JSON.parse(content))
             })
             response.on('data', (chunk) => {
@@ -44,6 +65,11 @@ contextBridge.exposeInMainWorld(
             })
           }
         })
+
+        if (body) {
+          request.write(JSON.stringify(body))
+        }
+
         request.end()
       })
     },

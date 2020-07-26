@@ -1,6 +1,5 @@
 import React, { Suspense, useState } from 'react'
 import { Button, Container, makeStyles, TextField, Typography } from '@material-ui/core'
-import { useAppContext } from './StoreProvider'
 import { login, LoginError } from './LoginService'
 import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
@@ -8,7 +7,6 @@ import { useTranslation } from 'react-i18next'
 import { Loader } from './Loader'
 
 export const Login = ({ history }) => {
-  const { dispatch } = useAppContext()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
@@ -32,7 +30,7 @@ export const Login = ({ history }) => {
       onEmailChange={(newEmail) => setEmail(newEmail)}
       password={password}
       onPasswordChange={(newPassword) => setPassword(newPassword)}
-      submitForm={() => dispatch(login(email, password, () => history.push('/'), onLoginError))}
+      submitForm={() => login(email, password, () => history.push('/'), onLoginError)}
       errorMessage={errorMessage}
       onErrorMessageButtonClose={() => setErrorMessage('')}
     />
