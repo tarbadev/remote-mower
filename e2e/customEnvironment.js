@@ -16,6 +16,8 @@ class CustomEnvironment extends NodeEnvironment {
     await this.app.start()
     await this.waitForClientLoaded()
 
+    this.app.client.setTimeout({ 'implicit': 500 })
+
     this.global.restart = () => this.restart()
     this.global.client = this.app.client
 
@@ -56,7 +58,8 @@ class CustomEnvironment extends NodeEnvironment {
   }
 
   async waitForClientLoaded() {
-    await this.app.client.waitForExist('div#root', 20000)
+    let root = await this.app.client.$('div#root')
+    await root.waitForExist({ timeout: 20000 })
   }
 
   async restart() {

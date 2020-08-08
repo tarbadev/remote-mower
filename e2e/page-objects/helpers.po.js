@@ -1,20 +1,24 @@
-export const waitForElementExist = async (selector) => await global.client.waitForExist(selector, { timeout: 2000 })
+export const waitForElementExist = async (selector) => select(selector)
+  .then(elem => elem.waitForExist({ timeout: 2000 }))
 
-export const isElementVisible = async (selector) => await global.client.isVisible(selector)
+export const isElementVisible = async selector => {
+  const elem = await select(selector)
+  return elem.isDisplayed()
+}
 
 export const fillInput = async (selector, value) => {
   const fullSelector = `${selector} input`
 
-  await global.client
-    .waitForVisible(fullSelector)
-    .click(fullSelector)
-    .keys('Shift')
-    .keys('Home')
-    .keys('Backspace')
-    .keys('Shift')
-    .setValue(fullSelector, value)
+  const elem = await select(fullSelector)
+
+  await elem.waitForDisplayed()
+
+  const currentValue = await elem.getValue()
+  await elem.setValue('\uE003'.repeat(currentValue.length) + value)
 }
 
-export const tapOnButton = async (selector) => await global.client.click(selector)
+export const tapOnButton = selector => select(selector).then(elem => elem.click())
 
-export const getTextFromElement = async (selector) => global.client.getText(selector)
+export const getTextFromElement = selector => select(selector).then(elem => elem.getText(selector))
+
+export const select = selector => global.client.$(selector)
