@@ -16,7 +16,7 @@ jobs:
       - name: "Install dependencies"
         run: yarn --frozen-lockfile
       - name: "Run Unit Tests"
-        run: yarn test src
+        run: yarn test-unit
 
   build:
     name: "Build"
@@ -71,9 +71,6 @@ jobs:
           mkdir screenshots
 
           yarn test-e2e
-        env:
-          E2E_EMAIL: ${{ secrets.e2eEmail }}
-          E2E_PASSWORD: ${{ secrets.e2ePassword }}
       - name: "Upload failed tests screenshots"
         uses: actions/upload-artifact@v1
         if: ${{ failure() }}
@@ -105,10 +102,7 @@ jobs:
 
           mkdir screenshots
 
-          yarn test-e2e
-        env:
-          E2E_EMAIL: ${{ secrets.e2eEmail }}
-          E2E_PASSWORD: ${{ secrets.e2ePassword }}
+          yarn test-e2e --verbose
       - name: "Upload failed tests screenshots"
         uses: actions/upload-artifact@v1
         if: ${{ failure() }}

@@ -1,0 +1,58 @@
+[
+  {
+    "httpRequest": {
+      "path": "/app/v1/mowers"
+    },
+    "httpResponse": {
+      "body": [
+        {
+          "id": "190415542-190332911",
+          "name": "RobotTon",
+          "model": "G",
+          "variant": "A",
+          "swPackageVersionString": null,
+          "valueFound": true,
+          "status": {
+            "batteryPercent": 67,
+            "connected": true,
+            "lastErrorCode": 0,
+            "lastErrorCodeTimestamp": 0,
+            "errorConfirmable": false,
+            "mowerStatus": {
+              "mode": "MAIN_AREA",
+              "activity": "PARKED_IN_CS",
+              "restrictedReason": "WEEK_SCHEDULE",
+              "state": "RESTRICTED",
+              "type": "NOT_APPLICABLE"
+            },
+            "nextStartSource": "WEEK_TIMER",
+            "nextStartTimestamp": 1589194800,
+            "operatingMode": "AUTO",
+            "storedTimestamp": 1588981627296,
+            "valueFound": true,
+            "overrideStartTime": 0,
+            "overrideDuration": 0,
+            "fotaState": null,
+            "fotaUpdateVersion": null
+          },
+          "capabilities": {
+            "settableGeoFenceRadius": false,
+            "headlights": true,
+            "searchTypes": {
+              "boundary": true,
+              "direct": true,
+              "guide1": true,
+              "guide2": true,
+              "guide3": false
+            },
+            "fota": false,
+            "gpsNavigation": true,
+            "weatherTimer": true,
+            "corridorWidth": true,
+            "mowerHouse": true
+          }
+        }
+      ]
+    }
+  }
+]

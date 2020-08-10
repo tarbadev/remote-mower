@@ -1,4 +1,6 @@
 import { retrieveToken } from './LoginRepository'
+import AppConfig from './shared/app.config'
+
 const { request } = window.api
 
 export const MowerActivity = {
@@ -34,7 +36,7 @@ Object.freeze(MowerState)
 export const getMowerStatus = async () => {
   return retrieveToken().then(token => {
     const options = {
-      url: 'https://amc-api.dss.husqvarnagroup.net/app/v1/mowers',
+      url: `${AppConfig.mowerApiUrl}/app/v1/mowers`,
       method: 'GET',
       headers: {
         'Authorization-Provider': 'husqvarna',

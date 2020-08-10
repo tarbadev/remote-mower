@@ -1,3 +1,6 @@
+const MockServer = require('mockserver-node')
+const mockServerClient = require('mockserver-client').mockServerClient
+
 const Application = require('spectron').Application
 const electronPath = require('electron')
 const path = require('path')
@@ -7,16 +10,14 @@ class CustomEnvironment extends NodeEnvironment {
   async setup() {
     await super.setup()
 
-    const appPath = this.getAppPath()
+    await this.setupMockServers()
 
-    console.log(`Application path: ${appPath}`)
-
-    this.app = this.getApplication(appPath)
+    this.app = this.getApplication()
 
     await this.app.start()
     await this.waitForClientLoaded()
 
-    this.app.client.setTimeout({ 'implicit': 500 })
+    await this.app.client.setTimeout({ 'implicit': 500 })
 
     this.global.restart = () => this.restart()
     this.global.client = this.app.client
@@ -28,16 +29,24 @@ class CustomEnvironment extends NodeEnvironment {
     return process.env.APP_PATH ? process.env.APP_PATH : electronPath
   }
 
-  getApplication(appPath) {
+  getApplication() {
+    const appPath = this.getAppPath()
+
+    console.log(`Application path: ${appPath}`)
+
     return new Application({
       args: [path.join(__dirname, '..')],
       path: appPath,
+      quitTimeout: 5000,
     })
   }
 
   async teardown() {
+    await MockServer.stop_mockserver({ serverPort: 8080 })
+
     if (this.app && this.app.isRunning()) {
-      return this.app.stop()
+      await this.app.stop()
+        .catch(err => console.error(err))
     }
   }
 
@@ -45,7 +54,7 @@ class CustomEnvironment extends NodeEnvironment {
     if (event.name === 'test_fn_failure') {
       const fullTestName = this.getTestName(event.test)
       const filePath = this.screenshotPath + fullTestName + '.png'
-      this.app.client.saveScreenshot(filePath)
+      await this.app.client.saveScreenshot(filePath)
     }
   }
 
@@ -66,6 +75,17 @@ class CustomEnvironment extends NodeEnvironment {
     await this.app.restart()
     await this.waitForClientLoaded()
     this.global.client = this.app.client
+  }
+
+  async setupMockServers() {
+    await MockServer.start_mockserver({
+      serverPort: 8080,
+      initializationJsonPath: path.join(__dirname, './apiServerMocks.json'),
+      trace: false,
+      verbose: false,
+    })
+
+    this.global.apiMockServer = mockServerClient('localhost', 8080)
   }
 }
 

@@ -7,12 +7,12 @@ const base = require('./webpack.config')
 const path = require('path')
 
 module.exports = merge(base, {
-  mode: 'production',
+  mode: 'ci',
   devtool: 'nosources-source-map',
   plugins: [
     new webpack.NormalModuleReplacementPlugin(
       /electron\/app\.config\.js/,
-      './app.config.prod.js'
+      './app.config.ci.js'
     ),
     new MiniCssExtractPlugin(),
     new HtmlWebpackPlugin({

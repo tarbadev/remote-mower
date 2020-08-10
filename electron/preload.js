@@ -71,6 +71,9 @@ contextBridge.exposeInMainWorld(
         }
 
         request.end()
+      }).catch(err => {
+        console.error(`An error happened while sending a request to ${options.url}`)
+        console.error(err)
       })
     },
   },

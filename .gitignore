@@ -28,3 +28,5 @@ yarn-error.log*
 *.iml
 
 junit.xml
+
+CertificateAuthorityCertificate.pem

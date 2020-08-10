@@ -10,7 +10,7 @@ describe('MowerService', () => {
     it('calls the mower API', async () => {
       const token = 'SuperSecureToken'
       const expectedRequestOptions = {
-        url: 'https://amc-api.dss.husqvarnagroup.net/app/v1/mowers',
+        url: 'http://localhost:8080/app/v1/mowers',
         method: 'GET',
         headers: {
           'Authorization-Provider': 'husqvarna',

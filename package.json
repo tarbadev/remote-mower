@@ -13,10 +13,12 @@
   "main": "electron/main.js",
   "scripts": {
     "build-shared": "babel ./src/shared -d ./lib",
-    "build": "webpack --mode=production --config ./webpack.production.js",
+    "build": "webpack --mode=production --config ./webpack.ci.js",
+    "build-prod": "webpack --mode=production --config ./webpack.production.js",
     "electron-build": "yarn build && electron-builder -mw",
+    "electron-build-prod": "yarn build-prod && electron-builder -mw",
     "postinstall": "electron-builder install-app-deps",
-    "publish-app": "yarn electron-build --publish always",
+    "publish-app": "yarn electron-build-prod --publish always",
     "dev-server": "webpack-dev-server --config ./webpack.development.js",
     "start": "concurrently \"yarn dev-server\" \"cross-env NODE_ENV=development electron .\" -k",
     "prod-start": "yarn build && cross-env NODE_ENV=production electron .",
@@ -46,9 +48,12 @@
     "jest-enzyme": "^7.1.2",
     "jest-junit": "^10.0.0",
     "mini-css-extract-plugin": "^0.9.0",
+    "mockserver-client": "^5.11.1",
+    "mockserver-node": "^5.11.1",
     "node-fetch": "^2.6.0",
     "react-scripts": "3.4.1",
     "spectron": "^11.1.0",
+    "webpack": "^4.44.1",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^4.2.2"
@@ -110,7 +115,10 @@
         "reporters": [
           "default",
           "jest-junit"
-        ]
+        ],
+        "moduleNameMapper": {
+          "^testResources(.*)$": "<rootDir>/../testResources$1"
+        }
       }
     ]
   },
@@ -133,7 +141,7 @@
     "extends": null,
     "files": [
       "build/dist/**/*",
-      "lib/**/*",
+      "src/shared/**/*",
       "electron/**/*",
       "locales/**/*"
     ],

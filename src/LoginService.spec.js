@@ -31,7 +31,7 @@ describe('LoginService', () => {
       await login(email, password, onSuccessSpy)
 
       expect(window.api.request).toHaveBeenCalledWith({
-        url: 'https://iam-api.dss.husqvarnagroup.net/api/v3/token',
+        url: 'http://localhost:8080/api/v3/token',
         method: 'POST',
         body: {
           data: {

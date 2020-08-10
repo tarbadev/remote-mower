@@ -1,5 +1,6 @@
 import { deleteToken, storeToken } from './LoginRepository'
 import RequestError from './shared/RequestError'
+import AppConfig from './shared/app.config'
 const { request } = window.api
 
 export const LoginError = {
@@ -12,7 +13,7 @@ Object.freeze(LoginError)
 
 export const login = async (email, password, onSuccess, onError) => {
   const requestOptions = {
-    url: 'https://iam-api.dss.husqvarnagroup.net/api/v3/token',
+    url: `${AppConfig.loginApiUrl}/api/v3/token`,
     method: 'POST',
     body: {
       data: {
