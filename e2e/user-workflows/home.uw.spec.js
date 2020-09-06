@@ -2,8 +2,8 @@ import * as HomePage from '../page-objects/home.po'
 import * as LoginPage from '../page-objects/login.po'
 
 describe('Home', () => {
-  const email = process.env.E2E_EMAIL
-  const password = process.env.E2E_PASSWORD
+  const email = process.env.E2E_EMAIL || 'test@example.com'
+  const password = process.env.E2E_PASSWORD || 'SuperPassword'
 
   jest.setTimeout(15000)
 
