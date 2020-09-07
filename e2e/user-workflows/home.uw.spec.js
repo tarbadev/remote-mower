@@ -54,13 +54,9 @@ describe('Home', () => {
 
     await HomePage.logout()
     await LoginPage.waitForPageDisplayed()
-    console.log('LoginPage.isVisible')
     expect(await LoginPage.isVisible()).toBeTruthy()
 
-    console.log('Restart')
     await global.restart()
-    console.log('LoginPage.isVisible')
     expect(await LoginPage.isVisible()).toBeTruthy()
-    console.log('End')
   }, 30000)
 })
