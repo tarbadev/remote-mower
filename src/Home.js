@@ -17,6 +17,8 @@ import { useAppContext } from './StoreProvider'
 import { Loader } from './Loader'
 import { CuttingLevelIcon, LogoutIcon } from './ui/Icons'
 import { Grid } from '@material-ui/core'
+import RefreshIcon from '@material-ui/icons/Refresh'
+import IconButton from '@material-ui/core/IconButton'
 
 const activityToDisplayActivity = activity => {
   switch (activity) {
@@ -78,22 +80,27 @@ export const Home = () => {
     setUserLoggedIn(await isUserLoggedIn())
   }, [isUserLoggedIn])
 
+  const loadMowerDetails = () => {
+    initializeMowerId()
+        .then(() => {
+          getMowerStatus().then(status => {
+            setBatteryLevel(status.batteryLevel)
+            setMowerActivity(activityToDisplayActivity(status.activity))
+            setMowerState(stateToDisplayState(status.state))
+          })
+          getMowerSettings().then(settings => {
+            setCuttingLevel(settings.cuttingLevel)
+          })
+        })
+  }
+
   useEffect(() => {
     isLoggedInAsync()
   }, [isLoggedInAsync])
 
   useEffect(() => {
     if (userLoggedIn) {
-      initializeMowerId().then(() => {
-        getMowerStatus().then(status => {
-          setBatteryLevel(status.batteryLevel)
-          setMowerActivity(activityToDisplayActivity(status.activity))
-          setMowerState(stateToDisplayState(status.state))
-        })
-        getMowerSettings().then(settings => {
-          setCuttingLevel(settings.cuttingLevel)
-        })
-      })
+      loadMowerDetails()
     }
   }, [userLoggedIn])
 
@@ -110,6 +117,7 @@ export const Home = () => {
         cuttingLevel={cuttingLevel}
         mowerActivity={mowerActivity}
         mowerState={mowerState}
+        onRefreshClick={loadMowerDetails}
     />
   </Suspense>
 }
@@ -136,7 +144,7 @@ const useStyles = makeStyles((theme) => {
   }
 })
 
-const HomeDisplay = ({ onLogoutButtonClicked, batteryLevel, mowerActivity, mowerState, cuttingLevel }) => {
+const HomeDisplay = ({ onLogoutButtonClicked, batteryLevel, mowerActivity, mowerState, cuttingLevel, onRefreshClick }) => {
   const { t } = useTranslation()
   const classes = useStyles()
 
@@ -160,12 +168,19 @@ const HomeDisplay = ({ onLogoutButtonClicked, batteryLevel, mowerActivity, mower
       </div>
     </Drawer>
     <main className={classes.content}>
-      <Grid container direction='row' spacing={1}>
-        <Grid item>
-          <Typography data-battery-level><Battery50Icon />{batteryLevel}</Typography>
+      <Grid container direction='row'>
+        <Grid item xs={8} container direction='row' spacing={1} alignContent='center'>
+          <Grid item>
+            <Typography data-battery-level><Battery50Icon />{batteryLevel}</Typography>
+          </Grid>
+          <Grid item>
+            <Typography data-cutting-level><CuttingLevelIcon />{cuttingLevel}</Typography>
+          </Grid>
         </Grid>
-        <Grid item>
-          <Typography data-cutting-level><CuttingLevelIcon />{cuttingLevel}</Typography>
+        <Grid item xs container alignContent='flex-end' direction='column'>
+          <IconButton data-refresh-button
+                      onClick={onRefreshClick}
+                      color='primary'><RefreshIcon /></IconButton>
         </Grid>
       </Grid>
       <Typography>{t('home.activity.label')}: <span data-mower-activity>{t(`home.activity.${mowerActivity}`)}</span></Typography>

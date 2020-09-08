@@ -47,6 +47,37 @@ describe('Home', () => {
     expect(await HomePage.getBatteryLevel()).toBe('67')
     expect(await HomePage.getCuttingLevel()).toBe('6')
     expect(await HomePage.getMowerActivity()).toBe('Parked in Charging Station')
-    expect(await HomePage.getMowerState()).toBe('Restricted: Cannot mow because because of week calendar or override park')
+    expect(await HomePage.getMowerState())
+        .toBe('Restricted: Cannot mow because because of week calendar or override park')
+  })
+
+  it('Refreshes the mowers informations', async () => {
+    expect(await HomePage.isVisible()).toBeTruthy()
+
+    expect(await global.apiMockServer.verify(
+        { method: 'GET', path: '/app/v1/mowers/190415542-190332911/status' },
+        1,
+        1,
+    ))
+
+    expect(await global.apiMockServer.verify(
+        { method: 'GET', path: '/app/v1/mowers/190415542-190332911/settings' },
+        1,
+        1,
+    ))
+
+    await HomePage.refresh()
+
+    expect(await global.apiMockServer.verify(
+        { method: 'GET', path: '/app/v1/mowers/190415542-190332911/status' },
+        2,
+        2,
+    ))
+
+    expect(await global.apiMockServer.verify(
+        { method: 'GET', path: '/app/v1/mowers/190415542-190332911/settings' },
+        2,
+        2,
+    ))
   })
 })

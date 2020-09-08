@@ -49,4 +49,5 @@ export const getMowerState = async () => {
   return await getTextFromElement(selector)
 }
 
-export const logout = async () => await tapOnButton('div[data-logout-button]')
+export const logout = async () => await tapOnButton('[data-logout-button]')
+export const refresh = async () => await tapOnButton('[data-refresh-button]')

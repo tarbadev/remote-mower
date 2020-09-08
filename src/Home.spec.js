@@ -10,8 +10,14 @@ const { act } = require('react-dom/test-utils')
 
 const mockTranslate = jest.fn()
 jest.mock(
-  'react-i18next',
-  () => ({ useTranslation: () => ({ t: mockTranslate }) }),
+    'react-i18next',
+    () => (
+        {
+          useTranslation: () => (
+              { t: mockTranslate }
+          ),
+        }
+    ),
 )
 
 jest.mock('./MowerService')
@@ -22,6 +28,7 @@ class HomeViewHelper {
     this.redirectSelector = 'Redirect'
     this.homeContainerSelector = '[data-home-container]'
     this.logoutButtonSelector = '[data-logout-button]'
+    this.refreshButtonSelector = '[data-refresh-button]'
     this.batteryLevelSelector = 'p[data-battery-level]'
     this.cuttingLevelSelector = 'p[data-cutting-level]'
   }
@@ -41,6 +48,10 @@ class HomeViewHelper {
 
   logout() {
     this.homeWrapper.find(this.logoutButtonSelector).at(0).simulate('click')
+  }
+
+  refresh() {
+    this.homeWrapper.find(this.refreshButtonSelector).at(0).simulate('click')
   }
 
   getBatteryLevel() {
@@ -107,8 +118,8 @@ describe('Home', () => {
     await waitForUpdate(home)
 
     jest
-      .spyOn(LoginService, 'logout')
-      .mockImplementation(onSuccess => onSuccess())
+        .spyOn(LoginService, 'logout')
+        .mockImplementation(onSuccess => onSuccess())
 
     mockAppContext().isUserLoggedIn.mockResolvedValueOnce(false)
     await act(async () => {
@@ -146,6 +157,29 @@ describe('Home', () => {
 
     expect(homeView.isVisible()).toBeTruthy()
     expect(homeView.getBatteryLevel()).toBe('54')
+  })
+
+  it('Refreshes the mower details on refresh click', async () => {
+    mockAppContext().isUserLoggedIn.mockResolvedValueOnce(true)
+    getMowerStatus.mockResolvedValueOnce({ batteryLevel: 54 })
+    getMowerSettings.mockResolvedValueOnce({ cuttingLevel: 4 })
+
+    const home = mount(<Home />)
+    const homeView = new HomeViewHelper(home)
+
+    await waitForUpdate(home)
+
+    expect(homeView.isVisible()).toBeTruthy()
+    expect(homeView.getBatteryLevel()).toBe('54')
+    expect(homeView.getCuttingLevel()).toBe('4')
+
+    getMowerStatus.mockResolvedValueOnce({ batteryLevel: 75 })
+    getMowerSettings.mockResolvedValueOnce({ cuttingLevel: 1 })
+    homeView.refresh()
+    await waitForUpdate(home)
+
+    expect(homeView.getBatteryLevel()).toBe('75')
+    expect(homeView.getCuttingLevel()).toBe('1')
   })
 
   it('Displays the cutting level', async () => {
