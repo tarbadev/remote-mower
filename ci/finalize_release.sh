@@ -32,6 +32,7 @@ if [ -n "$CHANGES" ]; then
   git config --global user.name "CI System"
   git add package.json
   git commit -m "Bump version in package.json to $VERSION"
+  git pull -r
   git push origin head
 fi
 
