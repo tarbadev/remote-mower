@@ -1,13 +1,14 @@
 # Remote Mower ![Release](https://github.com/tarbadev/remote-mower/workflows/Release/badge.svg)
 
 ## Start App
-### Start React server
 `yarn start`
+### Start React server only
+`yarn dev-server`
 ### Start Electron application
-`yarn electron`
+`yarn start`
 
 ## Running Tests
 ### Unit Tests
-`yarn test src`
+`yarn test-unit`
 ### E2E Tests
-`yarn test e2e`
+`yarn test-e2e`
