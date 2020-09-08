@@ -4,4 +4,6 @@ window.api = {
   secureRetrieveToken: jest.fn(),
   secureDeleteToken: jest.fn(),
   request: jest.fn(),
+  getSetting: jest.fn(),
+  setSetting: jest.fn(),
 }

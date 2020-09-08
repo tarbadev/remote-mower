@@ -4,7 +4,7 @@ import { Home } from './Home'
 import { mockAppContext } from './testUtils'
 import { BrowserRouter } from 'react-router-dom'
 import * as LoginService from './LoginService'
-import { getMowerStatus, MowerActivity, MowerState } from './MowerService'
+import { getMowerSettings, getMowerStatus, initializeMowerId, MowerActivity, MowerState } from './MowerService'
 
 const { act } = require('react-dom/test-utils')
 
@@ -23,6 +23,7 @@ class HomeViewHelper {
     this.homeContainerSelector = '[data-home-container]'
     this.logoutButtonSelector = '[data-logout-button]'
     this.batteryLevelSelector = 'p[data-battery-level]'
+    this.cuttingLevelSelector = 'p[data-cutting-level]'
   }
 
   isRedirectingToLoginPage() {
@@ -45,12 +46,20 @@ class HomeViewHelper {
   getBatteryLevel() {
     return this.homeWrapper.find(this.batteryLevelSelector).text()
   }
+
+  getCuttingLevel() {
+    return this.homeWrapper.find(this.cuttingLevelSelector).text()
+  }
 }
 
 describe('Home', () => {
   beforeEach(() => {
     mockTranslate.mockReset()
     mockTranslate.mockReturnValue('Some translation happened')
+
+    getMowerStatus.mockResolvedValue({})
+    getMowerSettings.mockResolvedValue({})
+    initializeMowerId.mockResolvedValue({})
   })
 
   it('Displays nothing when initializing', async () => {
@@ -113,6 +122,19 @@ describe('Home', () => {
     expect(mockTranslate).toHaveBeenCalledWith('home.logoutLabel')
   })
 
+  it('Initializes the MowerService before retrieving data', async () => {
+    mockAppContext().isUserLoggedIn.mockResolvedValueOnce(true)
+    initializeMowerId.mockReturnValue(new Promise(() => null))
+
+    const home = mount(<Home />)
+
+    await waitForUpdate(home)
+
+    expect(initializeMowerId).toHaveBeenCalled()
+    expect(getMowerStatus).not.toHaveBeenCalled()
+    expect(getMowerSettings).not.toHaveBeenCalled()
+  })
+
   it('Displays the battery level', async () => {
     mockAppContext().isUserLoggedIn.mockResolvedValueOnce(true)
     getMowerStatus.mockResolvedValueOnce({ batteryLevel: 54 })
@@ -124,6 +146,20 @@ describe('Home', () => {
 
     expect(homeView.isVisible()).toBeTruthy()
     expect(homeView.getBatteryLevel()).toBe('54')
+  })
+
+  it('Displays the cutting level', async () => {
+    mockAppContext().isUserLoggedIn.mockResolvedValueOnce(true)
+    getMowerStatus.mockResolvedValueOnce({})
+    getMowerSettings.mockResolvedValueOnce({ cuttingLevel: 4 })
+
+    const home = mount(<Home />)
+    const homeView = new HomeViewHelper(home)
+
+    await waitForUpdate(home)
+
+    expect(homeView.isVisible()).toBeTruthy()
+    expect(homeView.getCuttingLevel()).toBe('4')
   })
 
   describe('Mower Activity', () => {

@@ -1,0 +1,276 @@
+{
+  "batteryPercent": 67,
+  "connected": true,
+  "lastErrorCode": 0,
+  "lastErrorCodeTimestamp": 0,
+  "errorConfirmable": false,
+  "mowerStatus": {
+    "mode": "MAIN_AREA",
+    "activity": "PARKED_IN_CS",
+    "restrictedReason": "WEEK_SCHEDULE",
+    "state": "RESTRICTED",
+    "type": "NOT_APPLICABLE"
+  },
+  "nextStartSource": "WEEK_TIMER",
+  "nextStartTimestamp": 1599651900,
+  "operatingMode": "AUTO",
+  "storedTimestamp": 1599522577799,
+  "valueFound": true,
+  "overrideStartTime": 0,
+  "overrideDuration": 0,
+  "fotaState": null,
+  "fotaUpdateVersion": null,
+  "cachedSettingsUUID": "477e4da7-9d91-3fab-a1bc-1c5a80f751be",
+  "lastLocations": [
+    {
+      "latitude": 48.14231,
+      "longitude": 0.1679966,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.1423483,
+      "longitude": 0.1680049,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.1423483,
+      "longitude": 0.167995,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.142355,
+      "longitude": 0.1680266,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.1423533,
+      "longitude": 0.1680283,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.1423433,
+      "longitude": 0.1680333,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.14234,
+      "longitude": 0.1680016,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.142345,
+      "longitude": 0.168,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.1423283,
+      "longitude": 0.1679633,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.1423466,
+      "longitude": 0.1679833,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.1423466,
+      "longitude": 0.167985,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.142325,
+      "longitude": 0.1679833,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.1423283,
+      "longitude": 0.167985,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.14233,
+      "longitude": 0.1679666,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.14233,
+      "longitude": 0.16798,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.14235,
+      "longitude": 0.16804,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.1423566,
+      "longitude": 0.167995,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.1423516,
+      "longitude": 0.1679833,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.1423533,
+      "longitude": 0.1679866,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.1423583,
+      "longitude": 0.1679716,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.1423583,
+      "longitude": 0.167995,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.142355,
+      "longitude": 0.167985,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.1423466,
+      "longitude": 0.1679966,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.14235,
+      "longitude": 0.167975,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.1423416,
+      "longitude": 0.1679533,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.1423033,
+      "longitude": 0.1679666,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.14228,
+      "longitude": 0.1679716,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.14227,
+      "longitude": 0.167955,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.1422966,
+      "longitude": 0.1679966,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.1422766,
+      "longitude": 0.1679716,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.14234,
+      "longitude": 0.1680049,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.1423583,
+      "longitude": 0.16797,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.1423383,
+      "longitude": 0.167975,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.1423416,
+      "longitude": 0.1679783,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.142355,
+      "longitude": 0.1679866,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.1423283,
+      "longitude": 0.1680466,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.1423266,
+      "longitude": 0.16802,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.14232,
+      "longitude": 0.1680466,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.142345,
+      "longitude": 0.1680049,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.1423566,
+      "longitude": 0.1680083,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.1423633,
+      "longitude": 0.1680316,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.1423916,
+      "longitude": 0.1680483,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.1424133,
+      "longitude": 0.1680299,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.1424016,
+      "longitude": 0.1680466,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.1424,
+      "longitude": 0.16804,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.1423966,
+      "longitude": 0.16804,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.14237,
+      "longitude": 0.1680316,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.1423483,
+      "longitude": 0.1679916,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.1423366,
+      "longitude": 0.1679683,
+      "gpsStatus": "USING_GPS_MAP"
+    },
+    {
+      "latitude": 48.14233,
+      "longitude": 0.1679666,
+      "gpsStatus": "USING_GPS_MAP"
+    }
+  ]
+}

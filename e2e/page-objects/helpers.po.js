@@ -21,4 +21,16 @@ export const tapOnButton = selector => select(selector).then(elem => elem.click(
 
 export const getTextFromElement = selector => select(selector).then(elem => elem.getText(selector))
 
+export const getTextFromElementWithTimeout = async (selector, timeout, errorMessage) => {
+  await global.client.waitUntil(
+      () => select(selector).then(elem => elem.getText()).then(text => text !== '' && text !== '0'),
+      {
+        timeout: timeout,
+        timeoutMsg: errorMessage,
+      },
+  )
+
+  return await getTextFromElement(selector)
+}
+
 export const select = selector => global.client.$(selector)

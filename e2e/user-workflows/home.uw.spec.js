@@ -30,25 +30,6 @@ describe('Home', () => {
     }
   })
 
-  it('Displays the battery level', async () => {
-    expect(await HomePage.isVisible()).toBeTruthy()
-
-    expect(await HomePage.getBatteryLevel()).toBe('67')
-  })
-
-  it('Displays the mower activity', async () => {
-    expect(await HomePage.isVisible()).toBeTruthy()
-
-    expect(await HomePage.getMowerActivity()).toBe('Parked in Charging Station')
-  })
-
-  it('Displays the mower state', async () => {
-    expect(await HomePage.isVisible()).toBeTruthy()
-
-    expect(await HomePage.getMowerState())
-      .toBe('Restricted: Cannot mow because because of week calendar or override park')
-  })
-
   it('Removes the credentials from the store and displays login page on Logout', async () => {
     expect(await HomePage.isVisible()).toBeTruthy()
 
@@ -59,4 +40,13 @@ describe('Home', () => {
     await global.restart()
     expect(await LoginPage.isVisible()).toBeTruthy()
   }, 30000)
+
+  it('Displays the mowers informations', async () => {
+    expect(await HomePage.isVisible()).toBeTruthy()
+
+    expect(await HomePage.getBatteryLevel()).toBe('67')
+    expect(await HomePage.getCuttingLevel()).toBe('6')
+    expect(await HomePage.getMowerActivity()).toBe('Parked in Charging Station')
+    expect(await HomePage.getMowerState()).toBe('Restricted: Cannot mow because because of week calendar or override park')
+  })
 })

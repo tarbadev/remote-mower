@@ -1,0 +1,102 @@
+{
+  "settings": {
+    "cuttingHeight": 7,
+    "weatherTimer": {
+      "enabled": false,
+      "cuttingTime": 3
+    },
+    "geofence": {
+      "centralPoint": {
+        "latitude": 0.0,
+        "longitude": 0.0
+      },
+      "sensitivityLevel": 3,
+      "radiusInMeters": 500,
+      "timeOutsideInSeconds": 120
+    },
+    "areaCoverage": [
+      {
+        "enabled": true,
+        "loopWire": "GUIDE_1",
+        "runningDistance": 300,
+        "proportion": 20,
+        "passageCutting": false
+      },
+      {
+        "enabled": true,
+        "loopWire": "GUIDE_2",
+        "runningDistance": 300,
+        "proportion": 20,
+        "passageCutting": false
+      },
+      {
+        "enabled": false,
+        "loopWire": "GUIDE_1",
+        "runningDistance": 0,
+        "proportion": 0,
+        "passageCutting": false
+      },
+      {
+        "enabled": false,
+        "loopWire": "GUIDE_1",
+        "runningDistance": 0,
+        "proportion": 0,
+        "passageCutting": false
+      },
+      {
+        "enabled": false,
+        "loopWire": "GUIDE_1",
+        "runningDistance": 0,
+        "proportion": 0,
+        "passageCutting": false
+      }
+    ],
+    "boundary": {
+      "followGuideHome": false,
+      "delayTime": 0,
+      "corridorWidthMin": 1,
+      "corridorWidthMax": 6
+    },
+    "guides": [
+      {
+        "followGuideHome": true,
+        "delayTime": 0,
+        "corridorWidthMax": 6
+      },
+      {
+        "followGuideHome": true,
+        "delayTime": 0,
+        "corridorWidthMax": 6
+      },
+      {
+        "followGuideHome": true,
+        "delayTime": 3,
+        "corridorWidthMax": 9
+      }
+    ],
+    "chargingStationRange": 700,
+    "drivePastWire": 350,
+    "reversingDistance": 802,
+    "exitAngles": {
+      "exitAngle1Min": 90,
+      "exitAngle1Max": 270,
+      "exitAngle2Min": 90,
+      "exitAngle2Max": 270,
+      "proportionSector1": 100
+    },
+    "gpsAssistedNavigation": true,
+    "spiralCutting": {
+      "enabled": true,
+      "intensity": 3
+    },
+    "ecoMode": false,
+    "fotaEnabled": null,
+    "headlight": {
+      "flashOnError": true,
+      "mode": "EVENING_AND_NIGHT"
+    },
+    "ultraSonicSensorsEnabled": false,
+    "avoidCollisionWithHouse": false,
+    "frostSensor": false
+  }
+}

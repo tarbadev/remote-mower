@@ -1,5 +1,6 @@
 import { retrieveToken } from './LoginRepository'
 import AppConfig from './shared/app.config'
+import { getMowerId, storeMowerId } from './MowerRepository'
 
 const { request } = window.api
 
@@ -34,23 +35,57 @@ export const MowerState = {
 Object.freeze(MowerState)
 
 export const getMowerStatus = async () => {
-  return retrieveToken().then(token => {
+  const mowerId = await getMowerId()
+  const headers = await generateHeaders()
+  const options = {
+    url: `${AppConfig.mowerApiUrl}/app/v1/mowers/${mowerId}/status`,
+    method: 'GET',
+    headers,
+  }
+  return request(options).then(data => {
+    return {
+      batteryLevel: data.batteryPercent,
+      activity: data.mowerStatus.activity,
+      state: data.mowerStatus.state,
+    }
+  })
+}
+
+const generateHeaders = async () => {
+  const token = await retrieveToken()
+  return {
+    'Authorization-Provider': 'husqvarna',
+    'x-system-validator': 'amc',
+    'Authorization': `Bearer ${token}`,
+  }
+}
+
+export const getMowerSettings = async () => {
+  const mowerId = await getMowerId()
+  const headers = await generateHeaders()
+
+  const options = {
+    url: `${AppConfig.mowerApiUrl}/app/v1/mowers/${mowerId}/settings`,
+    method: 'GET',
+    headers,
+  }
+  return request(options).then(data => {
+    const settings = data.settings
+    return {
+      cuttingLevel: settings.cuttingHeight,
+    }
+  })
+}
+
+export const initializeMowerId = async () => {
+  const mowerId = await getMowerId()
+  if (!mowerId) {
+    const headers = await generateHeaders()
     const options = {
       url: `${AppConfig.mowerApiUrl}/app/v1/mowers`,
       method: 'GET',
-      headers: {
-        'Authorization-Provider': 'husqvarna',
-        'x-system-validator': 'amc',
-        'Authorization': `Bearer ${token}`,
-      },
+      headers,
     }
-    return request(options).then(data => {
-      const mower = data[0]
-      return {
-        batteryLevel: mower.status.batteryPercent,
-        activity: mower.status.mowerStatus.activity,
-        state: mower.status.mowerStatus.state,
-      }
-    })
-  })
+    return request(options).then(data => storeMowerId(data[0].id))
+  }
 }
