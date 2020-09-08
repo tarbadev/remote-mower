@@ -16,6 +16,7 @@ import { getMowerSettings, getMowerStatus, initializeMowerId, MowerActivity, Mow
 import { useAppContext } from './StoreProvider'
 import { Loader } from './Loader'
 import { CuttingLevelIcon, LogoutIcon } from './ui/Icons'
+import { Grid } from '@material-ui/core'
 
 const activityToDisplayActivity = activity => {
   switch (activity) {
@@ -159,8 +160,14 @@ const HomeDisplay = ({ onLogoutButtonClicked, batteryLevel, mowerActivity, mower
       </div>
     </Drawer>
     <main className={classes.content}>
-      <Typography data-battery-level><Battery50Icon />{batteryLevel}</Typography>
-      <Typography data-cutting-level><CuttingLevelIcon />{cuttingLevel}</Typography>
+      <Grid container direction='row' spacing={1}>
+        <Grid item>
+          <Typography data-battery-level><Battery50Icon />{batteryLevel}</Typography>
+        </Grid>
+        <Grid item>
+          <Typography data-cutting-level><CuttingLevelIcon />{cuttingLevel}</Typography>
+        </Grid>
+      </Grid>
       <Typography>{t('home.activity.label')}: <span data-mower-activity>{t(`home.activity.${mowerActivity}`)}</span></Typography>
       <Typography>{t('home.state.label')}: <span data-mower-state>{t(`home.state.${mowerState}`)}</span></Typography>
     </main>
