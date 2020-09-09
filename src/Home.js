@@ -12,13 +12,23 @@ import Typography from '@material-ui/core/Typography'
 import Battery50Icon from '@material-ui/icons/Battery50'
 import { useTranslation } from 'react-i18next'
 
-import { getMowerSettings, getMowerStatus, initializeMowerId, MowerActivity, MowerState } from './MowerService'
+import {
+  getMowerSettings,
+  getMowerStatus,
+  initializeMowerId,
+  MowerActivity,
+  MowerState,
+  parkUntilFurtherNotice,
+} from './MowerService'
 import { useAppContext } from './StoreProvider'
 import { Loader } from './Loader'
 import { CuttingLevelIcon, LogoutIcon } from './ui/Icons'
 import { Grid } from '@material-ui/core'
 import RefreshIcon from '@material-ui/icons/Refresh'
 import IconButton from '@material-ui/core/IconButton'
+import Button from '@material-ui/core/Button'
+import Menu from '@material-ui/core/Menu'
+import MenuItem from '@material-ui/core/MenuItem'
 
 const activityToDisplayActivity = activity => {
   switch (activity) {
@@ -74,25 +84,25 @@ export const Home = () => {
   const [cuttingLevel, setCuttingLevel] = useState(0)
   const [mowerActivity, setMowerActivity] = useState('')
   const [mowerState, setMowerState] = useState('')
+  const [anchorEl, setAnchorEl] = React.useState()
   const { isUserLoggedIn } = useAppContext()
 
   const isLoggedInAsync = useCallback(async () => {
     setUserLoggedIn(await isUserLoggedIn())
   }, [isUserLoggedIn])
 
-  const loadMowerDetails = () => {
-    initializeMowerId()
-        .then(() => {
-          getMowerStatus().then(status => {
-            setBatteryLevel(status.batteryLevel)
-            setMowerActivity(activityToDisplayActivity(status.activity))
-            setMowerState(stateToDisplayState(status.state))
+  const loadMowerDetails = () =>
+      initializeMowerId()
+          .then(() => {
+            getMowerStatus().then(status => {
+              setBatteryLevel(status.batteryLevel)
+              setMowerActivity(activityToDisplayActivity(status.activity))
+              setMowerState(stateToDisplayState(status.state))
+            })
+            getMowerSettings().then(settings => {
+              setCuttingLevel(settings.cuttingLevel)
+            })
           })
-          getMowerSettings().then(settings => {
-            setCuttingLevel(settings.cuttingLevel)
-          })
-        })
-  }
 
   useEffect(() => {
     isLoggedInAsync()
@@ -110,6 +120,12 @@ export const Home = () => {
     return <Redirect to='/login' />
   }
 
+  const onParkUntilFurtherNoticeClick =  () => parkUntilFurtherNotice()
+      .then(loadMowerDetails)
+      .then(closeParkMenu)
+
+  const closeParkMenu = () => setAnchorEl(null)
+
   return <Suspense fallback={<Loader />}>
     <HomeDisplay
         onLogoutButtonClicked={() => logout(isLoggedInAsync)}
@@ -118,6 +134,10 @@ export const Home = () => {
         mowerActivity={mowerActivity}
         mowerState={mowerState}
         onRefreshClick={loadMowerDetails}
+        openParkMenu={({ target }) => setAnchorEl(target)}
+        closeParkMenu={closeParkMenu}
+        anchorEl={anchorEl}
+        onParkUntilFurtherNoticeClick={onParkUntilFurtherNoticeClick}
     />
   </Suspense>
 }
@@ -144,7 +164,7 @@ const useStyles = makeStyles((theme) => {
   }
 })
 
-const HomeDisplay = ({ onLogoutButtonClicked, batteryLevel, mowerActivity, mowerState, cuttingLevel, onRefreshClick }) => {
+const HomeDisplay = ({ onLogoutButtonClicked, batteryLevel, mowerActivity, mowerState, cuttingLevel, onRefreshClick, openParkMenu, closeParkMenu, anchorEl, onParkUntilFurtherNoticeClick }) => {
   const { t } = useTranslation()
   const classes = useStyles()
 
@@ -185,6 +205,15 @@ const HomeDisplay = ({ onLogoutButtonClicked, batteryLevel, mowerActivity, mower
       </Grid>
       <Typography>{t('home.activity.label')}: <span data-mower-activity>{t(`home.activity.${mowerActivity}`)}</span></Typography>
       <Typography>{t('home.state.label')}: <span data-mower-state>{t(`home.state.${mowerState}`)}</span></Typography>
+      <Button variant='outlined' color='primary' onClick={openParkMenu} data-park-button>{t('home.menus.park.label')}</Button>
+      <Menu
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={closeParkMenu}
+      >
+        <MenuItem onClick={onParkUntilFurtherNoticeClick} data-park-until-further-notice-menu>{t('home.menus.park.untilFurtherNotice')}</MenuItem>
+      </Menu>
     </main>
   </div>
 }

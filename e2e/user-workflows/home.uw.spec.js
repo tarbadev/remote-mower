@@ -54,30 +54,36 @@ describe('Home', () => {
   it('Refreshes the mowers informations', async () => {
     expect(await HomePage.isVisible()).toBeTruthy()
 
-    expect(await global.apiMockServer.verify(
-        { method: 'GET', path: '/app/v1/mowers/190415542-190332911/status' },
-        1,
-        1,
-    ))
-
-    expect(await global.apiMockServer.verify(
-        { method: 'GET', path: '/app/v1/mowers/190415542-190332911/settings' },
-        1,
-        1,
-    ))
+    const allStatusCalls = await global.apiMockServer.retrieveRecordedRequests('/app/v1/mowers/190415542-190332911/status')
+    const allSettingsCalls = await global.apiMockServer.retrieveRecordedRequests('/app/v1/mowers/190415542-190332911/settings')
 
     await HomePage.refresh()
 
     expect(await global.apiMockServer.verify(
         { method: 'GET', path: '/app/v1/mowers/190415542-190332911/status' },
-        2,
-        2,
+        allStatusCalls.length + 1,
+        allStatusCalls.length + 1,
     ))
 
     expect(await global.apiMockServer.verify(
         { method: 'GET', path: '/app/v1/mowers/190415542-190332911/settings' },
-        2,
-        2,
+        allStatusCalls.length + 1,
+        allSettingsCalls.length + 1,
+    ))
+  })
+
+  it('Can park the mower until further notice', async () => {
+    expect(await HomePage.isVisible()).toBeTruthy()
+
+    await global.apiMockServer.mockSimpleResponse('/app/v1/mowers/190415542-190332911/control/park', {}, 200)
+
+    const allCalls = await global.apiMockServer.retrieveRecordedRequests('/app/v1/mowers/190415542-190332911/control/park')
+    await HomePage.parkUntilFurtherNotice()
+
+    expect(await global.apiMockServer.verify(
+        { method: 'POST', path: '/app/v1/mowers/190415542-190332911/control/park' },
+        allCalls.length + 1,
+        allCalls.length + 1,
     ))
   })
 })

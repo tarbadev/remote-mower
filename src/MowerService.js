@@ -89,3 +89,15 @@ export const initializeMowerId = async () => {
     return request(options).then(data => storeMowerId(data[0].id))
   }
 }
+
+export const parkUntilFurtherNotice = async () => {
+  const mowerId = await getMowerId()
+  const headers = await generateHeaders()
+
+  const options = {
+    url: `${AppConfig.mowerApiUrl}/app/v1/mowers/${mowerId}/control/park`,
+    method: 'POST',
+    headers,
+  }
+  return request(options)
+}

@@ -50,4 +50,12 @@ export const getMowerState = async () => {
 }
 
 export const logout = async () => await tapOnButton('[data-logout-button]')
-export const refresh = async () => await tapOnButton('[data-refresh-button]')
+export const refresh = async () => {
+  await tapOnButton('[data-refresh-button]')
+  await global.client.pause(500)
+}
+export const parkUntilFurtherNotice = async () => {
+  await tapOnButton('[data-park-button]')
+  await tapOnButton('[data-park-until-further-notice-menu]')
+  await global.client.pause(500)
+}

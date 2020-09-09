@@ -77,3 +77,5 @@ app.on('activate', () => {
 })
 
 app.allowRendererProcessReuse = false
+
+process.on('uncaughtException', error => console.error(error))

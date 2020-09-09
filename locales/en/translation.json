@@ -12,6 +12,12 @@
   },
   "home": {
     "logoutLabel": "Logout",
+    "menus": {
+      "park": {
+        "label": "Park",
+        "untilFurtherNotice": "Until further notice"
+      }
+    },
     "activity": {
       "label": "Activity",
       "unknown":  "Unknown",

@@ -12,6 +12,12 @@
   },
   "home": {
     "logoutLabel": "Déconnexion",
+    "menus": {
+      "park": {
+        "label": "Stationnement",
+        "untilFurtherNotice": "Jusqu'à nouvel ordre"
+      }
+    },
     "activity": {
       "label": "Activité",
       "unknown":  "Inconnue",

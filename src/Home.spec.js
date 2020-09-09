@@ -4,7 +4,14 @@ import { Home } from './Home'
 import { mockAppContext } from './testUtils'
 import { BrowserRouter } from 'react-router-dom'
 import * as LoginService from './LoginService'
-import { getMowerSettings, getMowerStatus, initializeMowerId, MowerActivity, MowerState } from './MowerService'
+import {
+  getMowerSettings,
+  getMowerStatus,
+  initializeMowerId,
+  MowerActivity,
+  MowerState,
+  parkUntilFurtherNotice,
+} from './MowerService'
 
 const { act } = require('react-dom/test-utils')
 
@@ -31,6 +38,8 @@ class HomeViewHelper {
     this.refreshButtonSelector = '[data-refresh-button]'
     this.batteryLevelSelector = 'p[data-battery-level]'
     this.cuttingLevelSelector = 'p[data-cutting-level]'
+    this.parkButtonSelector = '[data-park-button]'
+    this.parkUntilFurtherNoticeMenuSelector = '[data-park-until-further-notice-menu]'
   }
 
   isRedirectingToLoginPage() {
@@ -52,6 +61,11 @@ class HomeViewHelper {
 
   refresh() {
     this.homeWrapper.find(this.refreshButtonSelector).at(0).simulate('click')
+  }
+
+  tapOnParkUntilFurtherNotice() {
+    this.homeWrapper.find(this.parkButtonSelector).at(0).simulate('click')
+    this.homeWrapper.find(this.parkUntilFurtherNoticeMenuSelector).at(0).simulate('click')
   }
 
   getBatteryLevel() {
@@ -194,6 +208,27 @@ describe('Home', () => {
 
     expect(homeView.isVisible()).toBeTruthy()
     expect(homeView.getCuttingLevel()).toBe('4')
+  })
+
+  it('Calls the parkUntilFurtherNotice method and refreshes', async () => {
+    mockAppContext().isUserLoggedIn.mockResolvedValueOnce(true)
+    getMowerStatus.mockResolvedValueOnce({ activity: MowerActivity.MOWING })
+    parkUntilFurtherNotice.mockResolvedValueOnce(null)
+
+    const home = mount(<Home />)
+    const homeView = new HomeViewHelper(home)
+
+    await waitForUpdate(home)
+
+    expect(mockTranslate).toHaveBeenCalledWith('home.activity.mowing')
+
+    getMowerStatus.mockResolvedValueOnce({ activity: MowerActivity.PARKED_IN_CS })
+    await homeView.tapOnParkUntilFurtherNotice()
+
+    await waitForUpdate(home)
+
+    expect(parkUntilFurtherNotice).toHaveBeenCalled()
+    expect(mockTranslate).toHaveBeenCalledWith('home.activity.parkedInCs')
   })
 
   describe('Mower Activity', () => {

@@ -43,6 +43,7 @@ class CustomEnvironment extends NodeEnvironment {
 
   async teardown() {
     await MockServer.stop_mockserver({ serverPort: 8080 })
+        .catch(err => console.error(err))
 
     if (this.app && this.app.isRunning()) {
       await this.app.stop()
@@ -55,6 +56,7 @@ class CustomEnvironment extends NodeEnvironment {
       const fullTestName = this.getTestName(event.test)
       const filePath = this.screenshotPath + fullTestName + '.png'
       await this.app.client.saveScreenshot(filePath)
+          .catch(err => console.error(err))
     }
   }
 
