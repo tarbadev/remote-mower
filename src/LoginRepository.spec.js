@@ -1,4 +1,11 @@
-import { deleteToken, retrieveToken, storeToken } from './LoginRepository'
+import {
+  deleteRefreshToken,
+  deleteToken,
+  retrieveRefreshToken,
+  retrieveToken,
+  storeRefreshToken,
+  storeToken,
+} from './LoginRepository'
 
 describe('LoginRepository', () => {
   describe('storeToken', () => {
@@ -11,7 +18,17 @@ describe('LoginRepository', () => {
     })
   })
 
-  describe('retrieveToken',  () => {
+  describe('storeRefreshToken', () => {
+    it('sends data to the main process', async () => {
+      const RefreshToken = 'SuperSecureRefreshToken'
+
+      await storeRefreshToken(RefreshToken)
+
+      expect(window.api.secureStoreRefreshToken).toHaveBeenCalledWith(RefreshToken)
+    })
+  })
+
+  describe('retrieveToken', () => {
     it('calls the main process', async () => {
       const token = 'SuperSecureToken'
 
@@ -23,13 +40,35 @@ describe('LoginRepository', () => {
     })
   })
 
-  describe('deleteToken',  () => {
+  describe('retrieveRefreshToken', () => {
+    it('calls the main process', async () => {
+      const token = 'SuperSecureRefreshToken'
+
+      window.api.secureRetrieveRefreshToken.mockResolvedValueOnce(token)
+
+      expect(await retrieveRefreshToken()).toBe(token)
+
+      expect(window.api.secureRetrieveRefreshToken).toHaveBeenCalled()
+    })
+  })
+
+  describe('deleteToken', () => {
     it('calls the main process', async () => {
       window.api.secureDeleteToken.mockResolvedValueOnce(undefined)
 
       await deleteToken()
 
       expect(window.api.secureDeleteToken).toHaveBeenCalled()
+    })
+  })
+
+  describe('deleteRefreshToken', () => {
+    it('calls the main process', async () => {
+      window.api.secureDeleteRefreshToken.mockResolvedValueOnce(undefined)
+
+      await deleteRefreshToken()
+
+      expect(window.api.secureDeleteRefreshToken).toHaveBeenCalled()
     })
   })
 })

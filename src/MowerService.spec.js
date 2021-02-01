@@ -11,7 +11,9 @@ import {
 } from './MowerService'
 import { retrieveToken } from './LoginRepository'
 import { getMowerId, storeMowerId } from './MowerRepository'
+import { refreshToken } from './LoginService'
 
+jest.mock('./LoginService')
 jest.mock('./LoginRepository')
 jest.mock('./MowerRepository')
 
@@ -78,6 +80,39 @@ describe('MowerService', () => {
 
       expect(await getMowerStatus()).toEqual(expectedStatus)
 
+      expect(refreshToken).not.toHaveBeenCalled()
+      expect(retrieveToken).toHaveBeenCalled()
+      expect(window.api.request).toHaveBeenCalledWith(expectedRequestOptions)
+    })
+
+    it('refreshes the token on a 401', async () => {
+      const token = 'SuperSecureToken'
+      const mowerId = 'MyMowerId'
+      const expectedRequestOptions = {
+        url: `http://localhost:8080/app/v1/mowers/${mowerId}/status`,
+        method: 'GET',
+        headers: {
+          'Authorization-Provider': 'husqvarna',
+          'x-system-validator': 'amc',
+          'Authorization': `Bearer ${token}`,
+        },
+      }
+
+      getMowerId.mockResolvedValueOnce(mowerId)
+      window.api.request.mockRejectedValueOnce(401)
+      window.api.request.mockResolvedValueOnce(statusResponse)
+      retrieveToken.mockResolvedValueOnce(token)
+      refreshToken.mockResolvedValueOnce()
+
+      const expectedStatus = {
+        batteryLevel: 67,
+        activity: MowerActivity.PARKED_IN_CS,
+        state: MowerState.RESTRICTED,
+      }
+
+      expect(await getMowerStatus()).toEqual(expectedStatus)
+
+      expect(refreshToken).toHaveBeenCalled()
       expect(retrieveToken).toHaveBeenCalled()
       expect(window.api.request).toHaveBeenCalledWith(expectedRequestOptions)
     })

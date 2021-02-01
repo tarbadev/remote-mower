@@ -1,6 +1,7 @@
 import { retrieveToken } from './LoginRepository'
 import AppConfig from './shared/app.config'
 import { getMowerId, storeMowerId } from './MowerRepository'
+import { refreshToken } from './LoginService'
 
 const { request } = window.api
 
@@ -34,6 +35,16 @@ export const MowerState = {
 
 Object.freeze(MowerState)
 
+const makeRequest = (options, refreshTokenOnError = true) =>
+  request(options)
+    .catch((err) => {
+      if (typeof err === 'number' && err === 401 && refreshTokenOnError) {
+        return refreshToken().then(() => makeRequest(options, false))
+      } else {
+        console.log({ err })
+      }
+    })
+
 export const getMowerStatus = async () => {
   const mowerId = await getMowerId()
   const headers = await generateHeaders()
@@ -42,12 +53,12 @@ export const getMowerStatus = async () => {
     method: 'GET',
     headers,
   }
-  return request(options).then(data => {
-    return {
+  return makeRequest(options).then(data => {
+    return ({
       batteryLevel: data.batteryPercent,
       activity: data.mowerStatus.activity,
       state: data.mowerStatus.state,
-    }
+    })
   })
 }
 
@@ -69,7 +80,7 @@ export const getMowerSettings = async () => {
     method: 'GET',
     headers,
   }
-  return request(options).then(data => {
+  return makeRequest(options).then(data => {
     const settings = data.settings
     return {
       cuttingLevel: settings.cuttingHeight,
@@ -86,7 +97,7 @@ export const initializeMowerId = async () => {
       method: 'GET',
       headers,
     }
-    return request(options).then(data => storeMowerId(data[0].id))
+    return makeRequest(options).then(data => storeMowerId(data[0].id))
   }
 }
 
@@ -99,5 +110,5 @@ export const parkUntilFurtherNotice = async () => {
     method: 'POST',
     headers,
   }
-  return request(options)
+  return makeRequest(options)
 }
