@@ -8,6 +8,7 @@ import {
   MowerActivity,
   MowerState,
   parkUntilFurtherNotice,
+  parkUntilNextStart,
 } from './MowerService'
 import { retrieveToken } from './LoginRepository'
 import { getMowerId, storeMowerId } from './MowerRepository'
@@ -166,6 +167,30 @@ describe('MowerService', () => {
       retrieveToken.mockResolvedValueOnce(token)
 
       await parkUntilFurtherNotice()
+
+      expect(window.api.request).toHaveBeenCalledWith(expectedRequestOptions)
+    })
+  })
+
+  describe('parkUntilNextStart', () => {
+    it('calls the mower API', async () => {
+      const token = 'SuperSecureToken'
+      const mowerId = 'MyMowerId'
+      const expectedRequestOptions = {
+        url: `http://localhost:8080/app/v1/mowers/${mowerId}/control/park/duration/timer`,
+        method: 'POST',
+        headers: {
+          'Authorization-Provider': 'husqvarna',
+          'x-system-validator': 'amc',
+          'Authorization': `Bearer ${token}`,
+        },
+      }
+
+      window.api.request.mockResolvedValueOnce({})
+      getMowerId.mockResolvedValueOnce(mowerId)
+      retrieveToken.mockResolvedValueOnce(token)
+
+      await parkUntilNextStart()
 
       expect(window.api.request).toHaveBeenCalledWith(expectedRequestOptions)
     })

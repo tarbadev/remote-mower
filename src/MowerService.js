@@ -112,3 +112,15 @@ export const parkUntilFurtherNotice = async () => {
   }
   return makeRequest(options)
 }
+
+export const parkUntilNextStart = async () => {
+  const mowerId = await getMowerId()
+  const headers = await generateHeaders()
+
+  const options = {
+    url: `${AppConfig.mowerApiUrl}/app/v1/mowers/${mowerId}/control/park/duration/timer`,
+    method: 'POST',
+    headers,
+  }
+  return makeRequest(options)
+}

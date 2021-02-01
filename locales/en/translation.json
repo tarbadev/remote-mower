@@ -15,7 +15,8 @@
     "menus": {
       "park": {
         "label": "Park",
-        "untilFurtherNotice": "Until further notice"
+        "untilFurtherNotice": "Until further notice",
+        "untilNextStart": "Start on next timer"
       }
     },
     "activity": {

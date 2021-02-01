@@ -19,6 +19,7 @@ import {
   MowerActivity,
   MowerState,
   parkUntilFurtherNotice,
+  parkUntilNextStart,
 } from './MowerService'
 import { useAppContext } from './StoreProvider'
 import { Loader } from './Loader'
@@ -92,17 +93,17 @@ export const Home = () => {
   }, [isUserLoggedIn])
 
   const loadMowerDetails = () =>
-      initializeMowerId()
-          .then(() => {
-            getMowerStatus().then(status => {
-              setBatteryLevel(status.batteryLevel)
-              setMowerActivity(activityToDisplayActivity(status.activity))
-              setMowerState(stateToDisplayState(status.state))
-            })
-            getMowerSettings().then(settings => {
-              setCuttingLevel(settings.cuttingLevel)
-            })
-          })
+    initializeMowerId()
+      .then(() => {
+        getMowerStatus().then(status => {
+          setBatteryLevel(status.batteryLevel)
+          setMowerActivity(activityToDisplayActivity(status.activity))
+          setMowerState(stateToDisplayState(status.state))
+        })
+        getMowerSettings().then(settings => {
+          setCuttingLevel(settings.cuttingLevel)
+        })
+      })
 
   useEffect(() => {
     isLoggedInAsync()
@@ -120,24 +121,29 @@ export const Home = () => {
     return <Redirect to='/login' />
   }
 
-  const onParkUntilFurtherNoticeClick =  () => parkUntilFurtherNotice()
-      .then(loadMowerDetails)
-      .then(closeParkMenu)
+  const onParkUntilFurtherNoticeClick = () => parkUntilFurtherNotice()
+    .then(loadMowerDetails)
+    .then(closeParkMenu)
+
+  const onParkUntilNextStartClick = () => parkUntilNextStart()
+    .then(loadMowerDetails)
+    .then(closeParkMenu)
 
   const closeParkMenu = () => setAnchorEl(null)
 
   return <Suspense fallback={<Loader />}>
     <HomeDisplay
-        onLogoutButtonClicked={() => logout(isLoggedInAsync)}
-        batteryLevel={batteryLevel}
-        cuttingLevel={cuttingLevel}
-        mowerActivity={mowerActivity}
-        mowerState={mowerState}
-        onRefreshClick={loadMowerDetails}
-        openParkMenu={({ target }) => setAnchorEl(target)}
-        closeParkMenu={closeParkMenu}
-        anchorEl={anchorEl}
-        onParkUntilFurtherNoticeClick={onParkUntilFurtherNoticeClick}
+      onLogoutButtonClicked={() => logout(isLoggedInAsync)}
+      batteryLevel={batteryLevel}
+      cuttingLevel={cuttingLevel}
+      mowerActivity={mowerActivity}
+      mowerState={mowerState}
+      onRefreshClick={loadMowerDetails}
+      openParkMenu={({ target }) => setAnchorEl(target)}
+      closeParkMenu={closeParkMenu}
+      anchorEl={anchorEl}
+      onParkUntilFurtherNoticeClick={onParkUntilFurtherNoticeClick}
+      onParkUntilNextStartClick={onParkUntilNextStartClick}
     />
   </Suspense>
 }
@@ -164,18 +170,30 @@ const useStyles = makeStyles((theme) => {
   }
 })
 
-const HomeDisplay = ({ onLogoutButtonClicked, batteryLevel, mowerActivity, mowerState, cuttingLevel, onRefreshClick, openParkMenu, closeParkMenu, anchorEl, onParkUntilFurtherNoticeClick }) => {
+const HomeDisplay = ({
+  onLogoutButtonClicked,
+  batteryLevel,
+  mowerActivity,
+  mowerState,
+  cuttingLevel,
+  onRefreshClick,
+  openParkMenu,
+  closeParkMenu,
+  anchorEl,
+  onParkUntilFurtherNoticeClick,
+  onParkUntilNextStartClick,
+}) => {
   const { t } = useTranslation()
   const classes = useStyles()
 
   return <div data-home-container className={classes.root}>
     <Drawer
-        variant='permanent'
-        anchor='left'
-        className={classes.drawer}
-        classes={{
-          paper: classes.drawerPaper,
-        }}
+      variant='permanent'
+      anchor='left'
+      className={classes.drawer}
+      classes={{
+        paper: classes.drawerPaper,
+      }}
     >
       <div className={classes.drawerContainer}>
         <Divider />
@@ -203,16 +221,21 @@ const HomeDisplay = ({ onLogoutButtonClicked, batteryLevel, mowerActivity, mower
                       color='primary'><RefreshIcon /></IconButton>
         </Grid>
       </Grid>
-      <Typography>{t('home.activity.label')}: <span data-mower-activity>{t(`home.activity.${mowerActivity}`)}</span></Typography>
+      <Typography>{t('home.activity.label')}: <span
+        data-mower-activity>{t(`home.activity.${mowerActivity}`)}</span></Typography>
       <Typography>{t('home.state.label')}: <span data-mower-state>{t(`home.state.${mowerState}`)}</span></Typography>
-      <Button variant='outlined' color='primary' onClick={openParkMenu} data-park-button>{t('home.menus.park.label')}</Button>
+      <Button variant='outlined' color='primary' onClick={openParkMenu}
+              data-park-button>{t('home.menus.park.label')}</Button>
       <Menu
-          anchorEl={anchorEl}
-          keepMounted
-          open={Boolean(anchorEl)}
-          onClose={closeParkMenu}
+        anchorEl={anchorEl}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={closeParkMenu}
       >
-        <MenuItem onClick={onParkUntilFurtherNoticeClick} data-park-until-further-notice-menu>{t('home.menus.park.untilFurtherNotice')}</MenuItem>
+        <MenuItem onClick={onParkUntilFurtherNoticeClick} data-park-until-further-notice-menu>{t(
+          'home.menus.park.untilFurtherNotice')}</MenuItem>
+        <MenuItem onClick={onParkUntilNextStartClick} data-park-until-next-start-menu>{t(
+          'home.menus.park.untilNextStart')}</MenuItem>
       </Menu>
     </main>
   </div>

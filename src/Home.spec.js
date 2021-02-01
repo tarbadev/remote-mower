@@ -11,6 +11,7 @@ import {
   MowerActivity,
   MowerState,
   parkUntilFurtherNotice,
+  parkUntilNextStart,
 } from './MowerService'
 
 const { act } = require('react-dom/test-utils')
@@ -40,6 +41,7 @@ class HomeViewHelper {
     this.cuttingLevelSelector = 'p[data-cutting-level]'
     this.parkButtonSelector = '[data-park-button]'
     this.parkUntilFurtherNoticeMenuSelector = '[data-park-until-further-notice-menu]'
+    this.parkUntilNextStartMenuSelector = '[data-park-until-next-start-menu]'
   }
 
   isRedirectingToLoginPage() {
@@ -66,6 +68,11 @@ class HomeViewHelper {
   tapOnParkUntilFurtherNotice() {
     this.homeWrapper.find(this.parkButtonSelector).at(0).simulate('click')
     this.homeWrapper.find(this.parkUntilFurtherNoticeMenuSelector).at(0).simulate('click')
+  }
+
+  tapOnParkUntilNextStart() {
+    this.homeWrapper.find(this.parkButtonSelector).at(0).simulate('click')
+    this.homeWrapper.find(this.parkUntilNextStartMenuSelector).at(0).simulate('click')
   }
 
   getBatteryLevel() {
@@ -228,6 +235,27 @@ describe('Home', () => {
     await waitForUpdate(home)
 
     expect(parkUntilFurtherNotice).toHaveBeenCalled()
+    expect(mockTranslate).toHaveBeenCalledWith('home.activity.parkedInCs')
+  })
+
+  it('Calls the parkUntilNextStart method and refreshes', async () => {
+    mockAppContext().isUserLoggedIn.mockResolvedValueOnce(true)
+    getMowerStatus.mockResolvedValueOnce({ activity: MowerActivity.MOWING })
+    parkUntilNextStart.mockResolvedValueOnce(null)
+
+    const home = mount(<Home />)
+    const homeView = new HomeViewHelper(home)
+
+    await waitForUpdate(home)
+
+    expect(mockTranslate).toHaveBeenCalledWith('home.activity.mowing')
+
+    getMowerStatus.mockResolvedValueOnce({ activity: MowerActivity.PARKED_IN_CS })
+    await homeView.tapOnParkUntilNextStart()
+
+    await waitForUpdate(home)
+
+    expect(parkUntilNextStart).toHaveBeenCalled()
     expect(mockTranslate).toHaveBeenCalledWith('home.activity.parkedInCs')
   })
 

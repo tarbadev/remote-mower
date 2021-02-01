@@ -15,7 +15,8 @@
     "menus": {
       "park": {
         "label": "Stationnement",
-        "untilFurtherNotice": "Jusqu'à nouvel ordre"
+        "untilFurtherNotice": "Jusqu'à nouvel ordre",
+        "untilNextStart": "Démarrer à la prochaine période"
       }
     },
     "activity": {
