@@ -59,3 +59,8 @@ export const parkUntilFurtherNotice = async () => {
   await tapOnButton('[data-park-until-further-notice-menu]')
   await global.client.pause(500)
 }
+export const parkUntilNextScheduledRun = async () => {
+  await tapOnButton('[data-park-button]')
+  await tapOnButton('[data-park-until-next-start-menu]')
+  await global.client.pause(500)
+}

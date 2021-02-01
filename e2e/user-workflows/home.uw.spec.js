@@ -86,4 +86,19 @@ describe('Home', () => {
         allCalls.length + 1,
     ))
   })
+
+  it('Can park the mower until next scheduled run', async () => {
+    expect(await HomePage.isVisible()).toBeTruthy()
+
+    await global.apiMockServer.mockSimpleResponse('/app/v1/mowers/190415542-190332911/control/park/duration/timer', {}, 200)
+
+    const allCalls = await global.apiMockServer.retrieveRecordedRequests('/app/v1/mowers/190415542-190332911/control/park/duration/timer')
+    await HomePage.parkUntilNextScheduledRun()
+
+    expect(await global.apiMockServer.verify(
+        { method: 'POST', path: '/app/v1/mowers/190415542-190332911/control/park/duration/timer' },
+        allCalls.length + 1,
+        allCalls.length + 1,
+    ))
+  })
 })
