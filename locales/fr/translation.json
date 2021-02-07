@@ -16,7 +16,16 @@
       "park": {
         "label": "Stationnement",
         "untilFurtherNotice": "Jusqu'à nouvel ordre",
-        "untilNextStart": "Démarrer à la prochaine période"
+        "untilNextStart": "Démarrer à la prochaine période",
+        "forDuration": "Ou sélectionner la durée",
+        "dialog": {
+          "title": "Sélectionner la durée",
+          "inputLabel": "Durée",
+          "hours": "Heures",
+          "days": "Jours",
+          "cancel": "Annuler",
+          "submit": "Stationner"
+        }
       }
     },
     "activity": {

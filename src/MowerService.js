@@ -124,3 +124,16 @@ export const parkUntilNextStart = async () => {
   }
   return makeRequest(options)
 }
+
+export const parkForDuration = async (minutes) => {
+  const mowerId = await getMowerId()
+  const headers = await generateHeaders()
+
+  const options = {
+    url: `${AppConfig.mowerApiUrl}/app/v1/mowers/${mowerId}/control/park/duration/period`,
+    method: 'POST',
+    body: { period: minutes },
+    headers,
+  }
+  return makeRequest(options)
+}

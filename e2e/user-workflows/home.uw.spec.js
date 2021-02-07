@@ -48,27 +48,29 @@ describe('Home', () => {
     expect(await HomePage.getCuttingLevel()).toBe('6')
     expect(await HomePage.getMowerActivity()).toBe('Parked in Charging Station')
     expect(await HomePage.getMowerState())
-        .toBe('Restricted: Cannot mow because because of week calendar or override park')
+      .toBe('Restricted: Cannot mow because because of week calendar or override park')
   })
 
   it('Refreshes the mowers informations', async () => {
     expect(await HomePage.isVisible()).toBeTruthy()
 
-    const allStatusCalls = await global.apiMockServer.retrieveRecordedRequests('/app/v1/mowers/190415542-190332911/status')
-    const allSettingsCalls = await global.apiMockServer.retrieveRecordedRequests('/app/v1/mowers/190415542-190332911/settings')
+    const allStatusCalls = await global.apiMockServer.retrieveRecordedRequests(
+      '/app/v1/mowers/190415542-190332911/status')
+    const allSettingsCalls = await global.apiMockServer.retrieveRecordedRequests(
+      '/app/v1/mowers/190415542-190332911/settings')
 
     await HomePage.refresh()
 
     expect(await global.apiMockServer.verify(
-        { method: 'GET', path: '/app/v1/mowers/190415542-190332911/status' },
-        allStatusCalls.length + 1,
-        allStatusCalls.length + 1,
+      { method: 'GET', path: '/app/v1/mowers/190415542-190332911/status' },
+      allStatusCalls.length + 1,
+      allStatusCalls.length + 1,
     ))
 
     expect(await global.apiMockServer.verify(
-        { method: 'GET', path: '/app/v1/mowers/190415542-190332911/settings' },
-        allStatusCalls.length + 1,
-        allSettingsCalls.length + 1,
+      { method: 'GET', path: '/app/v1/mowers/190415542-190332911/settings' },
+      allStatusCalls.length + 1,
+      allSettingsCalls.length + 1,
     ))
   })
 
@@ -77,28 +79,56 @@ describe('Home', () => {
 
     await global.apiMockServer.mockSimpleResponse('/app/v1/mowers/190415542-190332911/control/park', {}, 200)
 
-    const allCalls = await global.apiMockServer.retrieveRecordedRequests('/app/v1/mowers/190415542-190332911/control/park')
+    const allCalls = await global.apiMockServer.retrieveRecordedRequests(
+      '/app/v1/mowers/190415542-190332911/control/park')
     await HomePage.parkUntilFurtherNotice()
 
     expect(await global.apiMockServer.verify(
-        { method: 'POST', path: '/app/v1/mowers/190415542-190332911/control/park' },
-        allCalls.length + 1,
-        allCalls.length + 1,
+      { method: 'POST', path: '/app/v1/mowers/190415542-190332911/control/park' },
+      allCalls.length + 1,
+      allCalls.length + 1,
     ))
   })
 
   it('Can park the mower until next scheduled run', async () => {
     expect(await HomePage.isVisible()).toBeTruthy()
 
-    await global.apiMockServer.mockSimpleResponse('/app/v1/mowers/190415542-190332911/control/park/duration/timer', {}, 200)
+    await global.apiMockServer.mockSimpleResponse('/app/v1/mowers/190415542-190332911/control/park/duration/timer',
+      {},
+      200)
 
-    const allCalls = await global.apiMockServer.retrieveRecordedRequests('/app/v1/mowers/190415542-190332911/control/park/duration/timer')
+    const allCalls = await global.apiMockServer.retrieveRecordedRequests(
+      '/app/v1/mowers/190415542-190332911/control/park/duration/timer')
     await HomePage.parkUntilNextScheduledRun()
 
     expect(await global.apiMockServer.verify(
-        { method: 'POST', path: '/app/v1/mowers/190415542-190332911/control/park/duration/timer' },
-        allCalls.length + 1,
-        allCalls.length + 1,
+      { method: 'POST', path: '/app/v1/mowers/190415542-190332911/control/park/duration/timer' },
+      allCalls.length + 1,
+      allCalls.length + 1,
+    ))
+  })
+
+  it('Can park the mower for a given duration', async () => {
+    expect(await HomePage.isVisible()).toBeTruthy()
+
+    await global.apiMockServer.mockSimpleResponse('/app/v1/mowers/190415542-190332911/control/park/duration/timer',
+      {},
+      200)
+
+    const allCalls = await global.apiMockServer.retrieveRecordedRequests(
+      '/app/v1/mowers/190415542-190332911/control/park/duration/period')
+
+    const hours = 6
+    await HomePage.parkForDuration(hours)
+
+    expect(await global.apiMockServer.verify(
+      {
+        method: 'POST',
+        path: '/app/v1/mowers/190415542-190332911/control/park/duration/period',
+        body: { period: hours * 60 },
+      },
+      allCalls.length + 1,
+      allCalls.length + 1,
     ))
   })
 })

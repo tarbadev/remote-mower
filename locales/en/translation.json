@@ -16,7 +16,16 @@
       "park": {
         "label": "Park",
         "untilFurtherNotice": "Until further notice",
-        "untilNextStart": "Start on next timer"
+        "untilNextStart": "Start on next timer",
+        "forDuration": "Or choose duration",
+        "dialog": {
+          "title": "Select duration",
+          "inputLabel": "Duration",
+          "hours": "Hours",
+          "days": "Days",
+          "cancel": "Cancel",
+          "submit": "Park"
+        }
       }
     },
     "activity": {

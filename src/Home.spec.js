@@ -10,6 +10,7 @@ import {
   initializeMowerId,
   MowerActivity,
   MowerState,
+  parkForDuration,
   parkUntilFurtherNotice,
   parkUntilNextStart,
 } from './MowerService'
@@ -18,14 +19,14 @@ const { act } = require('react-dom/test-utils')
 
 const mockTranslate = jest.fn()
 jest.mock(
-    'react-i18next',
-    () => (
-        {
-          useTranslation: () => (
-              { t: mockTranslate }
-          ),
-        }
-    ),
+  'react-i18next',
+  () => (
+    {
+      useTranslation: () => (
+        { t: mockTranslate }
+      ),
+    }
+  ),
 )
 
 jest.mock('./MowerService')
@@ -42,6 +43,10 @@ class HomeViewHelper {
     this.parkButtonSelector = '[data-park-button]'
     this.parkUntilFurtherNoticeMenuSelector = '[data-park-until-further-notice-menu]'
     this.parkUntilNextStartMenuSelector = '[data-park-until-next-start-menu]'
+    this.parkForDurationMenuSelector = '[data-park-for-duration-menu]'
+    this.parkForDurationTypeSelector = '[data-park-duration-type] input'
+    this.parkForDurationInputSelector = '[data-park-duration-input] input'
+    this.parkForDurationModalSubmitSelector = '[data-park-duration-submit]'
   }
 
   isRedirectingToLoginPage() {
@@ -73,6 +78,17 @@ class HomeViewHelper {
   tapOnParkUntilNextStart() {
     this.homeWrapper.find(this.parkButtonSelector).at(0).simulate('click')
     this.homeWrapper.find(this.parkUntilNextStartMenuSelector).at(0).simulate('click')
+  }
+
+  tapOnParkForDurationForDays(days) {
+    this.homeWrapper.find(this.parkButtonSelector).at(0).simulate('click')
+    this.homeWrapper.find(this.parkForDurationMenuSelector).at(0).simulate('click')
+
+    this.homeWrapper.find(this.parkForDurationTypeSelector).at(0).simulate('change', { target: { value: 'days' } })
+
+    this.homeWrapper.find(this.parkForDurationInputSelector).at(0).simulate('change', { target: { value: days } })
+
+    this.homeWrapper.find(this.parkForDurationModalSubmitSelector).at(0).simulate('click')
   }
 
   getBatteryLevel() {
@@ -139,8 +155,8 @@ describe('Home', () => {
     await waitForUpdate(home)
 
     jest
-        .spyOn(LoginService, 'logout')
-        .mockImplementation(onSuccess => onSuccess())
+      .spyOn(LoginService, 'logout')
+      .mockImplementation(onSuccess => onSuccess())
 
     mockAppContext().isUserLoggedIn.mockResolvedValueOnce(false)
     await act(async () => {
@@ -257,6 +273,30 @@ describe('Home', () => {
 
     expect(parkUntilNextStart).toHaveBeenCalled()
     expect(mockTranslate).toHaveBeenCalledWith('home.activity.parkedInCs')
+  })
+
+  describe('Calls the parkForDuration method and refreshes', () => {
+    it('when selecting days', async () => {
+      mockAppContext().isUserLoggedIn.mockResolvedValueOnce(true)
+      getMowerStatus.mockResolvedValueOnce({ activity: MowerActivity.MOWING })
+      parkForDuration.mockResolvedValueOnce(null)
+
+      const home = mount(<Home />)
+      const homeView = new HomeViewHelper(home)
+      const days = 6
+
+      await waitForUpdate(home)
+
+      expect(mockTranslate).toHaveBeenCalledWith('home.activity.mowing')
+
+      getMowerStatus.mockResolvedValueOnce({ activity: MowerActivity.PARKED_IN_CS })
+      await homeView.tapOnParkForDurationForDays(days)
+
+      await waitForUpdate(home)
+
+      expect(parkForDuration).toHaveBeenCalledWith(days * 24 * 60)
+      expect(mockTranslate).toHaveBeenCalledWith('home.activity.parkedInCs')
+    })
   })
 
   describe('Mower Activity', () => {

@@ -1,10 +1,11 @@
 import {
+  fillInput,
   getTextFromElement,
   getTextFromElementWithTimeout,
   isElementVisible,
   select,
   tapOnButton,
-  waitForElementExist
+  waitForElementExist,
 } from './helpers.po'
 
 const homeContainerSelector = '[data-home-container]'
@@ -62,5 +63,19 @@ export const parkUntilFurtherNotice = async () => {
 export const parkUntilNextScheduledRun = async () => {
   await tapOnButton('[data-park-button]')
   await tapOnButton('[data-park-until-next-start-menu]')
+  await global.client.pause(500)
+}
+export const parkForDuration = async (hours) => {
+  await tapOnButton('[data-park-button]')
+  await tapOnButton('[data-park-for-duration-menu]')
+
+  await waitForElementExist('[data-park-duration-dialog]')
+  await tapOnButton('[data-park-duration-type]')
+  await tapOnButton('[data-duration-dialog-hours]')
+
+  await fillInput('[data-park-duration-input]', hours)
+
+  await tapOnButton('[data-park-duration-submit]')
+
   await global.client.pause(500)
 }

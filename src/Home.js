@@ -18,6 +18,7 @@ import {
   initializeMowerId,
   MowerActivity,
   MowerState,
+  parkForDuration,
   parkUntilFurtherNotice,
   parkUntilNextStart,
 } from './MowerService'
@@ -30,6 +31,7 @@ import IconButton from '@material-ui/core/IconButton'
 import Button from '@material-ui/core/Button'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
+import { ParkForDurationModal } from './ParkForDurationModal'
 
 const activityToDisplayActivity = activity => {
   switch (activity) {
@@ -85,6 +87,7 @@ export const Home = () => {
   const [cuttingLevel, setCuttingLevel] = useState(0)
   const [mowerActivity, setMowerActivity] = useState('')
   const [mowerState, setMowerState] = useState('')
+  const [displayParkDurationModal, setDisplayParkDurationModal] = useState(false)
   const [anchorEl, setAnchorEl] = React.useState()
   const { isUserLoggedIn } = useAppContext()
 
@@ -129,6 +132,17 @@ export const Home = () => {
     .then(loadMowerDetails)
     .then(closeParkMenu)
 
+  const onParkForDurationClick = () => {
+      setDisplayParkDurationModal(true)
+      closeParkMenu()
+    }
+
+  const closeParkDurationModal = () => setDisplayParkDurationModal(false)
+
+  const submitParkForDuration = minutes => parkForDuration(minutes)
+    .then(loadMowerDetails)
+    .then(closeParkDurationModal)
+
   const closeParkMenu = () => setAnchorEl(null)
 
   return <Suspense fallback={<Loader />}>
@@ -144,6 +158,10 @@ export const Home = () => {
       anchorEl={anchorEl}
       onParkUntilFurtherNoticeClick={onParkUntilFurtherNoticeClick}
       onParkUntilNextStartClick={onParkUntilNextStartClick}
+      onParkForDurationClick={onParkForDurationClick}
+      displayParkDurationModal={displayParkDurationModal}
+      closeParkDurationModal={closeParkDurationModal}
+      submitParkForDuration={submitParkForDuration}
     />
   </Suspense>
 }
@@ -182,6 +200,10 @@ const HomeDisplay = ({
   anchorEl,
   onParkUntilFurtherNoticeClick,
   onParkUntilNextStartClick,
+  onParkForDurationClick,
+  displayParkDurationModal,
+  closeParkDurationModal,
+  submitParkForDuration,
 }) => {
   const { t } = useTranslation()
   const classes = useStyles()
@@ -236,7 +258,10 @@ const HomeDisplay = ({
           'home.menus.park.untilFurtherNotice')}</MenuItem>
         <MenuItem onClick={onParkUntilNextStartClick} data-park-until-next-start-menu>{t(
           'home.menus.park.untilNextStart')}</MenuItem>
+        <MenuItem onClick={onParkForDurationClick} data-park-for-duration-menu>{t(
+          'home.menus.park.forDuration')}</MenuItem>
       </Menu>
+      <ParkForDurationModal open={displayParkDurationModal} onClose={closeParkDurationModal} onSubmit={submitParkForDuration} />
     </main>
   </div>
 }
