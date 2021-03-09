@@ -79,3 +79,7 @@ export const parkForDuration = async (hours) => {
 
   await global.client.pause(500)
 }
+export const pause = async () => {
+  await tapOnButton('[data-pause-button]')
+  await global.client.pause(500)
+}

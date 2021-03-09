@@ -26,7 +26,8 @@
           "cancel": "Cancel",
           "submit": "Park"
         }
-      }
+      },
+      "pause": "Pause"
     },
     "activity": {
       "label": "Activity",

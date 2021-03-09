@@ -26,7 +26,8 @@
           "cancel": "Annuler",
           "submit": "Stationner"
         }
-      }
+      },
+      "pause": "Pause"
     },
     "activity": {
       "label": "Activité",

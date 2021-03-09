@@ -137,3 +137,15 @@ export const parkForDuration = async (minutes) => {
   }
   return makeRequest(options)
 }
+
+export const pause = async () => {
+  const mowerId = await getMowerId()
+  const headers = await generateHeaders()
+
+  const options = {
+    url: `${AppConfig.mowerApiUrl}/app/v1/mowers/${mowerId}/control/pause`,
+    method: 'POST',
+    headers,
+  }
+  return makeRequest(options)
+}

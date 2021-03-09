@@ -10,6 +10,7 @@ import {
   parkForDuration,
   parkUntilFurtherNotice,
   parkUntilNextStart,
+  pause,
 } from './MowerService'
 import { retrieveToken } from './LoginRepository'
 import { getMowerId, storeMowerId } from './MowerRepository'
@@ -218,6 +219,30 @@ describe('MowerService', () => {
       retrieveToken.mockResolvedValueOnce(token)
 
       await parkForDuration(minutes)
+
+      expect(window.api.request).toHaveBeenCalledWith(expectedRequestOptions)
+    })
+  })
+
+  describe('pause', () => {
+    it('calls the mower API', async () => {
+      const token = 'SuperSecureToken'
+      const mowerId = 'MyMowerId'
+      const expectedRequestOptions = {
+        url: `http://localhost:8080/app/v1/mowers/${mowerId}/control/pause`,
+        method: 'POST',
+        headers: {
+          'Authorization-Provider': 'husqvarna',
+          'x-system-validator': 'amc',
+          'Authorization': `Bearer ${token}`,
+        },
+      }
+
+      window.api.request.mockResolvedValueOnce({})
+      getMowerId.mockResolvedValueOnce(mowerId)
+      retrieveToken.mockResolvedValueOnce(token)
+
+      await pause()
 
       expect(window.api.request).toHaveBeenCalledWith(expectedRequestOptions)
     })

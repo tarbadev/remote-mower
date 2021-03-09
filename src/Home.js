@@ -21,6 +21,7 @@ import {
   parkForDuration,
   parkUntilFurtherNotice,
   parkUntilNextStart,
+  pause,
 } from './MowerService'
 import { useAppContext } from './StoreProvider'
 import { Loader } from './Loader'
@@ -162,6 +163,7 @@ export const Home = () => {
       displayParkDurationModal={displayParkDurationModal}
       closeParkDurationModal={closeParkDurationModal}
       submitParkForDuration={submitParkForDuration}
+      onPauseClick={() => pause()}
     />
   </Suspense>
 }
@@ -204,6 +206,7 @@ const HomeDisplay = ({
   displayParkDurationModal,
   closeParkDurationModal,
   submitParkForDuration,
+  onPauseClick,
 }) => {
   const { t } = useTranslation()
   const classes = useStyles()
@@ -262,6 +265,8 @@ const HomeDisplay = ({
           'home.menus.park.forDuration')}</MenuItem>
       </Menu>
       <ParkForDurationModal open={displayParkDurationModal} onClose={closeParkDurationModal} onSubmit={submitParkForDuration} />
+      <Button variant='outlined' color='primary' onClick={onPauseClick}
+              data-pause-button>{t('home.menus.pause')}</Button>
     </main>
   </div>
 }

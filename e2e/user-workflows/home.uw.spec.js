@@ -131,4 +131,26 @@ describe('Home', () => {
       allCalls.length + 1,
     ))
   })
+
+  it('Can pause the mower', async () => {
+    expect(await HomePage.isVisible()).toBeTruthy()
+
+    await global.apiMockServer.mockSimpleResponse('/app/v1/mowers/190415542-190332911/control/pause',
+      {},
+      200)
+
+    const allCalls = await global.apiMockServer.retrieveRecordedRequests(
+      '/app/v1/mowers/190415542-190332911/control/pause')
+
+    await HomePage.pause()
+
+    expect(await global.apiMockServer.verify(
+      {
+        method: 'POST',
+        path: '/app/v1/mowers/190415542-190332911/control/pause',
+      },
+      allCalls.length + 1,
+      allCalls.length + 1,
+    ))
+  })
 })
