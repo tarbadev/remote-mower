@@ -153,4 +153,26 @@ describe('Home', () => {
       allCalls.length + 1,
     ))
   })
+
+  it('Can start the mower and resume main area', async () => {
+    expect(await HomePage.isVisible()).toBeTruthy()
+
+    await global.apiMockServer.mockSimpleResponse('/app/v1/mowers/190415542-190332911/control/start',
+      {},
+      200)
+
+    const allCalls = await global.apiMockServer.retrieveRecordedRequests(
+      '/app/v1/mowers/190415542-190332911/control/start')
+
+    await HomePage.startAndResume()
+
+    expect(await global.apiMockServer.verify(
+      {
+        method: 'POST',
+        path: '/app/v1/mowers/190415542-190332911/control/start',
+      },
+      allCalls.length + 1,
+      allCalls.length + 1,
+    ))
+  })
 })

@@ -14,6 +14,7 @@ import {
   parkUntilFurtherNotice,
   parkUntilNextStart,
   pause,
+  startAndResume,
 } from './MowerService'
 
 const { act } = require('react-dom/test-utils')
@@ -49,6 +50,8 @@ class HomeViewHelper {
     this.parkForDurationInputSelector = '[data-park-duration-input] input'
     this.parkForDurationModalSubmitSelector = '[data-park-duration-submit]'
     this.pauseButtonSelector = '[data-pause-button]'
+    this.startButtonSelector = '[data-start-button]'
+    this.startAndResumeMenuSelector = '[data-start-and-resume-menu]'
   }
 
   isRedirectingToLoginPage() {
@@ -84,6 +87,11 @@ class HomeViewHelper {
 
   tapOnPause() {
     this.homeWrapper.find(this.pauseButtonSelector).at(0).simulate('click')
+  }
+
+  tapOnStartAndResume() {
+    this.homeWrapper.find(this.startButtonSelector).at(0).simulate('click')
+    this.homeWrapper.find(this.startAndResumeMenuSelector).at(0).simulate('click')
   }
 
   tapOnParkForDurationForDays(days) {
@@ -321,6 +329,24 @@ describe('Home', () => {
     await waitForUpdate(home)
 
     expect(pause).toHaveBeenCalled()
+  })
+
+  it('Calls the startAndResume method and refreshes', async () => {
+    mockAppContext().isUserLoggedIn.mockResolvedValueOnce(true)
+    getMowerStatus.mockResolvedValueOnce({ activity: MowerActivity.PARKED_IN_CS })
+    startAndResume.mockResolvedValueOnce(null)
+
+    const home = mount(<Home />)
+    const homeView = new HomeViewHelper(home)
+
+    await waitForUpdate(home)
+
+    getMowerStatus.mockResolvedValueOnce({ activity: MowerActivity.MOWING })
+    await homeView.tapOnStartAndResume()
+
+    await waitForUpdate(home)
+
+    expect(startAndResume).toHaveBeenCalled()
   })
 
   describe('Mower Activity', () => {

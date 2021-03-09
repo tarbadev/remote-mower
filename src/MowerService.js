@@ -101,51 +101,27 @@ export const initializeMowerId = async () => {
   }
 }
 
-export const parkUntilFurtherNotice = async () => {
+const getControlOptions = async (urlSuffix, body) => {
   const mowerId = await getMowerId()
   const headers = await generateHeaders()
 
-  const options = {
-    url: `${AppConfig.mowerApiUrl}/app/v1/mowers/${mowerId}/control/park`,
+  return {
+    url: `${AppConfig.mowerApiUrl}/app/v1/mowers/${mowerId}/control/${urlSuffix}`,
     method: 'POST',
     headers,
+    body,
   }
-  return makeRequest(options)
 }
 
-export const parkUntilNextStart = async () => {
-  const mowerId = await getMowerId()
-  const headers = await generateHeaders()
+export const parkUntilFurtherNotice = async () => makeRequest(await getControlOptions('park'))
 
-  const options = {
-    url: `${AppConfig.mowerApiUrl}/app/v1/mowers/${mowerId}/control/park/duration/timer`,
-    method: 'POST',
-    headers,
-  }
-  return makeRequest(options)
-}
+export const parkUntilNextStart = async () => makeRequest(await getControlOptions('park/duration/timer'))
 
-export const parkForDuration = async (minutes) => {
-  const mowerId = await getMowerId()
-  const headers = await generateHeaders()
+export const parkForDuration = async (minutes) => makeRequest(await getControlOptions(
+  'park/duration/period',
+  { period: minutes },
+))
 
-  const options = {
-    url: `${AppConfig.mowerApiUrl}/app/v1/mowers/${mowerId}/control/park/duration/period`,
-    method: 'POST',
-    body: { period: minutes },
-    headers,
-  }
-  return makeRequest(options)
-}
+export const pause = async () => makeRequest(await getControlOptions('pause'))
 
-export const pause = async () => {
-  const mowerId = await getMowerId()
-  const headers = await generateHeaders()
-
-  const options = {
-    url: `${AppConfig.mowerApiUrl}/app/v1/mowers/${mowerId}/control/pause`,
-    method: 'POST',
-    headers,
-  }
-  return makeRequest(options)
-}
+export const startAndResume = async () => makeRequest(await getControlOptions('start'))

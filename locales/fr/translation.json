@@ -27,6 +27,10 @@
           "submit": "Stationner"
         }
       },
+      "start": {
+        "label": "Démarrage",
+        "startAndResume": "Reprendre sur la zone principale"
+      },
       "pause": "Pause"
     },
     "activity": {

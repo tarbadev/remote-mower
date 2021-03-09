@@ -27,6 +27,10 @@
           "submit": "Park"
         }
       },
+      "start": {
+        "label": "Start",
+        "startAndResume": "Resume on main area"
+      },
       "pause": "Pause"
     },
     "activity": {

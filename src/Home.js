@@ -22,6 +22,7 @@ import {
   parkUntilFurtherNotice,
   parkUntilNextStart,
   pause,
+  startAndResume,
 } from './MowerService'
 import { useAppContext } from './StoreProvider'
 import { Loader } from './Loader'
@@ -89,7 +90,8 @@ export const Home = () => {
   const [mowerActivity, setMowerActivity] = useState('')
   const [mowerState, setMowerState] = useState('')
   const [displayParkDurationModal, setDisplayParkDurationModal] = useState(false)
-  const [anchorEl, setAnchorEl] = React.useState()
+  const [parkAnchorEl, setParkAnchorEl] = React.useState()
+  const [startAnchorEl, setStartAnchorEl] = React.useState()
   const { isUserLoggedIn } = useAppContext()
 
   const isLoggedInAsync = useCallback(async () => {
@@ -134,9 +136,9 @@ export const Home = () => {
     .then(closeParkMenu)
 
   const onParkForDurationClick = () => {
-      setDisplayParkDurationModal(true)
-      closeParkMenu()
-    }
+    setDisplayParkDurationModal(true)
+    closeParkMenu()
+  }
 
   const closeParkDurationModal = () => setDisplayParkDurationModal(false)
 
@@ -144,7 +146,12 @@ export const Home = () => {
     .then(loadMowerDetails)
     .then(closeParkDurationModal)
 
-  const closeParkMenu = () => setAnchorEl(null)
+  const onStartAndResumeClick = () => startAndResume()
+    .then(loadMowerDetails)
+    .then(closeStartMenu)
+
+  const closeParkMenu = () => setParkAnchorEl(null)
+  const closeStartMenu = () => setStartAnchorEl(null)
 
   return <Suspense fallback={<Loader />}>
     <HomeDisplay
@@ -154,9 +161,9 @@ export const Home = () => {
       mowerActivity={mowerActivity}
       mowerState={mowerState}
       onRefreshClick={loadMowerDetails}
-      openParkMenu={({ target }) => setAnchorEl(target)}
+      openParkMenu={({ target }) => setParkAnchorEl(target)}
       closeParkMenu={closeParkMenu}
-      anchorEl={anchorEl}
+      parkAnchorEl={parkAnchorEl}
       onParkUntilFurtherNoticeClick={onParkUntilFurtherNoticeClick}
       onParkUntilNextStartClick={onParkUntilNextStartClick}
       onParkForDurationClick={onParkForDurationClick}
@@ -164,6 +171,10 @@ export const Home = () => {
       closeParkDurationModal={closeParkDurationModal}
       submitParkForDuration={submitParkForDuration}
       onPauseClick={() => pause()}
+      openStartMenu={({ target }) => setStartAnchorEl(target)}
+      closeStartMenu={closeStartMenu}
+      onStartAndResumeClick={onStartAndResumeClick}
+      startAnchorEl={startAnchorEl}
     />
   </Suspense>
 }
@@ -199,7 +210,7 @@ const HomeDisplay = ({
   onRefreshClick,
   openParkMenu,
   closeParkMenu,
-  anchorEl,
+  parkAnchorEl,
   onParkUntilFurtherNoticeClick,
   onParkUntilNextStartClick,
   onParkForDurationClick,
@@ -207,6 +218,10 @@ const HomeDisplay = ({
   closeParkDurationModal,
   submitParkForDuration,
   onPauseClick,
+  openStartMenu,
+  closeStartMenu,
+  onStartAndResumeClick,
+  startAnchorEl,
 }) => {
   const { t } = useTranslation()
   const classes = useStyles()
@@ -252,9 +267,9 @@ const HomeDisplay = ({
       <Button variant='outlined' color='primary' onClick={openParkMenu}
               data-park-button>{t('home.menus.park.label')}</Button>
       <Menu
-        anchorEl={anchorEl}
+        anchorEl={parkAnchorEl}
         keepMounted
-        open={Boolean(anchorEl)}
+        open={Boolean(parkAnchorEl)}
         onClose={closeParkMenu}
       >
         <MenuItem onClick={onParkUntilFurtherNoticeClick} data-park-until-further-notice-menu>{t(
@@ -264,7 +279,19 @@ const HomeDisplay = ({
         <MenuItem onClick={onParkForDurationClick} data-park-for-duration-menu>{t(
           'home.menus.park.forDuration')}</MenuItem>
       </Menu>
-      <ParkForDurationModal open={displayParkDurationModal} onClose={closeParkDurationModal} onSubmit={submitParkForDuration} />
+      <ParkForDurationModal open={displayParkDurationModal} onClose={closeParkDurationModal}
+                            onSubmit={submitParkForDuration} />
+      <Button variant='outlined' color='primary' onClick={openStartMenu}
+              data-start-button>{t('home.menus.start.label')}</Button>
+      <Menu
+        anchorEl={startAnchorEl}
+        keepMounted
+        open={Boolean(startAnchorEl)}
+        onClose={closeStartMenu}
+      >
+        <MenuItem onClick={onStartAndResumeClick} data-start-and-resume-menu>{t(
+          'home.menus.start.startAndResume')}</MenuItem>
+      </Menu>
       <Button variant='outlined' color='primary' onClick={onPauseClick}
               data-pause-button>{t('home.menus.pause')}</Button>
     </main>

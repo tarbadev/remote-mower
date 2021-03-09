@@ -83,3 +83,8 @@ export const pause = async () => {
   await tapOnButton('[data-pause-button]')
   await global.client.pause(500)
 }
+export const startAndResume = async () => {
+  await tapOnButton('[data-start-button]')
+  await tapOnButton('[data-start-and-resume-menu]')
+  await global.client.pause(500)
+}
