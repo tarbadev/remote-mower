@@ -125,3 +125,8 @@ export const parkForDuration = async (minutes) => makeRequest(await getControlOp
 export const pause = async () => makeRequest(await getControlOptions('pause'))
 
 export const startAndResume = async () => makeRequest(await getControlOptions('start'))
+
+export const startForDuration = async (minutes) => makeRequest(await getControlOptions(
+  'start/override/period',
+  { period: minutes },
+))

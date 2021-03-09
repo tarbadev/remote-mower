@@ -69,13 +69,13 @@ export const parkForDuration = async (hours) => {
   await tapOnButton('[data-park-button]')
   await tapOnButton('[data-park-for-duration-menu]')
 
-  await waitForElementExist('[data-park-duration-dialog]')
-  await tapOnButton('[data-park-duration-type]')
+  await waitForElementExist('[data-duration-dialog]')
+  await tapOnButton('[data-duration-type]')
   await tapOnButton('[data-duration-dialog-hours]')
 
-  await fillInput('[data-park-duration-input]', hours)
+  await fillInput('[data-duration-input]', hours)
 
-  await tapOnButton('[data-park-duration-submit]')
+  await tapOnButton('[data-duration-submit]')
 
   await global.client.pause(500)
 }
@@ -86,5 +86,19 @@ export const pause = async () => {
 export const startAndResume = async () => {
   await tapOnButton('[data-start-button]')
   await tapOnButton('[data-start-and-resume-menu]')
+  await global.client.pause(500)
+}
+export const startForDuration = async (hours) => {
+  await tapOnButton('[data-start-button]')
+  await tapOnButton('[data-start-for-duration-menu]')
+
+  await waitForElementExist('[data-duration-dialog]')
+  await tapOnButton('[data-duration-type]')
+  await tapOnButton('[data-duration-dialog-hours]')
+
+  await fillInput('[data-duration-input]', hours)
+
+  await tapOnButton('[data-duration-submit]')
+
   await global.client.pause(500)
 }

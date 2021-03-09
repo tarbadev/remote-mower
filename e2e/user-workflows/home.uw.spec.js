@@ -111,7 +111,7 @@ describe('Home', () => {
   it('Can park the mower for a given duration', async () => {
     expect(await HomePage.isVisible()).toBeTruthy()
 
-    await global.apiMockServer.mockSimpleResponse('/app/v1/mowers/190415542-190332911/control/park/duration/timer',
+    await global.apiMockServer.mockSimpleResponse('/app/v1/mowers/190415542-190332911/control/park/duration/period',
       {},
       200)
 
@@ -170,6 +170,30 @@ describe('Home', () => {
       {
         method: 'POST',
         path: '/app/v1/mowers/190415542-190332911/control/start',
+      },
+      allCalls.length + 1,
+      allCalls.length + 1,
+    ))
+  })
+
+  it('Can start the mower for a given duration overriding schedule', async () => {
+    expect(await HomePage.isVisible()).toBeTruthy()
+
+    await global.apiMockServer.mockSimpleResponse('/app/v1/mowers/190415542-190332911/control/start/override/period',
+      {},
+      200)
+
+    const allCalls = await global.apiMockServer.retrieveRecordedRequests(
+      '/app/v1/mowers/190415542-190332911/control/start/override/period')
+
+    const hours = 6
+    await HomePage.startForDuration(hours)
+
+    expect(await global.apiMockServer.verify(
+      {
+        method: 'POST',
+        path: '/app/v1/mowers/190415542-190332911/control/start/override/period',
+        body: { period: hours * 60 },
       },
       allCalls.length + 1,
       allCalls.length + 1,

@@ -19,17 +19,23 @@
         "untilNextStart": "Start on next timer",
         "forDuration": "Or choose duration",
         "dialog": {
-          "title": "Select duration",
-          "inputLabel": "Duration",
-          "hours": "Hours",
-          "days": "Days",
-          "cancel": "Cancel",
           "submit": "Park"
         }
       },
+      "durationDialog": {
+        "title": "Select duration",
+        "inputLabel": "Duration",
+        "hours": "Hours",
+        "days": "Days",
+        "cancel": "Cancel"
+      },
       "start": {
         "label": "Start",
-        "startAndResume": "Resume on main area"
+        "startAndResume": "Resume on main area",
+        "forDuration": "Or choose duration",
+        "dialog": {
+          "submit": "Start"
+        }
       },
       "pause": "Pause"
     },

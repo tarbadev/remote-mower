@@ -27,9 +27,20 @@
           "submit": "Stationner"
         }
       },
+      "durationDialog": {
+        "title": "Sélectionner la durée",
+        "inputLabel": "Durée",
+        "hours": "Heures",
+        "days": "Jours",
+        "cancel": "Annuler"
+      },
       "start": {
         "label": "Démarrage",
-        "startAndResume": "Reprendre sur la zone principale"
+        "startAndResume": "Reprendre sur la zone principale",
+        "forDuration": "Ou sélectionner la durée",
+        "dialog": {
+          "submit": "Démarrer"
+        }
       },
       "pause": "Pause"
     },

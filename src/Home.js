@@ -23,6 +23,7 @@ import {
   parkUntilNextStart,
   pause,
   startAndResume,
+  startForDuration,
 } from './MowerService'
 import { useAppContext } from './StoreProvider'
 import { Loader } from './Loader'
@@ -33,7 +34,7 @@ import IconButton from '@material-ui/core/IconButton'
 import Button from '@material-ui/core/Button'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
-import { ParkForDurationModal } from './ParkForDurationModal'
+import { DurationModal } from './DurationModal'
 
 const activityToDisplayActivity = activity => {
   switch (activity) {
@@ -90,6 +91,7 @@ export const Home = () => {
   const [mowerActivity, setMowerActivity] = useState('')
   const [mowerState, setMowerState] = useState('')
   const [displayParkDurationModal, setDisplayParkDurationModal] = useState(false)
+  const [displayStartDurationModal, setDisplayStartDurationModal] = useState(false)
   const [parkAnchorEl, setParkAnchorEl] = React.useState()
   const [startAnchorEl, setStartAnchorEl] = React.useState()
   const { isUserLoggedIn } = useAppContext()
@@ -140,7 +142,13 @@ export const Home = () => {
     closeParkMenu()
   }
 
+  const onStartForDurationClick = () => {
+    setDisplayStartDurationModal(true)
+    closeStartMenu()
+  }
+
   const closeParkDurationModal = () => setDisplayParkDurationModal(false)
+  const closeStartDurationModal = () => setDisplayStartDurationModal(false)
 
   const submitParkForDuration = minutes => parkForDuration(minutes)
     .then(loadMowerDetails)
@@ -149,6 +157,10 @@ export const Home = () => {
   const onStartAndResumeClick = () => startAndResume()
     .then(loadMowerDetails)
     .then(closeStartMenu)
+
+  const submitStartForDuration = minutes => startForDuration(minutes)
+    .then(loadMowerDetails)
+    .then(closeStartDurationModal)
 
   const closeParkMenu = () => setParkAnchorEl(null)
   const closeStartMenu = () => setStartAnchorEl(null)
@@ -175,6 +187,10 @@ export const Home = () => {
       closeStartMenu={closeStartMenu}
       onStartAndResumeClick={onStartAndResumeClick}
       startAnchorEl={startAnchorEl}
+      onStartForDurationClick={onStartForDurationClick}
+      displayStartDurationModal={displayStartDurationModal}
+      closeStartDurationModal={closeStartDurationModal}
+      submitStartForDuration={submitStartForDuration}
     />
   </Suspense>
 }
@@ -222,6 +238,10 @@ const HomeDisplay = ({
   closeStartMenu,
   onStartAndResumeClick,
   startAnchorEl,
+  onStartForDurationClick,
+  displayStartDurationModal,
+  closeStartDurationModal,
+  submitStartForDuration,
 }) => {
   const { t } = useTranslation()
   const classes = useStyles()
@@ -279,8 +299,8 @@ const HomeDisplay = ({
         <MenuItem onClick={onParkForDurationClick} data-park-for-duration-menu>{t(
           'home.menus.park.forDuration')}</MenuItem>
       </Menu>
-      <ParkForDurationModal open={displayParkDurationModal} onClose={closeParkDurationModal}
-                            onSubmit={submitParkForDuration} />
+      <DurationModal open={displayParkDurationModal} onClose={closeParkDurationModal}
+                     onSubmit={submitParkForDuration} submitLabel={t('home.menus.park.dialog.submit')} />
       <Button variant='outlined' color='primary' onClick={openStartMenu}
               data-start-button>{t('home.menus.start.label')}</Button>
       <Menu
@@ -291,9 +311,13 @@ const HomeDisplay = ({
       >
         <MenuItem onClick={onStartAndResumeClick} data-start-and-resume-menu>{t(
           'home.menus.start.startAndResume')}</MenuItem>
+        <MenuItem onClick={onStartForDurationClick} data-start-for-duration-menu>{t(
+          'home.menus.start.forDuration')}</MenuItem>
       </Menu>
       <Button variant='outlined' color='primary' onClick={onPauseClick}
               data-pause-button>{t('home.menus.pause')}</Button>
+      <DurationModal open={displayStartDurationModal} onClose={closeStartDurationModal}
+                     onSubmit={submitStartForDuration} submitLabel={t('home.menus.start.dialog.submit')} />
     </main>
   </div>
 }

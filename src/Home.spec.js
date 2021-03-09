@@ -15,6 +15,7 @@ import {
   parkUntilNextStart,
   pause,
   startAndResume,
+  startForDuration,
 } from './MowerService'
 
 const { act } = require('react-dom/test-utils')
@@ -46,12 +47,13 @@ class HomeViewHelper {
     this.parkUntilFurtherNoticeMenuSelector = '[data-park-until-further-notice-menu]'
     this.parkUntilNextStartMenuSelector = '[data-park-until-next-start-menu]'
     this.parkForDurationMenuSelector = '[data-park-for-duration-menu]'
-    this.parkForDurationTypeSelector = '[data-park-duration-type] input'
-    this.parkForDurationInputSelector = '[data-park-duration-input] input'
-    this.parkForDurationModalSubmitSelector = '[data-park-duration-submit]'
+    this.durationDialogTypeSelector = '[data-duration-type] input'
+    this.durationDialogInputSelector = '[data-duration-input] input'
+    this.durationDialogModalSubmitSelector = '[data-duration-submit]'
     this.pauseButtonSelector = '[data-pause-button]'
     this.startButtonSelector = '[data-start-button]'
     this.startAndResumeMenuSelector = '[data-start-and-resume-menu]'
+    this.startForDurationMenuSelector = '[data-start-for-duration-menu]'
   }
 
   isRedirectingToLoginPage() {
@@ -98,11 +100,22 @@ class HomeViewHelper {
     this.homeWrapper.find(this.parkButtonSelector).at(0).simulate('click')
     this.homeWrapper.find(this.parkForDurationMenuSelector).at(0).simulate('click')
 
-    this.homeWrapper.find(this.parkForDurationTypeSelector).at(0).simulate('change', { target: { value: 'days' } })
+    this.homeWrapper.find(this.durationDialogTypeSelector).at(0).simulate('change', { target: { value: 'days' } })
 
-    this.homeWrapper.find(this.parkForDurationInputSelector).at(0).simulate('change', { target: { value: days } })
+    this.homeWrapper.find(this.durationDialogInputSelector).at(0).simulate('change', { target: { value: days } })
 
-    this.homeWrapper.find(this.parkForDurationModalSubmitSelector).at(0).simulate('click')
+    this.homeWrapper.find(this.durationDialogModalSubmitSelector).at(0).simulate('click')
+  }
+
+  tapOnStartForDurationForDays(days) {
+    this.homeWrapper.find(this.startButtonSelector).at(0).simulate('click')
+    this.homeWrapper.find(this.startForDurationMenuSelector).at(0).simulate('click')
+
+    this.homeWrapper.find(this.durationDialogTypeSelector).at(0).simulate('change', { target: { value: 'days' } })
+
+    this.homeWrapper.find(this.durationDialogInputSelector).at(0).simulate('change', { target: { value: days } })
+
+    this.homeWrapper.find(this.durationDialogModalSubmitSelector).at(0).simulate('click')
   }
 
   getBatteryLevel() {
@@ -347,6 +360,27 @@ describe('Home', () => {
     await waitForUpdate(home)
 
     expect(startAndResume).toHaveBeenCalled()
+  })
+
+  describe('Calls the startForDuration method and refreshes', () => {
+    it('when selecting days', async () => {
+      mockAppContext().isUserLoggedIn.mockResolvedValueOnce(true)
+      getMowerStatus.mockResolvedValueOnce({ activity: MowerActivity.PARKED_IN_CS })
+      startForDuration.mockResolvedValueOnce(null)
+
+      const home = mount(<Home />)
+      const homeView = new HomeViewHelper(home)
+      const days = 6
+
+      await waitForUpdate(home)
+
+      getMowerStatus.mockResolvedValueOnce({ activity: MowerActivity.MOWING })
+      await homeView.tapOnStartForDurationForDays(days)
+
+      await waitForUpdate(home)
+
+      expect(startForDuration).toHaveBeenCalledWith(days * 24 * 60)
+    })
   })
 
   describe('Mower Activity', () => {
