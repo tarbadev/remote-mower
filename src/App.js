@@ -2,7 +2,7 @@ import React from 'react'
 import { CssBaseline } from '@material-ui/core'
 import { Login } from './Login'
 import { Route, Switch } from 'react-router-dom'
-import { Home } from './Home'
+import { ConnectedUserContent } from './ConnectedUserContent'
 
 export const App = () => {
   return (
@@ -11,8 +11,8 @@ export const App = () => {
       <main>
         <div>
           <Switch>
-            <Route exact path="/" component={Home} />
             <Route exact path="/login" component={Login} />
+            <Route component={ConnectedUserContent} />
           </Switch>
         </div>
       </main>

@@ -49,7 +49,7 @@ export const logout = onSuccess => {
   return deleteToken().then(deleteRefreshToken).then(onSuccess)
 }
 
-export const refreshToken = async (onSuccess, onError) => {
+export const refreshToken = async (onSuccess, onError = () => deleteToken().then(deleteRefreshToken)) => {
   const refreshTokenString = await retrieveRefreshToken()
   const requestOptions = {
     url: `${AppConfig.loginApiUrl}/api/v3/token`,

@@ -11,7 +11,6 @@
     }
   },
   "home": {
-    "logoutLabel": "Logout",
     "menus": {
       "park": {
         "label": "Park",
@@ -64,6 +63,11 @@
       "error": "Error happened"
     }
   },
+  "drawer":  {
+    "logout": "Logout",
+    "home": "Home",
+    "schedule": "Schedule"
+  },
   "menu": {
     "about": "About",
     "language": {
@@ -74,6 +78,17 @@
     "view": "View",
     "help": {
       "learnMore": "Learn more"
+    }
+  },
+  "schedule": {
+    "day": {
+      "monday": "Mon",
+      "tuesday": "Tue",
+      "wednesday": "Wed",
+      "thursday": "Thu",
+      "friday": "Fri",
+      "saturday": "Sat",
+      "sunday": "Sun"
     }
   }
 }

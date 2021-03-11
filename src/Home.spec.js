@@ -1,9 +1,5 @@
 import React from 'react'
 import { mount } from 'enzyme'
-import { Home } from './Home'
-import { mockAppContext } from './testUtils'
-import { BrowserRouter } from 'react-router-dom'
-import * as LoginService from './LoginService'
 import {
   getMowerSettings,
   getMowerStatus,
@@ -17,8 +13,8 @@ import {
   startAndResume,
   startForDuration,
 } from './MowerService'
-
-const { act } = require('react-dom/test-utils')
+import { Home } from './Home'
+import { waitForUpdate } from './testUtils'
 
 const mockTranslate = jest.fn()
 jest.mock(
@@ -37,9 +33,6 @@ jest.mock('./MowerService')
 class HomeViewHelper {
   constructor(homeWrapper) {
     this.homeWrapper = homeWrapper
-    this.redirectSelector = 'Redirect'
-    this.homeContainerSelector = '[data-home-container]'
-    this.logoutButtonSelector = '[data-logout-button]'
     this.refreshButtonSelector = '[data-refresh-button]'
     this.batteryLevelSelector = 'p[data-battery-level]'
     this.cuttingLevelSelector = 'p[data-cutting-level]'
@@ -54,23 +47,6 @@ class HomeViewHelper {
     this.startButtonSelector = '[data-start-button]'
     this.startAndResumeMenuSelector = '[data-start-and-resume-menu]'
     this.startForDurationMenuSelector = '[data-start-for-duration-menu]'
-  }
-
-  isRedirectingToLoginPage() {
-    const redirectFinder = this.homeWrapper.find(this.redirectSelector)
-    if (redirectFinder.length === 0) {
-      return false
-    }
-
-    return redirectFinder.prop('to') === '/login'
-  }
-
-  isVisible() {
-    return this.homeWrapper.find(this.homeContainerSelector).length >= 1
-  }
-
-  logout() {
-    this.homeWrapper.find(this.logoutButtonSelector).at(0).simulate('click')
   }
 
   refresh() {
@@ -100,17 +76,17 @@ class HomeViewHelper {
     this.homeWrapper.find(this.parkButtonSelector).at(0).simulate('click')
     this.homeWrapper.find(this.parkForDurationMenuSelector).at(0).simulate('click')
 
-    this.homeWrapper.find(this.durationDialogTypeSelector).at(0).simulate('change', { target: { value: 'days' } })
-
-    this.homeWrapper.find(this.durationDialogInputSelector).at(0).simulate('change', { target: { value: days } })
-
-    this.homeWrapper.find(this.durationDialogModalSubmitSelector).at(0).simulate('click')
+    this.selectDaysDuration(days)
   }
 
   tapOnStartForDurationForDays(days) {
     this.homeWrapper.find(this.startButtonSelector).at(0).simulate('click')
     this.homeWrapper.find(this.startForDurationMenuSelector).at(0).simulate('click')
 
+    this.selectDaysDuration(days)
+  }
+
+  selectDaysDuration(days) {
     this.homeWrapper.find(this.durationDialogTypeSelector).at(0).simulate('change', { target: { value: 'days' } })
 
     this.homeWrapper.find(this.durationDialogInputSelector).at(0).simulate('change', { target: { value: days } })
@@ -137,68 +113,7 @@ describe('Home', () => {
     initializeMowerId.mockResolvedValue({})
   })
 
-  it('Displays nothing when initializing', async () => {
-    mockAppContext()
-
-    const home = mount(<Home />)
-    const homeView = new HomeViewHelper(home)
-
-    expect(homeView.isRedirectingToLoginPage()).toBeFalsy()
-    expect(homeView.isVisible()).toBeFalsy()
-  })
-
-  it('Redirects to login page when user is not logged in', async () => {
-    mockAppContext().isUserLoggedIn.mockResolvedValueOnce(false)
-
-    const home = mount(<BrowserRouter><Home /></BrowserRouter>)
-    const homeView = new HomeViewHelper(home)
-
-    await waitForUpdate(home)
-
-    expect(homeView.isRedirectingToLoginPage()).toBeTruthy()
-    expect(homeView.isVisible()).toBeFalsy()
-  })
-
-  it('Displays home page when user is logged in', async () => {
-    mockAppContext().isUserLoggedIn.mockResolvedValueOnce(true)
-    getMowerStatus.mockResolvedValueOnce(54)
-
-    const home = mount(<Home />)
-    const homeView = new HomeViewHelper(home)
-
-    await waitForUpdate(home)
-
-    expect(homeView.isRedirectingToLoginPage()).toBeFalsy()
-    expect(homeView.isVisible()).toBeTruthy()
-  })
-
-  it('Redirects to login page when logging out', async () => {
-    mockAppContext().isUserLoggedIn.mockResolvedValueOnce(true)
-    getMowerStatus.mockResolvedValueOnce(54)
-
-    const home = mount(<BrowserRouter><Home /></BrowserRouter>)
-    const homeView = new HomeViewHelper(home)
-
-    await waitForUpdate(home)
-
-    jest
-      .spyOn(LoginService, 'logout')
-      .mockImplementation(onSuccess => onSuccess())
-
-    mockAppContext().isUserLoggedIn.mockResolvedValueOnce(false)
-    await act(async () => {
-      homeView.logout()
-    })
-    await waitForUpdate(home)
-
-    expect(homeView.isRedirectingToLoginPage()).toBeTruthy()
-    expect(homeView.isVisible()).toBeFalsy()
-
-    expect(mockTranslate).toHaveBeenCalledWith('home.logoutLabel')
-  })
-
   it('Initializes the MowerService before retrieving data', async () => {
-    mockAppContext().isUserLoggedIn.mockResolvedValueOnce(true)
     initializeMowerId.mockReturnValue(new Promise(() => null))
 
     const home = mount(<Home />)
@@ -211,7 +126,6 @@ describe('Home', () => {
   })
 
   it('Displays the battery level', async () => {
-    mockAppContext().isUserLoggedIn.mockResolvedValueOnce(true)
     getMowerStatus.mockResolvedValueOnce({ batteryLevel: 54 })
 
     const home = mount(<Home />)
@@ -219,12 +133,10 @@ describe('Home', () => {
 
     await waitForUpdate(home)
 
-    expect(homeView.isVisible()).toBeTruthy()
     expect(homeView.getBatteryLevel()).toBe('54')
   })
 
   it('Refreshes the mower details on refresh click', async () => {
-    mockAppContext().isUserLoggedIn.mockResolvedValueOnce(true)
     getMowerStatus.mockResolvedValueOnce({ batteryLevel: 54 })
     getMowerSettings.mockResolvedValueOnce({ cuttingLevel: 4 })
 
@@ -233,7 +145,6 @@ describe('Home', () => {
 
     await waitForUpdate(home)
 
-    expect(homeView.isVisible()).toBeTruthy()
     expect(homeView.getBatteryLevel()).toBe('54')
     expect(homeView.getCuttingLevel()).toBe('4')
 
@@ -247,7 +158,6 @@ describe('Home', () => {
   })
 
   it('Displays the cutting level', async () => {
-    mockAppContext().isUserLoggedIn.mockResolvedValueOnce(true)
     getMowerStatus.mockResolvedValueOnce({})
     getMowerSettings.mockResolvedValueOnce({ cuttingLevel: 4 })
 
@@ -256,12 +166,10 @@ describe('Home', () => {
 
     await waitForUpdate(home)
 
-    expect(homeView.isVisible()).toBeTruthy()
     expect(homeView.getCuttingLevel()).toBe('4')
   })
 
   it('Calls the parkUntilFurtherNotice method and refreshes', async () => {
-    mockAppContext().isUserLoggedIn.mockResolvedValueOnce(true)
     getMowerStatus.mockResolvedValueOnce({ activity: MowerActivity.MOWING })
     parkUntilFurtherNotice.mockResolvedValueOnce(null)
 
@@ -282,7 +190,6 @@ describe('Home', () => {
   })
 
   it('Calls the parkUntilNextStart method and refreshes', async () => {
-    mockAppContext().isUserLoggedIn.mockResolvedValueOnce(true)
     getMowerStatus.mockResolvedValueOnce({ activity: MowerActivity.MOWING })
     parkUntilNextStart.mockResolvedValueOnce(null)
 
@@ -304,7 +211,6 @@ describe('Home', () => {
 
   describe('Calls the parkForDuration method and refreshes', () => {
     it('when selecting days', async () => {
-      mockAppContext().isUserLoggedIn.mockResolvedValueOnce(true)
       getMowerStatus.mockResolvedValueOnce({ activity: MowerActivity.MOWING })
       parkForDuration.mockResolvedValueOnce(null)
 
@@ -327,7 +233,6 @@ describe('Home', () => {
   })
 
   it('Calls the pause method and refreshes', async () => {
-    mockAppContext().isUserLoggedIn.mockResolvedValueOnce(true)
     getMowerStatus.mockResolvedValueOnce({ activity: MowerActivity.PARKED_IN_CS })
     pause.mockResolvedValueOnce(null)
 
@@ -345,7 +250,6 @@ describe('Home', () => {
   })
 
   it('Calls the startAndResume method and refreshes', async () => {
-    mockAppContext().isUserLoggedIn.mockResolvedValueOnce(true)
     getMowerStatus.mockResolvedValueOnce({ activity: MowerActivity.PARKED_IN_CS })
     startAndResume.mockResolvedValueOnce(null)
 
@@ -364,7 +268,6 @@ describe('Home', () => {
 
   describe('Calls the startForDuration method and refreshes', () => {
     it('when selecting days', async () => {
-      mockAppContext().isUserLoggedIn.mockResolvedValueOnce(true)
       getMowerStatus.mockResolvedValueOnce({ activity: MowerActivity.PARKED_IN_CS })
       startForDuration.mockResolvedValueOnce(null)
 
@@ -385,15 +288,11 @@ describe('Home', () => {
 
   describe('Mower Activity', () => {
     const testActivity = async (activity, expectedDisplayActivity) => {
-      mockAppContext().isUserLoggedIn.mockResolvedValueOnce(true)
       getMowerStatus.mockResolvedValueOnce({ activity: activity })
 
       const home = mount(<Home />)
-      const homeView = new HomeViewHelper(home)
 
       await waitForUpdate(home)
-
-      expect(homeView.isVisible()).toBeTruthy()
 
       expect(mockTranslate).toHaveBeenCalledWith(`home.activity.label`)
       expect(mockTranslate).toHaveBeenCalledWith(`home.activity.${expectedDisplayActivity}`)
@@ -434,15 +333,12 @@ describe('Home', () => {
 
   describe('Mower State', () => {
     const testState = async (state, expectedDisplayState) => {
-      mockAppContext().isUserLoggedIn.mockResolvedValueOnce(true)
       getMowerStatus.mockResolvedValueOnce({ state })
 
       const home = mount(<Home />)
-      const homeView = new HomeViewHelper(home)
 
       await waitForUpdate(home)
 
-      expect(homeView.isVisible()).toBeTruthy()
       expect(mockTranslate).toHaveBeenCalledWith(`home.state.label`)
       expect(mockTranslate).toHaveBeenCalledWith(`home.state.${expectedDisplayState}`)
     }
@@ -496,11 +392,3 @@ describe('Home', () => {
     })
   })
 })
-
-async function waitForUpdate(home) {
-  await act(async () => {
-    await Promise.resolve(home)
-    await new Promise(resolve => setImmediate(resolve))
-    home.update()
-  })
-}

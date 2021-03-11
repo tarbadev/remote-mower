@@ -11,7 +11,6 @@
     }
   },
   "home": {
-    "logoutLabel": "Déconnexion",
     "menus": {
       "park": {
         "label": "Stationnement",
@@ -69,6 +68,11 @@
       "error": "Une erreur est survenue"
     }
   },
+  "drawer":  {
+    "logout": "Déconnexion",
+    "home": "Accueil",
+    "schedule": "Programme"
+  },
   "menu": {
     "about": "À propos de",
     "language": {
@@ -79,6 +83,17 @@
     "view": "Vue",
     "help": {
       "learnMore": "En savoir plus"
+    }
+  },
+  "schedule": {
+    "day": {
+      "monday": "Lun",
+      "tuesday": "Mar",
+      "wednesday": "Mer",
+      "thursday": "Jeu",
+      "friday": "Ven",
+      "saturday": "Sam",
+      "sunday": "Dim"
     }
   }
 }

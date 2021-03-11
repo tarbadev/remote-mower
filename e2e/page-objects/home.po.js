@@ -8,7 +8,7 @@ import {
   waitForElementExist,
 } from './helpers.po'
 
-const homeContainerSelector = '[data-home-container]'
+const homeContainerSelector = '[data-connected-user-container]'
 
 export const waitForPageDisplayed = async () => await waitForElementExist(homeContainerSelector)
 export const isVisible = async () => await isElementVisible(homeContainerSelector)
