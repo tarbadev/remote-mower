@@ -99,7 +99,8 @@ const ConnectedUserContentDisplay = ({
             <ListItemIcon><HomeIcon /></ListItemIcon>
             <ListItemText primary={t('drawer.home')} />
           </ListItem>
-          <ListItem button onClick={onScheduleButtonClicked} selected={location.pathname.startsWith('/schedule')}>
+          <ListItem button onClick={onScheduleButtonClicked} selected={location.pathname.startsWith('/schedule')}
+                    data-schedule-button>
             <ListItemIcon><ScheduleIcon /></ListItemIcon>
             <ListItemText primary={t('drawer.schedule')} />
           </ListItem>

@@ -1,9 +1,9 @@
 import { getMowerId } from './MowerRepository'
-
-const { request } = window.api
 import { refreshToken } from './LoginService'
 import AppConfig from './shared/app.config'
 import { retrieveToken } from './LoginRepository'
+
+const { request } = window.api
 
 const makeRequest = (options, refreshTokenOnError = true) =>
   request(options)
@@ -30,7 +30,20 @@ export const getMowerSchedule = async () => {
   const options = {
     url: `${AppConfig.mowerApiUrl}/app/v1/mowers/${mowerId}/timers`,
     method: 'GET',
-    headers,
+    headers: { ...headers, redirect: 'follow' },
   }
   return makeRequest(options).then(data => data.timers)
+}
+
+export const setMowerSchedule = async (newSchedules) => {
+  const mowerId = await getMowerId()
+  const headers = await generateHeaders()
+  const options = {
+    url: `${AppConfig.mowerApiUrl}/app/v1/mowers/${mowerId}/timers`,
+    method: 'PUT',
+    headers,
+    body: { timers: newSchedules },
+  }
+  console.log({ options, body: JSON.stringify({ timers: newSchedules }) })
+  return makeRequest(options)
 }

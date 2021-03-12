@@ -1,6 +1,7 @@
 import { login, LoginError, logout, refreshToken } from './LoginService'
 import { storeToken, storeRefreshToken, deleteToken, deleteRefreshToken, retrieveRefreshToken } from './LoginRepository'
 import RequestError from './shared/RequestError'
+import AppConfig from './shared/app.config'
 
 jest.mock('./LoginRepository')
 
@@ -32,7 +33,7 @@ describe('LoginService', () => {
       await login(email, password, onSuccessSpy)
 
       expect(window.api.request).toHaveBeenCalledWith({
-        url: 'http://localhost:8080/api/v3/token',
+        url: `${AppConfig.loginApiUrl}/api/v3/token`,
         method: 'POST',
         body: {
           data: {
@@ -129,7 +130,7 @@ describe('LoginService', () => {
       await refreshToken(onSuccessSpy)
 
       expect(window.api.request).toHaveBeenCalledWith({
-        url: 'http://localhost:8080/api/v3/token',
+        url: `${AppConfig.loginApiUrl}/api/v3/token`,
         method: 'POST',
         body: {
           data: {

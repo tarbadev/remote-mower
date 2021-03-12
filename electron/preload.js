@@ -58,12 +58,12 @@ contextBridge.exposeInMainWorld(
         const headers = {
           'Content-Type': 'application/json',
           Accept: 'application/json',
+          ...options.headers,
         }
 
-        const defaults = { headers }
         const requestOptions = {
-          ...defaults,
           ...options,
+          headers,
         }
 
         log.debug(`Starting ${options.method} request to ${options.url}`)

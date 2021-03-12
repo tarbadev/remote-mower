@@ -89,7 +89,7 @@ const ScheduleDisplay = ({ schedule, onEditClick }) => {
       <AppBar className={classes.appBar} color='white' variant='outlined'>
         <Toolbar className={classes.appBar}>
           <Grid container justify='flex-end'>
-            <Grid item><Button onClick={onEditClick}>Edit</Button></Grid>
+            <Grid item><Button onClick={onEditClick} data-edit-schedule-button>Edit</Button></Grid>
           </Grid>
         </Toolbar>
       </AppBar>

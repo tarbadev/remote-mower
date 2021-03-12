@@ -2,7 +2,8 @@ import timersResponse from 'testResources/timers.json'
 import { retrieveToken } from './LoginRepository'
 import { getMowerId } from './MowerRepository'
 import { refreshToken } from './LoginService'
-import { getMowerSchedule } from './MowerScheduleService'
+import { getMowerSchedule, setMowerSchedule } from './MowerScheduleService'
+import AppConfig from './shared/app.config'
 
 jest.mock('./MowerRepository')
 jest.mock('./LoginRepository')
@@ -14,7 +15,7 @@ describe('MowerScheduleService', () => {
       const token = 'SuperSecureToken'
       const mowerId = 'MyMowerId'
       const expectedRequestOptions = {
-        url: `http://localhost:8080/app/v1/mowers/${mowerId}/timers`,
+        url: `${AppConfig.mowerApiUrl}/app/v1/mowers/${mowerId}/timers`,
         method: 'GET',
         headers: {
           'Authorization-Provider': 'husqvarna',
@@ -67,7 +68,7 @@ describe('MowerScheduleService', () => {
       const token = 'SuperSecureToken'
       const mowerId = 'MyMowerId'
       const expectedRequestOptions = {
-        url: `http://localhost:8080/app/v1/mowers/${mowerId}/timers`,
+        url: `${AppConfig.mowerApiUrl}/app/v1/mowers/${mowerId}/timers`,
         method: 'GET',
         headers: {
           'Authorization-Provider': 'husqvarna',
@@ -112,6 +113,62 @@ describe('MowerScheduleService', () => {
       ]
 
       expect(await getMowerSchedule()).toEqual(expectedSchedule)
+
+      expect(refreshToken).toHaveBeenCalled()
+      expect(retrieveToken).toHaveBeenCalled()
+      expect(window.api.request).toHaveBeenCalledWith(expectedRequestOptions)
+    })
+  })
+
+  describe('setMowerSchedule', () => {
+    it('calls the mower API', async () => {
+      const token = 'SuperSecureToken'
+      const mowerId = 'MyMowerId'
+      const newSchedule = []
+      const expectedRequestOptions = {
+        url: `${AppConfig.mowerApiUrl}/app/v1/mowers/${mowerId}/timers`,
+        method: 'PUT',
+        headers: {
+          'Authorization-Provider': 'husqvarna',
+          'x-system-validator': 'amc',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: { timers: newSchedule },
+      }
+
+      getMowerId.mockResolvedValueOnce(mowerId)
+      window.api.request.mockResolvedValueOnce(timersResponse)
+      retrieveToken.mockResolvedValueOnce(token)
+
+      await setMowerSchedule(newSchedule)
+
+      expect(refreshToken).not.toHaveBeenCalled()
+      expect(retrieveToken).toHaveBeenCalled()
+      expect(window.api.request).toHaveBeenCalledWith(expectedRequestOptions)
+    })
+
+    it('refreshes the token on a 401', async () => {
+      const token = 'SuperSecureToken'
+      const mowerId = 'MyMowerId'
+      const newSchedule = []
+      const expectedRequestOptions = {
+        url: `${AppConfig.mowerApiUrl}/app/v1/mowers/${mowerId}/timers`,
+        method: 'PUT',
+        headers: {
+          'Authorization-Provider': 'husqvarna',
+          'x-system-validator': 'amc',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: { timers: newSchedule },
+      }
+
+      getMowerId.mockResolvedValueOnce(mowerId)
+      window.api.request.mockRejectedValueOnce(401)
+      window.api.request.mockResolvedValueOnce(timersResponse)
+      retrieveToken.mockResolvedValueOnce(token)
+      refreshToken.mockResolvedValueOnce()
+
+      await setMowerSchedule(newSchedule)
 
       expect(refreshToken).toHaveBeenCalled()
       expect(retrieveToken).toHaveBeenCalled()

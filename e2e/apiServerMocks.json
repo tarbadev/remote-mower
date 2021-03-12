@@ -446,5 +446,29 @@
         }
       }
     }
+  },
+  {
+    "httpRequest": {
+      "path": "/app/v1/mowers/190415542-190332911/timers"
+    },
+    "httpResponse": {
+      "body": {
+        "timers": [
+          {
+            "start": 780,
+            "duration": 255,
+            "days": {
+              "monday": true,
+              "tuesday": true,
+              "wednesday": true,
+              "thursday": false,
+              "friday": false,
+              "saturday": false,
+              "sunday": false
+            }
+          }
+        ]
+      }
+    }
   }
 ]

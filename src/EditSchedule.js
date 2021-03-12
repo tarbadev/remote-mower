@@ -1,21 +1,32 @@
 import React, { useEffect, useState } from 'react'
 import { AppBar, Box, Card, Grid, Toolbar, Typography } from '@material-ui/core'
-import { getMowerSchedule } from './MowerScheduleService'
+import { getMowerSchedule, setMowerSchedule } from './MowerScheduleService'
 import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import { useHistory } from 'react-router-dom'
 import { minuteToTimeString } from './Utils'
 import { useTranslation } from 'react-i18next'
+import IconButton from '@material-ui/core/IconButton'
+import DeleteIcon from '@material-ui/icons/Delete'
 
 export const EditSchedule = () => {
   const [schedules, setSchedules] = useState([])
   const history = useHistory()
 
+  const loadSchedules = () => getMowerSchedule().then(setSchedules)
+
   useEffect(() => {
-    getMowerSchedule().then(setSchedules)
+    loadSchedules()
   }, [])
 
-  return <EditScheduleDisplay schedules={schedules} onBackClick={() => history.push('/schedule')} />
+  return <EditScheduleDisplay
+    schedules={schedules}
+    onBackClick={() => history.push('/schedule')}
+    removeSchedule={(index) => {
+      schedules[index] = undefined
+      setSchedules(schedules.filter(schedule => schedule !== undefined))
+    }}
+    onSaveClick={() => setMowerSchedule(schedules).then(loadSchedules)}/>
 }
 
 const useStyles = makeStyles((theme) => {
@@ -26,6 +37,7 @@ const useStyles = makeStyles((theme) => {
     appBar: {
       marginLeft: drawerWidth,
       height: appBarHeight,
+      backgroundColor: 'white',
     },
     scheduleContainer: {
       paddingTop: appBarHeight,
@@ -42,7 +54,6 @@ const useStyles = makeStyles((theme) => {
       color: '#333',
     },
     time: {
-      // fontSize: '20px',
       fontWeight: 'bold',
       color: '#e57373',
     },
@@ -60,18 +71,23 @@ const ScheduleCardDay = ({ day, schedule }) => {
   </Grid>
 }
 
-const ScheduleCard = ({ schedule }) => {
+const ScheduleCard = ({ schedule, onDeleteButtonClick }) => {
   const classes = useStyles()
   const beginTime = minuteToTimeString(schedule.start)
   const endTime = minuteToTimeString(schedule.start + schedule.duration)
 
-  return <Card>
+  return <Card data-schedule-card>
     <Box paddingY={2} paddingX={3}>
       <Grid container spacing={1}>
-        <Grid item xs={12}>
-          <Typography variant='h5' className={classes.timeContainer}>
-            <span className={classes.time}>{beginTime}</span> - <span className={classes.time}>{endTime}</span>
-          </Typography>
+        <Grid item xs={12} container justify='space-between' alignItems='center'>
+          <Grid item>
+            <Typography variant='h5' className={classes.timeContainer}>
+              <span className={classes.time}>{beginTime}</span> - <span className={classes.time}>{endTime}</span>
+            </Typography>
+          </Grid>
+          <Grid item>
+            <IconButton onClick={onDeleteButtonClick} data-delete-schedule-button><DeleteIcon /></IconButton>
+          </Grid>
         </Grid>
         <Grid item xs={12} container spacing={1}>
           <ScheduleCardDay schedule={schedule} day='monday' />
@@ -87,15 +103,16 @@ const ScheduleCard = ({ schedule }) => {
   </Card>
 }
 
-const EditScheduleDisplay = ({ schedules, onBackClick }) => {
+const EditScheduleDisplay = ({ schedules, onBackClick, removeSchedule, onSaveClick }) => {
   const classes = useStyles()
 
   return (
     <div style={{ height: '100%' }}>
-      <AppBar className={classes.appBar} color='white' variant='outlined'>
+      <AppBar className={classes.appBar} variant='outlined'>
         <Toolbar className={classes.appBar}>
-          <Grid container justify='flex-start'>
+          <Grid container justify='space-between'>
             <Grid item><Button onClick={onBackClick}>Back</Button></Grid>
+            <Grid item><Button onClick={onSaveClick} data-schedule-save-button>Save</Button></Grid>
           </Grid>
         </Toolbar>
       </AppBar>
@@ -103,7 +120,7 @@ const EditScheduleDisplay = ({ schedules, onBackClick }) => {
             data-edit-schedule-container>
         {schedules.map((schedule, index) =>
           <Grid key={`schedule-card-${index}`} item xs={12}>
-            <ScheduleCard schedule={schedule} />
+            <ScheduleCard schedule={schedule} onDeleteButtonClick={() => removeSchedule(index)} />
           </Grid>)}
       </Grid>
     </div>

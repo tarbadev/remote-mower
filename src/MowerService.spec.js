@@ -17,6 +17,7 @@ import {
 import { retrieveToken } from './LoginRepository'
 import { getMowerId, storeMowerId } from './MowerRepository'
 import { refreshToken } from './LoginService'
+import AppConfig from './shared/app.config'
 
 jest.mock('./LoginService')
 jest.mock('./LoginRepository')
@@ -27,7 +28,7 @@ describe('MowerService', () => {
     it('calls the mower API when the id is not stored already', async () => {
       const token = 'SuperSecureToken'
       const expectedRequestOptions = {
-        url: 'http://localhost:8080/app/v1/mowers',
+        url: `${AppConfig.mowerApiUrl}/app/v1/mowers`,
         method: 'GET',
         headers: {
           'Authorization-Provider': 'husqvarna',
@@ -64,7 +65,7 @@ describe('MowerService', () => {
       const token = 'SuperSecureToken'
       const mowerId = 'MyMowerId'
       const expectedRequestOptions = {
-        url: `http://localhost:8080/app/v1/mowers/${mowerId}/status`,
+        url: `${AppConfig.mowerApiUrl}/app/v1/mowers/${mowerId}/status`,
         method: 'GET',
         headers: {
           'Authorization-Provider': 'husqvarna',
@@ -94,7 +95,7 @@ describe('MowerService', () => {
       const token = 'SuperSecureToken'
       const mowerId = 'MyMowerId'
       const expectedRequestOptions = {
-        url: `http://localhost:8080/app/v1/mowers/${mowerId}/status`,
+        url: `${AppConfig.mowerApiUrl}/app/v1/mowers/${mowerId}/status`,
         method: 'GET',
         headers: {
           'Authorization-Provider': 'husqvarna',
@@ -128,7 +129,7 @@ describe('MowerService', () => {
       const token = 'SuperSecureToken'
       const mowerId = 'MyMowerId'
       const expectedRequestOptions = {
-        url: `http://localhost:8080/app/v1/mowers/${mowerId}/settings`,
+        url: `${AppConfig.mowerApiUrl}/app/v1/mowers/${mowerId}/settings`,
         method: 'GET',
         headers: {
           'Authorization-Provider': 'husqvarna',
@@ -157,7 +158,7 @@ describe('MowerService', () => {
       const token = 'SuperSecureToken'
       const mowerId = 'MyMowerId'
       const expectedRequestOptions = {
-        url: `http://localhost:8080/app/v1/mowers/${mowerId}/control/park`,
+        url: `${AppConfig.mowerApiUrl}/app/v1/mowers/${mowerId}/control/park`,
         method: 'POST',
         headers: {
           'Authorization-Provider': 'husqvarna',
@@ -181,7 +182,7 @@ describe('MowerService', () => {
       const token = 'SuperSecureToken'
       const mowerId = 'MyMowerId'
       const expectedRequestOptions = {
-        url: `http://localhost:8080/app/v1/mowers/${mowerId}/control/park/duration/timer`,
+        url: `${AppConfig.mowerApiUrl}/app/v1/mowers/${mowerId}/control/park/duration/timer`,
         method: 'POST',
         headers: {
           'Authorization-Provider': 'husqvarna',
@@ -206,7 +207,7 @@ describe('MowerService', () => {
       const mowerId = 'MyMowerId'
       const minutes = 12345
       const expectedRequestOptions = {
-        url: `http://localhost:8080/app/v1/mowers/${mowerId}/control/park/duration/period`,
+        url: `${AppConfig.mowerApiUrl}/app/v1/mowers/${mowerId}/control/park/duration/period`,
         method: 'POST',
         headers: {
           'Authorization-Provider': 'husqvarna',
@@ -231,7 +232,7 @@ describe('MowerService', () => {
       const token = 'SuperSecureToken'
       const mowerId = 'MyMowerId'
       const expectedRequestOptions = {
-        url: `http://localhost:8080/app/v1/mowers/${mowerId}/control/pause`,
+        url: `${AppConfig.mowerApiUrl}/app/v1/mowers/${mowerId}/control/pause`,
         method: 'POST',
         headers: {
           'Authorization-Provider': 'husqvarna',
@@ -255,7 +256,7 @@ describe('MowerService', () => {
       const token = 'SuperSecureToken'
       const mowerId = 'MyMowerId'
       const expectedRequestOptions = {
-        url: `http://localhost:8080/app/v1/mowers/${mowerId}/control/start`,
+        url: `${AppConfig.mowerApiUrl}/app/v1/mowers/${mowerId}/control/start`,
         method: 'POST',
         headers: {
           'Authorization-Provider': 'husqvarna',
@@ -280,7 +281,7 @@ describe('MowerService', () => {
       const mowerId = 'MyMowerId'
       const minutes = 12345
       const expectedRequestOptions = {
-        url: `http://localhost:8080/app/v1/mowers/${mowerId}/control/start/override/period`,
+        url: `${AppConfig.mowerApiUrl}/app/v1/mowers/${mowerId}/control/start/override/period`,
         method: 'POST',
         headers: {
           'Authorization-Provider': 'husqvarna',
