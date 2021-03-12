@@ -15,6 +15,7 @@ import { LogoutIcon, ScheduleIcon } from './ui/Icons'
 import HomeIcon from '@material-ui/icons/Home'
 import { Schedule } from './Schedule'
 import { Home } from './Home'
+import { EditSchedule } from './EditSchedule'
 
 export const ConnectedUserContent = () => {
   const [userLoggedIn, setUserLoggedIn] = useState()
@@ -98,7 +99,7 @@ const ConnectedUserContentDisplay = ({
             <ListItemIcon><HomeIcon /></ListItemIcon>
             <ListItemText primary={t('drawer.home')} />
           </ListItem>
-          <ListItem button onClick={onScheduleButtonClicked} selected={location.pathname === '/schedule'}>
+          <ListItem button onClick={onScheduleButtonClicked} selected={location.pathname.startsWith('/schedule')}>
             <ListItemIcon><ScheduleIcon /></ListItemIcon>
             <ListItemText primary={t('drawer.schedule')} />
           </ListItem>
@@ -109,6 +110,7 @@ const ConnectedUserContentDisplay = ({
       <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path="/schedule" component={Schedule} />
+        <Route exact path="/schedule/edit" component={EditSchedule} />
       </Switch>
     </main>
   </div>

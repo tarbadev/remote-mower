@@ -1,24 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Divider, Grid, Paper, Typography } from '@material-ui/core'
+import { AppBar, Divider, Grid, Paper, Toolbar, Typography } from '@material-ui/core'
 import { getMowerSchedule } from './MowerScheduleService'
+import { makeStyles } from '@material-ui/core/styles'
+import Button from '@material-ui/core/Button'
+import { useHistory } from 'react-router-dom'
+import { minuteToTimeString } from './Utils'
 
 export const Schedule = () => {
   const [schedule, setSchedule] = useState([])
+  const history = useHistory()
 
   useEffect(() => {
     getMowerSchedule().then(setSchedule)
   }, [])
 
-  return <ScheduleDisplay schedule={schedule} />
-}
-
-const minuteToTimeString = (minutes) => {
-  const hours = minutes / 60
-  const roundedHours = `${Math.floor(hours)}`.padStart(2, '0')
-  const remainingMinutes = `${(minutes - roundedHours * 60)}`.padStart(2, '0')
-
-  return `${roundedHours}:${remainingMinutes}`
+  return <ScheduleDisplay schedule={schedule} onEditClick={() => history.push('/schedule/edit')} />
 }
 
 const ScheduledMowing = ({ schedule }) => {
@@ -66,19 +63,46 @@ const ScheduleColumn = ({ day, schedules = [] }) => {
   </Grid>
 }
 
+const useStyles = makeStyles((theme) => {
+  const drawerWidth = 200
+  const appBarHeight = 66
 
-const ScheduleDisplay = ({ schedule }) => {
+  return {
+    appBar: {
+      marginLeft: drawerWidth,
+      height: appBarHeight,
+    },
+    scheduleContainer: {
+      height: '100%',
+      paddingTop: appBarHeight,
+    },
+  }
+})
 
+const ScheduleDisplay = ({ schedule, onEditClick }) => {
   const schedulesForDay = (day, fullSchedule) => fullSchedule.filter(schedule => schedule.days[day])
 
-  return <Grid container direction='row' spacing={1} alignItems='stretch' style={{ height: '100%' }}
-               data-schedule-container>
-    <Grid item xs><ScheduleColumn day={'monday'} schedules={schedulesForDay('monday', schedule)} /></Grid>
-    <Grid item xs><ScheduleColumn day={'tuesday'} schedules={schedulesForDay('tuesday', schedule)} /></Grid>
-    <Grid item xs><ScheduleColumn day={'wednesday'} schedules={schedulesForDay('wednesday', schedule)} /></Grid>
-    <Grid item xs><ScheduleColumn day={'thursday'} schedules={schedulesForDay('thursday', schedule)} /></Grid>
-    <Grid item xs><ScheduleColumn day={'friday'} schedules={schedulesForDay('friday', schedule)} /></Grid>
-    <Grid item xs><ScheduleColumn day={'saturday'} schedules={schedulesForDay('saturday', schedule)} /></Grid>
-    <Grid item xs><ScheduleColumn day={'sunday'} schedules={schedulesForDay('sunday', schedule)} /></Grid>
-  </Grid>
+  const classes = useStyles()
+
+  return (
+    <div style={{ height: '100%' }}>
+      <AppBar className={classes.appBar} color='white' variant='outlined'>
+        <Toolbar className={classes.appBar}>
+          <Grid container justify='flex-end'>
+            <Grid item><Button onClick={onEditClick}>Edit</Button></Grid>
+          </Grid>
+        </Toolbar>
+      </AppBar>
+      <Grid container direction='row' spacing={1} alignItems='stretch' className={classes.scheduleContainer}
+            data-schedule-container>
+        <Grid item xs><ScheduleColumn day={'monday'} schedules={schedulesForDay('monday', schedule)} /></Grid>
+        <Grid item xs><ScheduleColumn day={'tuesday'} schedules={schedulesForDay('tuesday', schedule)} /></Grid>
+        <Grid item xs><ScheduleColumn day={'wednesday'} schedules={schedulesForDay('wednesday', schedule)} /></Grid>
+        <Grid item xs><ScheduleColumn day={'thursday'} schedules={schedulesForDay('thursday', schedule)} /></Grid>
+        <Grid item xs><ScheduleColumn day={'friday'} schedules={schedulesForDay('friday', schedule)} /></Grid>
+        <Grid item xs><ScheduleColumn day={'saturday'} schedules={schedulesForDay('saturday', schedule)} /></Grid>
+        <Grid item xs><ScheduleColumn day={'sunday'} schedules={schedulesForDay('sunday', schedule)} /></Grid>
+      </Grid>
+    </div>
+  )
 }
