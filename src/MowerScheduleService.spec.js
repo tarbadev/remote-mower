@@ -21,6 +21,7 @@ describe('MowerScheduleService', () => {
           'Authorization-Provider': 'husqvarna',
           'x-system-validator': 'amc',
           'Authorization': `Bearer ${token}`,
+          'redirect': 'follow',
         },
       }
 
@@ -30,31 +31,31 @@ describe('MowerScheduleService', () => {
 
       const expectedSchedule = [
         {
-          "start": 780,
-          "duration": 255,
-          "days": {
-            "monday": true,
-            "tuesday": true,
-            "wednesday": true,
-            "thursday": false,
-            "friday": false,
-            "saturday": false,
-            "sunday": false
-          }
+          'start': 780,
+          'duration': 255,
+          'days': {
+            'monday': true,
+            'tuesday': true,
+            'wednesday': true,
+            'thursday': false,
+            'friday': false,
+            'saturday': false,
+            'sunday': false,
+          },
         },
         {
-          "start": 750,
-          "duration": 540,
-          "days": {
-            "monday": false,
-            "tuesday": false,
-            "wednesday": false,
-            "thursday": false,
-            "friday": true,
-            "saturday": true,
-            "sunday": true
-          }
-        }
+          'start': 750,
+          'duration': 540,
+          'days': {
+            'monday': false,
+            'tuesday': false,
+            'wednesday': false,
+            'thursday': false,
+            'friday': true,
+            'saturday': true,
+            'sunday': true,
+          },
+        },
       ]
 
       expect(await getMowerSchedule()).toEqual(expectedSchedule)
@@ -74,6 +75,7 @@ describe('MowerScheduleService', () => {
           'Authorization-Provider': 'husqvarna',
           'x-system-validator': 'amc',
           'Authorization': `Bearer ${token}`,
+          'redirect': 'follow',
         },
       }
 
@@ -85,31 +87,31 @@ describe('MowerScheduleService', () => {
 
       const expectedSchedule = [
         {
-          "start": 780,
-          "duration": 255,
-          "days": {
-            "monday": true,
-            "tuesday": true,
-            "wednesday": true,
-            "thursday": false,
-            "friday": false,
-            "saturday": false,
-            "sunday": false
-          }
+          'start': 780,
+          'duration': 255,
+          'days': {
+            'monday': true,
+            'tuesday': true,
+            'wednesday': true,
+            'thursday': false,
+            'friday': false,
+            'saturday': false,
+            'sunday': false,
+          },
         },
         {
-          "start": 750,
-          "duration": 540,
-          "days": {
-            "monday": false,
-            "tuesday": false,
-            "wednesday": false,
-            "thursday": false,
-            "friday": true,
-            "saturday": true,
-            "sunday": true
-          }
-        }
+          'start': 750,
+          'duration': 540,
+          'days': {
+            'monday': false,
+            'tuesday': false,
+            'wednesday': false,
+            'thursday': false,
+            'friday': true,
+            'saturday': true,
+            'sunday': true,
+          },
+        },
       ]
 
       expect(await getMowerSchedule()).toEqual(expectedSchedule)

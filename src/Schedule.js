@@ -71,6 +71,7 @@ const useStyles = makeStyles((theme) => {
     appBar: {
       marginLeft: drawerWidth,
       height: appBarHeight,
+      backgroundColor: 'white',
     },
     scheduleContainer: {
       height: '100%',
@@ -86,7 +87,7 @@ const ScheduleDisplay = ({ schedule, onEditClick }) => {
 
   return (
     <div style={{ height: '100%' }}>
-      <AppBar className={classes.appBar} color='white' variant='outlined'>
+      <AppBar className={classes.appBar} variant='outlined'>
         <Toolbar className={classes.appBar}>
           <Grid container justify='flex-end'>
             <Grid item><Button onClick={onEditClick} data-edit-schedule-button>Edit</Button></Grid>

@@ -44,6 +44,5 @@ export const setMowerSchedule = async (newSchedules) => {
     headers,
     body: { timers: newSchedules },
   }
-  console.log({ options, body: JSON.stringify({ timers: newSchedules }) })
   return makeRequest(options)
 }

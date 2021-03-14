@@ -59,10 +59,13 @@
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
+    "@date-io/date-fns": "1.x",
     "@material-ui/core": "^4.9.12",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.52",
+    "@material-ui/pickers": "^3.3.10",
     "conditional-expression": "^1.1.2",
+    "date-fns": "^2.19.0",
     "electron-is-dev": "^1.2.0",
     "electron-log": "^4.1.2",
     "electron-settings": "^4.0.2",
