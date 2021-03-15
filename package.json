@@ -157,7 +157,7 @@
     "productName": "Remote Mower",
     "mac": {
       "category": "public.app-category.utilities",
-      "target": "dmg",
+      "target": "default",
       "artifactName": "remote-mower-${version}.${ext}"
     },
     "win": {
