@@ -81,6 +81,7 @@ const useStyles = makeStyles((theme) => {
 })
 
 const ScheduleDisplay = ({ schedule, onEditClick }) => {
+  const { t } = useTranslation()
   const schedulesForDay = (day, fullSchedule) => fullSchedule.filter(schedule => schedule.days[day])
 
   const classes = useStyles()
@@ -90,7 +91,11 @@ const ScheduleDisplay = ({ schedule, onEditClick }) => {
       <AppBar className={classes.appBar} variant='outlined'>
         <Toolbar className={classes.appBar}>
           <Grid container justify='flex-end'>
-            <Grid item><Button onClick={onEditClick} data-edit-schedule-button>Edit</Button></Grid>
+            <Grid item>
+              <Button onClick={onEditClick} data-edit-schedule-button>
+                {t('buttons.edit')}
+              </Button>
+            </Grid>
           </Grid>
         </Toolbar>
       </AppBar>

@@ -96,5 +96,10 @@
       "saturday": "Sam",
       "sunday": "Dim"
     }
+  },
+  "buttons": {
+      "edit": "Modifier",
+      "back": "Retour",
+      "save": "Enregistrer"
   }
 }

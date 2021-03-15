@@ -91,5 +91,10 @@
       "saturday": "Sat",
       "sunday": "Sun"
     }
+  },
+  "buttons": {
+    "edit": "Edit",
+    "back": "Back",
+    "save": "Save"
   }
 }

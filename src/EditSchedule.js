@@ -186,6 +186,7 @@ const EditScheduleDisplay = ({
   onAddButtonClick,
   onSchedulesUpdated,
 }) => {
+  const { t } = useTranslation()
   const classes = useStyles()
 
   return (
@@ -193,8 +194,16 @@ const EditScheduleDisplay = ({
       <AppBar className={classes.appBar} variant='outlined'>
         <Toolbar className={classes.appBar}>
           <Grid container justify='space-between'>
-            <Grid item><Button onClick={onBackClick}>Back</Button></Grid>
-            <Grid item><Button onClick={onSaveClick} data-schedule-save-button>Save</Button></Grid>
+            <Grid item>
+              <Button onClick={onBackClick}>
+                {t('buttons.back')}
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button onClick={onSaveClick} data-schedule-save-button>
+                {t('buttons.save')}
+              </Button>
+            </Grid>
           </Grid>
         </Toolbar>
       </AppBar>
