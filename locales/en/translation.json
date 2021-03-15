@@ -66,7 +66,8 @@
   "drawer":  {
     "logout": "Logout",
     "home": "Home",
-    "schedule": "Schedule"
+    "schedule": "Schedule",
+    "map": "Map"
   },
   "menu": {
     "about": "About",

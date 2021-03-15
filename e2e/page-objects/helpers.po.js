@@ -1,5 +1,5 @@
 export const waitForElementExist = async (selector) => select(selector)
-  .then(elem => elem.waitForExist({ timeout: 2000 }))
+  .then(elem => elem.waitForExist({ timeout: 5000 }))
 
 export const isElementVisible = async selector => {
   const elem = await select(selector)

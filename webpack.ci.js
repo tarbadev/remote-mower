@@ -23,8 +23,8 @@ module.exports = merge(base, {
       {
         'base-uri': ['\'self\''],
         'object-src': ['\'none\''],
-        'script-src': ['\'self\''],
-        'style-src': ['\'self\'', '\'unsafe-inline\''],
+        'script-src': ['\'self\'', 'maps.googleapis.com'],
+        'style-src': ['\'self\'', '\'unsafe-inline\'', 'fonts.googleapis.com'],
         'frame-src': ['\'none\''],
         'worker-src': ['\'none\''],
       },

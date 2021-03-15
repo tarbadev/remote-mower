@@ -42,6 +42,7 @@
     "fetch-mock": "^9.3.1",
     "html-loader": "^1.1.0",
     "html-webpack-plugin": "^4.3.0",
+    "identity-obj-proxy": "^3.0.0",
     "jest": "^24.9.0",
     "jest-circus": "^25.5.3",
     "jest-environment-node": "^25.5.0",
@@ -53,6 +54,7 @@
     "node-fetch": "^2.6.0",
     "react-scripts": "3.4.1",
     "spectron": "^11.1.0",
+    "url-loader": "^4.1.1",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.11.0",
@@ -64,6 +66,7 @@
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.52",
     "@material-ui/pickers": "^3.3.10",
+    "@react-google-maps/api": "^2.1.1",
     "conditional-expression": "^1.1.2",
     "date-fns": "^2.19.0",
     "electron-is-dev": "^1.2.0",
@@ -103,7 +106,8 @@
         ],
         "moduleNameMapper": {
           "^src(.*)$": "<rootDir>$1",
-          "^testResources(.*)$": "<rootDir>/../testResources$1"
+          "^testResources(.*)$": "<rootDir>/../testResources$1",
+          ".+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "identity-obj-proxy"
         },
         "transform": {
           "^.+\\.js$": "babel-jest"

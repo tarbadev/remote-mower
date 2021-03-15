@@ -71,7 +71,8 @@
   "drawer":  {
     "logout": "Déconnexion",
     "home": "Accueil",
-    "schedule": "Programme"
+    "schedule": "Programme",
+    "map": "Carte"
   },
   "menu": {
     "about": "À propos de",

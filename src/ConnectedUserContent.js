@@ -11,11 +11,12 @@ import { makeStyles } from '@material-ui/core/styles'
 import { useTranslation } from 'react-i18next'
 import { useAppContext } from './StoreProvider'
 import { Loader } from './Loader'
-import { LogoutIcon, ScheduleIcon } from './ui/Icons'
+import { LogoutIcon, MapIcon, ScheduleIcon } from './ui/Icons'
 import HomeIcon from '@material-ui/icons/Home'
 import { Schedule } from './Schedule'
 import { Home } from './Home'
 import { EditSchedule } from './EditSchedule'
+import { MapView } from './MapView'
 
 export const ConnectedUserContent = () => {
   const [userLoggedIn, setUserLoggedIn] = useState()
@@ -41,6 +42,7 @@ export const ConnectedUserContent = () => {
       onLogoutButtonClicked={() => logout(isLoggedInAsync)}
       onHomeButtonClicked={() => history.push('/')}
       onScheduleButtonClicked={() => history.push('/schedule')}
+      onMapButtonClicked={() => history.push('/map')}
     />
   </Suspense>
 }
@@ -71,6 +73,7 @@ const ConnectedUserContentDisplay = ({
   onLogoutButtonClicked,
   onHomeButtonClicked,
   onScheduleButtonClicked,
+  onMapButtonClicked,
 }) => {
   const { t } = useTranslation()
   const location = useLocation()
@@ -104,6 +107,11 @@ const ConnectedUserContentDisplay = ({
             <ListItemIcon><ScheduleIcon /></ListItemIcon>
             <ListItemText primary={t('drawer.schedule')} />
           </ListItem>
+          <ListItem button onClick={onMapButtonClicked} selected={location.pathname === '/map'}
+                    data-map-button>
+            <ListItemIcon><MapIcon /></ListItemIcon>
+            <ListItemText primary={t('drawer.map')} />
+          </ListItem>
         </List>
       </div>
     </Drawer>
@@ -112,6 +120,7 @@ const ConnectedUserContentDisplay = ({
         <Route exact path="/" component={Home} />
         <Route exact path="/schedule" component={Schedule} />
         <Route exact path="/schedule/edit" component={EditSchedule} />
+        <Route exact path="/map" component={MapView} />
       </Switch>
     </main>
   </div>
