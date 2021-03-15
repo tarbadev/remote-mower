@@ -10,6 +10,9 @@ module.exports = merge(base, {
   mode: 'production',
   devtool: 'nosources-source-map',
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env.MAPS_KEY': JSON.stringify(process.env.MAPS_KEY)
+    }),
     new webpack.NormalModuleReplacementPlugin(
       /src\/shared\/app\.config\.js/,
       './app.config.prod.js'
@@ -23,10 +26,12 @@ module.exports = merge(base, {
       {
         'base-uri': ['\'self\''],
         'object-src': ['\'none\''],
-        'script-src': ['\'self\'', 'maps.googleapis.com'],
-        'style-src': ['\'self\'', '\'unsafe-inline\'', 'fonts.googleapis.com'],
+        'script-src': ['\'self\'', 'https://*.googleapis.com'],
+        'script-src-elem': ['\'self\'', 'https://*.googleapis.com'],
+        'style-src': ['\'self\'', '\'unsafe-inline\'', 'https://*.googleapis.com'],
         'frame-src': ['\'none\''],
         'worker-src': ['\'none\''],
+        'img-src': ['data:', 'maps.gstatic.com', 'https://*.googleapis.com', '*.ggpht'],
       },
       {
         hashEnabled: {
