@@ -2,6 +2,8 @@ name: Release
 on:
   push:
     branches: [ 'master' ]
+  pull_request:
+    branches: [ 'master' ]
 jobs:
   unit-test:
     name: "Unit Tests"
@@ -112,7 +114,7 @@ jobs:
 
   deploy:
     name: "Deploy"
-    if: "startsWith(github.event.head_commit.message, '[finish') || startsWith(github.event.head_commit.message, '[fix')"
+    if: "(startsWith(github.event.head_commit.message, '[finish') || startsWith(github.event.head_commit.message, '[fix')) && github.event.issue.push"
     needs:
       - e2e-test-macos
       - e2e-test-windows
