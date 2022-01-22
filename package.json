@@ -51,7 +51,7 @@
     "mini-css-extract-plugin": "^0.9.0",
     "mockserver-client": "^5.11.1",
     "mockserver-node": "^5.11.1",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^3.1.1",
     "react-scripts": "3.4.1",
     "spectron": "^11.1.0",
     "url-loader": "^4.1.1",
