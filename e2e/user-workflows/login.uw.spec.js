@@ -4,8 +4,13 @@ import * as HomePage from '../page-objects/home.po'
 describe('Login', () => {
   const email = 'some.email@remotemower.com'
   const password = 'SomeSuperSecurePassword'
+  let mockLoginCall
 
   beforeAll(async () => {
+    mockLoginCall = await browser.mock('http://localhost:8080/api/v3/token')
+
+    await $('div#root').waitForExist()
+
     if (await HomePage.isVisible()) {
       await HomePage.logout()
       await LoginPage.waitForPageDisplayed()
@@ -15,7 +20,7 @@ describe('Login', () => {
   it('Displays an error message on login failure', async () => {
     expect(await LoginPage.isVisible()).toBeTruthy()
 
-    await global.apiMockServer.mockSimpleResponse('/api/v3/token', {}, 400)
+    mockLoginCall.respondOnce({}, { statusCode: 400 })
 
     await LoginPage.fillFormAndSubmit({ email: 'test', password: 'somethingwrong' })
 
@@ -40,13 +45,15 @@ describe('Login', () => {
         },
       },
     }
-    await global.apiMockServer.mockSimpleResponse('/api/v3/token', body, 200)
+    mockLoginCall.respondOnce(body, { statusCode: 200 })
 
     await LoginPage.fillFormAndSubmit({ email, password })
+    // await browser.debug()
     await HomePage.waitForPageDisplayed()
     expect(await HomePage.isVisible()).toBeTruthy()
 
-    await global.restart()
+    await browser.restart()
+    // await global.restart()
     expect(await HomePage.isVisible()).toBeTruthy()
   }, 30000)
 })

@@ -1,0 +1,732 @@
+2022-03-28T02:21:29.008Z INFO @wdio/local-runner: Run worker command: run
+2022-03-28T02:21:29.798Z INFO webdriver: Initiate new session using the WebDriver protocol
+2022-03-28T02:21:29.873Z INFO webdriver: [POST] http://localhost:9515/session
+2022-03-28T02:21:29.873Z INFO webdriver: DATA {
+  capabilities: {
+    alwaysMatch: {
+      browserName: 'chrome',
+      acceptInsecureCerts: true,
+      'goog:chromeOptions': [Object],
+      'goog:loggingPrefs': [Object]
+    },
+    firstMatch: [ {} ]
+  },
+  desiredCapabilities: {
+    browserName: 'chrome',
+    acceptInsecureCerts: true,
+    'goog:chromeOptions': {
+      binary: '/Users/tony/workspace/remote-mower/node_modules/electron/dist/Electron.app/Contents/MacOS/Electron',
+      args: [Array]
+    },
+    'goog:loggingPrefs': { browser: 'ALL', driver: 'INFO' }
+  }
+}
+2022-03-28T02:21:31.158Z INFO webdriver: COMMAND getWindowHandle()
+2022-03-28T02:21:31.158Z INFO webdriver: [GET] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/window
+2022-03-28T02:21:31.161Z INFO webdriver: RESULT CDwindow-D46FEE4AB0BDC44647417C9E3018CD34
+2022-03-28T02:21:31.252Z INFO webdriver: COMMAND findElement("css selector", "div#root")
+2022-03-28T02:21:31.253Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/element
+2022-03-28T02:21:31.253Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:37.246Z INFO webdriver: COMMAND findElements("css selector", "div#root")
+2022-03-28T02:21:37.246Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:37.246Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:37.251Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:37.251Z INFO webdriver: Retrying 1/3
+2022-03-28T02:21:37.251Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:37.251Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:37.253Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:37.253Z INFO webdriver: Retrying 2/3
+2022-03-28T02:21:37.253Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:37.253Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:37.255Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:37.255Z INFO webdriver: Retrying 3/3
+2022-03-28T02:21:37.255Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:37.255Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:37.257Z ERROR webdriver: Request failed with status 404 due to no such window: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:37.746Z INFO webdriver: COMMAND findElements("css selector", "div#root")
+2022-03-28T02:21:37.746Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:37.746Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:37.748Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:37.748Z INFO webdriver: Retrying 1/3
+2022-03-28T02:21:37.748Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:37.748Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:37.750Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:37.750Z INFO webdriver: Retrying 2/3
+2022-03-28T02:21:37.750Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:37.750Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:37.751Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:37.751Z INFO webdriver: Retrying 3/3
+2022-03-28T02:21:37.751Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:37.751Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:37.753Z ERROR webdriver: Request failed with status 404 due to no such window: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:38.246Z INFO webdriver: COMMAND findElements("css selector", "div#root")
+2022-03-28T02:21:38.247Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:38.247Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:38.250Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:38.250Z INFO webdriver: Retrying 1/3
+2022-03-28T02:21:38.250Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:38.250Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:38.252Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:38.252Z INFO webdriver: Retrying 2/3
+2022-03-28T02:21:38.252Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:38.252Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:38.254Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:38.254Z INFO webdriver: Retrying 3/3
+2022-03-28T02:21:38.254Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:38.254Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:38.255Z ERROR webdriver: Request failed with status 404 due to no such window: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:38.747Z INFO webdriver: COMMAND findElements("css selector", "div#root")
+2022-03-28T02:21:38.748Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:38.748Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:38.751Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:38.751Z INFO webdriver: Retrying 1/3
+2022-03-28T02:21:38.751Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:38.751Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:38.753Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:38.753Z INFO webdriver: Retrying 2/3
+2022-03-28T02:21:38.753Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:38.753Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:38.754Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:38.754Z INFO webdriver: Retrying 3/3
+2022-03-28T02:21:38.754Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:38.754Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:38.756Z ERROR webdriver: Request failed with status 404 due to no such window: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:39.247Z INFO webdriver: COMMAND findElements("css selector", "div#root")
+2022-03-28T02:21:39.247Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:39.247Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:39.249Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:39.249Z INFO webdriver: Retrying 1/3
+2022-03-28T02:21:39.249Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:39.250Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:39.251Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:39.251Z INFO webdriver: Retrying 2/3
+2022-03-28T02:21:39.251Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:39.251Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:39.253Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:39.253Z INFO webdriver: Retrying 3/3
+2022-03-28T02:21:39.254Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:39.254Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:39.255Z ERROR webdriver: Request failed with status 404 due to no such window: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:39.746Z INFO webdriver: COMMAND findElements("css selector", "div#root")
+2022-03-28T02:21:39.747Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:39.747Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:39.749Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:39.749Z INFO webdriver: Retrying 1/3
+2022-03-28T02:21:39.749Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:39.749Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:39.751Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:39.751Z INFO webdriver: Retrying 2/3
+2022-03-28T02:21:39.751Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:39.751Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:39.753Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:39.753Z INFO webdriver: Retrying 3/3
+2022-03-28T02:21:39.753Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:39.753Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:39.754Z ERROR webdriver: Request failed with status 404 due to no such window: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:40.246Z INFO webdriver: COMMAND findElements("css selector", "div#root")
+2022-03-28T02:21:40.247Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:40.247Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:40.250Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:40.250Z INFO webdriver: Retrying 1/3
+2022-03-28T02:21:40.250Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:40.250Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:40.251Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:40.251Z INFO webdriver: Retrying 2/3
+2022-03-28T02:21:40.251Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:40.251Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:40.253Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:40.253Z INFO webdriver: Retrying 3/3
+2022-03-28T02:21:40.253Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:40.253Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:40.254Z ERROR webdriver: Request failed with status 404 due to no such window: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:40.746Z INFO webdriver: COMMAND findElements("css selector", "div#root")
+2022-03-28T02:21:40.746Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:40.746Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:40.748Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:40.748Z INFO webdriver: Retrying 1/3
+2022-03-28T02:21:40.748Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:40.749Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:40.750Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:40.750Z INFO webdriver: Retrying 2/3
+2022-03-28T02:21:40.750Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:40.750Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:40.753Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:40.753Z INFO webdriver: Retrying 3/3
+2022-03-28T02:21:40.753Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:40.753Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:40.754Z ERROR webdriver: Request failed with status 404 due to no such window: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:41.246Z INFO webdriver: COMMAND findElements("css selector", "div#root")
+2022-03-28T02:21:41.246Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:41.246Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:41.248Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:41.248Z INFO webdriver: Retrying 1/3
+2022-03-28T02:21:41.249Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:41.249Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:41.250Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:41.250Z INFO webdriver: Retrying 2/3
+2022-03-28T02:21:41.250Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:41.250Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:41.252Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:41.252Z INFO webdriver: Retrying 3/3
+2022-03-28T02:21:41.252Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:41.252Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:41.253Z ERROR webdriver: Request failed with status 404 due to no such window: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:41.746Z INFO webdriver: COMMAND findElements("css selector", "div#root")
+2022-03-28T02:21:41.746Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:41.747Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:41.750Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:41.750Z INFO webdriver: Retrying 1/3
+2022-03-28T02:21:41.750Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:41.750Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:41.751Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:41.751Z INFO webdriver: Retrying 2/3
+2022-03-28T02:21:41.751Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:41.751Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:41.753Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:41.753Z INFO webdriver: Retrying 3/3
+2022-03-28T02:21:41.753Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:41.753Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:41.754Z ERROR webdriver: Request failed with status 404 due to no such window: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:42.246Z INFO webdriver: COMMAND findElements("css selector", "div#root")
+2022-03-28T02:21:42.247Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:42.247Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:42.249Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:42.249Z INFO webdriver: Retrying 1/3
+2022-03-28T02:21:42.249Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:42.249Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:42.250Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:42.251Z INFO webdriver: Retrying 2/3
+2022-03-28T02:21:42.251Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:42.251Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:42.253Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:42.253Z INFO webdriver: Retrying 3/3
+2022-03-28T02:21:42.253Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:42.253Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:42.254Z ERROR webdriver: Request failed with status 404 due to no such window: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:42.746Z INFO webdriver: COMMAND findElements("css selector", "div#root")
+2022-03-28T02:21:42.746Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:42.747Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:42.748Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:42.749Z INFO webdriver: Retrying 1/3
+2022-03-28T02:21:42.749Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:42.749Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:42.750Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:42.750Z INFO webdriver: Retrying 2/3
+2022-03-28T02:21:42.750Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:42.751Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:42.752Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:42.752Z INFO webdriver: Retrying 3/3
+2022-03-28T02:21:42.752Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:42.752Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:42.753Z ERROR webdriver: Request failed with status 404 due to no such window: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:43.246Z INFO webdriver: COMMAND findElements("css selector", "div#root")
+2022-03-28T02:21:43.246Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:43.246Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:43.249Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:43.249Z INFO webdriver: Retrying 1/3
+2022-03-28T02:21:43.249Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:43.249Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:43.250Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:43.251Z INFO webdriver: Retrying 2/3
+2022-03-28T02:21:43.251Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:43.251Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:43.252Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:43.252Z INFO webdriver: Retrying 3/3
+2022-03-28T02:21:43.252Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:43.252Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:43.254Z ERROR webdriver: Request failed with status 404 due to no such window: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:43.745Z INFO webdriver: COMMAND findElements("css selector", "div#root")
+2022-03-28T02:21:43.746Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:43.746Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:43.748Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:43.748Z INFO webdriver: Retrying 1/3
+2022-03-28T02:21:43.748Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:43.748Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:43.749Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:43.749Z INFO webdriver: Retrying 2/3
+2022-03-28T02:21:43.749Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:43.749Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:43.751Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:43.751Z INFO webdriver: Retrying 3/3
+2022-03-28T02:21:43.751Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:43.751Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:43.753Z ERROR webdriver: Request failed with status 404 due to no such window: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:44.247Z INFO webdriver: COMMAND findElements("css selector", "div#root")
+2022-03-28T02:21:44.247Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:44.247Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:44.249Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:44.249Z INFO webdriver: Retrying 1/3
+2022-03-28T02:21:44.249Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:44.249Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:44.251Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:44.251Z INFO webdriver: Retrying 2/3
+2022-03-28T02:21:44.251Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:44.251Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:44.253Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:44.253Z INFO webdriver: Retrying 3/3
+2022-03-28T02:21:44.253Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:44.253Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:44.255Z ERROR webdriver: Request failed with status 404 due to no such window: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:44.746Z INFO webdriver: COMMAND findElements("css selector", "div#root")
+2022-03-28T02:21:44.746Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:44.746Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:44.749Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:44.749Z INFO webdriver: Retrying 1/3
+2022-03-28T02:21:44.749Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:44.749Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:44.751Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:44.751Z INFO webdriver: Retrying 2/3
+2022-03-28T02:21:44.751Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:44.751Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:44.752Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:44.752Z INFO webdriver: Retrying 3/3
+2022-03-28T02:21:44.752Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:44.752Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:44.754Z ERROR webdriver: Request failed with status 404 due to no such window: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:45.246Z INFO webdriver: COMMAND findElements("css selector", "div#root")
+2022-03-28T02:21:45.246Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:45.246Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:45.248Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:45.248Z INFO webdriver: Retrying 1/3
+2022-03-28T02:21:45.248Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:45.248Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:45.250Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:45.250Z INFO webdriver: Retrying 2/3
+2022-03-28T02:21:45.250Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:45.250Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:45.252Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:45.253Z INFO webdriver: Retrying 3/3
+2022-03-28T02:21:45.253Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:45.253Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:45.254Z ERROR webdriver: Request failed with status 404 due to no such window: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:45.746Z INFO webdriver: COMMAND findElements("css selector", "div#root")
+2022-03-28T02:21:45.746Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:45.746Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:45.748Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:45.748Z INFO webdriver: Retrying 1/3
+2022-03-28T02:21:45.748Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:45.748Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:45.750Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:45.750Z INFO webdriver: Retrying 2/3
+2022-03-28T02:21:45.750Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:45.750Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:45.752Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:45.752Z INFO webdriver: Retrying 3/3
+2022-03-28T02:21:45.752Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:45.752Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:45.753Z ERROR webdriver: Request failed with status 404 due to no such window: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:46.247Z INFO webdriver: COMMAND findElements("css selector", "div#root")
+2022-03-28T02:21:46.247Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:46.247Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:46.249Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:46.249Z INFO webdriver: Retrying 1/3
+2022-03-28T02:21:46.249Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:46.249Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:46.251Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:46.251Z INFO webdriver: Retrying 2/3
+2022-03-28T02:21:46.251Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:46.251Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:46.252Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:46.252Z INFO webdriver: Retrying 3/3
+2022-03-28T02:21:46.252Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:46.252Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:46.254Z ERROR webdriver: Request failed with status 404 due to no such window: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:46.746Z INFO webdriver: COMMAND findElements("css selector", "div#root")
+2022-03-28T02:21:46.746Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:46.746Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:46.748Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:46.749Z INFO webdriver: Retrying 1/3
+2022-03-28T02:21:46.749Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:46.749Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:46.750Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:46.750Z INFO webdriver: Retrying 2/3
+2022-03-28T02:21:46.750Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:46.750Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:46.753Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:46.753Z INFO webdriver: Retrying 3/3
+2022-03-28T02:21:46.753Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/elements
+2022-03-28T02:21:46.753Z INFO webdriver: DATA { using: 'css selector', value: 'div#root' }
+2022-03-28T02:21:46.754Z ERROR webdriver: Request failed with status 404 due to no such window: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:47.255Z INFO webdriver: COMMAND findElement("css selector", "[data-login-container]")
+2022-03-28T02:21:47.255Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/element
+2022-03-28T02:21:47.255Z INFO webdriver: DATA { using: 'css selector', value: '[data-login-container]' }
+2022-03-28T02:21:47.256Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:47.257Z INFO webdriver: Retrying 1/3
+2022-03-28T02:21:47.257Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/element
+2022-03-28T02:21:47.257Z INFO webdriver: DATA { using: 'css selector', value: '[data-login-container]' }
+2022-03-28T02:21:47.258Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:47.258Z INFO webdriver: Retrying 2/3
+2022-03-28T02:21:47.258Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/element
+2022-03-28T02:21:47.258Z INFO webdriver: DATA { using: 'css selector', value: '[data-login-container]' }
+2022-03-28T02:21:47.260Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:47.260Z INFO webdriver: Retrying 3/3
+2022-03-28T02:21:47.260Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/element
+2022-03-28T02:21:47.260Z INFO webdriver: DATA { using: 'css selector', value: '[data-login-container]' }
+2022-03-28T02:21:47.261Z ERROR webdriver: Request failed with status 404 due to no such window: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:47.266Z INFO webdriver: COMMAND getLogs("browser")
+2022-03-28T02:21:47.266Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/se/log
+2022-03-28T02:21:47.266Z INFO webdriver: DATA { type: 'browser' }
+2022-03-28T02:21:47.268Z INFO webdriver: RESULT [
+  {
+    level: 'WARNING',
+    message: `electron/js2c/renderer_init.js 82:4480 "%cElectron Deprecation Warning" "font-weight: bold" "The 'remote' module is deprecated and will be disabled by default in a future version of Electron. To ensure a smooth upgrade and silence this warning, specify {enableRemoteModule: true} in the WebPreferences for this window."`,
+    source: 'console-api',
+    timestamp: 1648434091107
+  }
+]
+2022-03-28T02:21:47.269Z INFO webdriver: COMMAND takeScreenshot()
+2022-03-28T02:21:47.269Z INFO webdriver: [GET] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/screenshot
+2022-03-28T02:21:47.270Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:47.271Z INFO webdriver: Retrying 1/3
+2022-03-28T02:21:47.271Z INFO webdriver: [GET] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/screenshot
+2022-03-28T02:21:47.273Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:47.273Z INFO webdriver: Retrying 2/3
+2022-03-28T02:21:47.273Z INFO webdriver: [GET] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/screenshot
+2022-03-28T02:21:47.274Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:47.274Z INFO webdriver: Retrying 3/3
+2022-03-28T02:21:47.274Z INFO webdriver: [GET] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/screenshot
+2022-03-28T02:21:47.276Z ERROR webdriver: Request failed with status 404 due to no such window: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:47.279Z ERROR @wdio/utils:shim: no such window: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+    at getErrorFromResponseBody (/Users/tony/workspace/remote-mower/node_modules/webdriver/build/utils.js:197:12)
+    at NodeJSRequest._request (/Users/tony/workspace/remote-mower/node_modules/webdriver/build/request/index.js:158:60)
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+    at Browser.wrapCommandFn (/Users/tony/workspace/remote-mower/node_modules/@wdio/utils/build/shim.js:137:29)
+    at Browser.saveScreenshot (/Users/tony/workspace/remote-mower/node_modules/webdriverio/build/commands/browser/saveScreenshot.js:36:26)
+    at Browser.wrapCommandFn (/Users/tony/workspace/remote-mower/node_modules/@wdio/utils/build/shim.js:137:29)
+    at Object.afterTest (/Users/tony/workspace/remote-mower/wdio.conf.js:285:7)
+    at async Promise.all (index 0)
+    at executeHooksWithArgsShim (/Users/tony/workspace/remote-mower/node_modules/@wdio/utils/build/shim.js:107:20)
+    at UserContext.testFrameworkFnWrapper (/Users/tony/workspace/remote-mower/node_modules/@wdio/utils/build/test-framework/testFnWrapper.js:83:60)
+2022-03-28T02:21:47.281Z INFO webdriver: COMMAND takeScreenshot()
+2022-03-28T02:21:47.282Z INFO webdriver: [GET] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/screenshot
+2022-03-28T02:21:47.283Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:47.283Z INFO webdriver: Retrying 1/3
+2022-03-28T02:21:47.283Z INFO webdriver: [GET] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/screenshot
+2022-03-28T02:21:47.284Z INFO webdriver: COMMAND findElement("css selector", "[data-login-container]")
+2022-03-28T02:21:47.284Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/element
+2022-03-28T02:21:47.284Z INFO webdriver: DATA { using: 'css selector', value: '[data-login-container]' }
+2022-03-28T02:21:47.286Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:47.286Z INFO webdriver: Retrying 2/3
+2022-03-28T02:21:47.286Z INFO webdriver: [GET] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/screenshot
+2022-03-28T02:21:47.288Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:47.288Z INFO webdriver: Retrying 3/3
+2022-03-28T02:21:47.288Z INFO webdriver: [GET] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/screenshot
+2022-03-28T02:21:47.289Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:47.290Z INFO webdriver: Retrying 1/3
+2022-03-28T02:21:47.290Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/element
+2022-03-28T02:21:47.290Z INFO webdriver: DATA { using: 'css selector', value: '[data-login-container]' }
+2022-03-28T02:21:47.291Z ERROR webdriver: Request failed with status 404 due to no such window: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:47.291Z INFO webdriver: COMMAND takeScreenshot()
+2022-03-28T02:21:47.291Z INFO webdriver: [GET] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/screenshot
+2022-03-28T02:21:47.292Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:47.293Z INFO webdriver: Retrying 2/3
+2022-03-28T02:21:47.293Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/element
+2022-03-28T02:21:47.293Z INFO webdriver: DATA { using: 'css selector', value: '[data-login-container]' }
+2022-03-28T02:21:47.294Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:47.294Z INFO webdriver: Retrying 1/3
+2022-03-28T02:21:47.294Z INFO webdriver: [GET] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/screenshot
+2022-03-28T02:21:47.295Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:47.295Z INFO webdriver: Retrying 3/3
+2022-03-28T02:21:47.295Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/element
+2022-03-28T02:21:47.295Z INFO webdriver: DATA { using: 'css selector', value: '[data-login-container]' }
+2022-03-28T02:21:47.296Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:47.296Z INFO webdriver: Retrying 2/3
+2022-03-28T02:21:47.297Z INFO webdriver: [GET] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/screenshot
+2022-03-28T02:21:47.298Z ERROR webdriver: Request failed with status 404 due to no such window: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:47.298Z INFO webdriver: COMMAND getLogs("browser")
+2022-03-28T02:21:47.299Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/se/log
+2022-03-28T02:21:47.299Z INFO webdriver: DATA { type: 'browser' }
+2022-03-28T02:21:47.300Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:47.300Z INFO webdriver: Retrying 3/3
+2022-03-28T02:21:47.300Z INFO webdriver: [GET] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/screenshot
+2022-03-28T02:21:47.301Z INFO webdriver: RESULT []
+2022-03-28T02:21:47.302Z INFO webdriver: COMMAND takeScreenshot()
+2022-03-28T02:21:47.302Z INFO webdriver: [GET] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/screenshot
+2022-03-28T02:21:47.303Z ERROR webdriver: Request failed with status 404 due to no such window: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:47.304Z INFO webdriver: COMMAND takeScreenshot()
+2022-03-28T02:21:47.304Z INFO webdriver: [GET] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/screenshot
+2022-03-28T02:21:47.305Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:47.305Z INFO webdriver: Retrying 1/3
+2022-03-28T02:21:47.305Z INFO webdriver: [GET] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/screenshot
+2022-03-28T02:21:47.306Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:47.306Z INFO webdriver: Retrying 1/3
+2022-03-28T02:21:47.307Z INFO webdriver: [GET] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/screenshot
+2022-03-28T02:21:47.309Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:47.309Z INFO webdriver: Retrying 2/3
+2022-03-28T02:21:47.309Z INFO webdriver: [GET] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/screenshot
+2022-03-28T02:21:47.310Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:47.311Z INFO webdriver: Retrying 2/3
+2022-03-28T02:21:47.311Z INFO webdriver: [GET] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/screenshot
+2022-03-28T02:21:47.312Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:47.312Z INFO webdriver: Retrying 3/3
+2022-03-28T02:21:47.312Z INFO webdriver: [GET] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/screenshot
+2022-03-28T02:21:47.314Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:47.314Z INFO webdriver: Retrying 3/3
+2022-03-28T02:21:47.314Z INFO webdriver: [GET] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/screenshot
+2022-03-28T02:21:47.316Z ERROR webdriver: Request failed with status 404 due to no such window: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:47.317Z ERROR @wdio/utils:shim: no such window: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+    at getErrorFromResponseBody (/Users/tony/workspace/remote-mower/node_modules/webdriver/build/utils.js:197:12)
+    at NodeJSRequest._request (/Users/tony/workspace/remote-mower/node_modules/webdriver/build/request/index.js:158:60)
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+    at Browser.wrapCommandFn (/Users/tony/workspace/remote-mower/node_modules/@wdio/utils/build/shim.js:137:29)
+    at Browser.saveScreenshot (/Users/tony/workspace/remote-mower/node_modules/webdriverio/build/commands/browser/saveScreenshot.js:36:26)
+    at Browser.wrapCommandFn (/Users/tony/workspace/remote-mower/node_modules/@wdio/utils/build/shim.js:137:29)
+    at Object.afterTest (/Users/tony/workspace/remote-mower/wdio.conf.js:285:7)
+    at async Promise.all (index 0)
+    at executeHooksWithArgsShim (/Users/tony/workspace/remote-mower/node_modules/@wdio/utils/build/shim.js:107:20)
+    at UserContext.testFrameworkFnWrapper (/Users/tony/workspace/remote-mower/node_modules/@wdio/utils/build/test-framework/testFnWrapper.js:83:60)
+2022-03-28T02:21:47.317Z INFO webdriver: COMMAND takeScreenshot()
+2022-03-28T02:21:47.317Z INFO webdriver: [GET] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/screenshot
+2022-03-28T02:21:47.318Z ERROR webdriver: Request failed with status 404 due to no such window: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:47.319Z INFO webdriver: COMMAND takeScreenshot()
+2022-03-28T02:21:47.319Z INFO webdriver: [GET] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/screenshot
+2022-03-28T02:21:47.320Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:47.320Z INFO webdriver: Retrying 1/3
+2022-03-28T02:21:47.321Z INFO webdriver: [GET] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/screenshot
+2022-03-28T02:21:47.323Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:47.323Z INFO webdriver: Retrying 2/3
+2022-03-28T02:21:47.323Z INFO webdriver: [GET] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/screenshot
+2022-03-28T02:21:47.324Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:47.324Z INFO webdriver: Retrying 1/3
+2022-03-28T02:21:47.324Z INFO webdriver: [GET] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/screenshot
+2022-03-28T02:21:47.326Z INFO webdriver: COMMAND getLogs("driver")
+2022-03-28T02:21:47.327Z INFO webdriver: [POST] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/se/log
+2022-03-28T02:21:47.327Z INFO webdriver: DATA { type: 'driver' }
+2022-03-28T02:21:47.328Z INFO webdriver: COMMAND deleteSession()
+2022-03-28T02:21:47.328Z INFO webdriver: [DELETE] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d
+2022-03-28T02:21:47.330Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:47.330Z INFO webdriver: Retrying 3/3
+2022-03-28T02:21:47.330Z INFO webdriver: [GET] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/screenshot
+2022-03-28T02:21:47.331Z WARN webdriver: Request failed with status 404 due to no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.122)
+2022-03-28T02:21:47.331Z INFO webdriver: Retrying 2/3
+2022-03-28T02:21:47.331Z INFO webdriver: [GET] http://localhost:9515/session/0e74b436a14c7354f8fd057cf464ef8d/screenshot

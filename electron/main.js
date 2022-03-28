@@ -8,6 +8,7 @@ const autoUpdater = require('./autoUpdate')
 const internationalization = require('./internationalization')
 
 log.info('App starting...')
+console.log('TESTING123')
 
 let mainWindow
 
@@ -31,6 +32,7 @@ function createWindow() {
   if (isDev) {
     mainWindow.webContents.openDevTools()
   } else {
+    mainWindow.webContents.openDevTools()
     protocol.registerBufferProtocol(Protocol.scheme, Protocol.requestHandler)
   }
 

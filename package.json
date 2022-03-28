@@ -12,7 +12,6 @@
   "homepage": "./",
   "main": "electron/main.js",
   "scripts": {
-    "build-shared": "babel ./src/shared -d ./lib",
     "build": "webpack --mode=production --config ./webpack.ci.js",
     "build-prod": "webpack --mode=production --config ./webpack.production.js",
     "electron-build": "yarn build && electron-builder -mw",
@@ -25,18 +24,28 @@
     "test": "jest",
     "test-e2e": "yarn test e2e --runInBand --detectOpenHandles",
     "test-unit": "yarn test src",
-    "test:watch": "yarn test --watchAll"
+    "test:watch": "yarn test --watchAll",
+    "wdio": "wdio run wdio.conf.js"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.9.6",
+    "@babel/helper-environment-visitor": "^7.16.7",
     "@babel/plugin-transform-runtime": "^7.9.0",
+    "@babel/register": "^7.17.7",
+    "@wdio/cli": "^7.19.1",
+    "@wdio/jasmine-framework": "^7.19.1",
+    "@wdio/junit-reporter": "^7.19.1",
+    "@wdio/local-runner": "^7.19.1",
+    "@wdio/spec-reporter": "^7.19.1",
     "babel-loader": "^8.1.0",
+    "chromedriver": "^99.0.0",
     "concurrently": "^5.2.0",
     "cross-env": "^7.0.2",
     "csp-html-webpack-plugin": "^4.0.0",
     "electron": "^9.4.0",
     "electron-builder": "^22.8.0",
+    "electron-chromedriver": "^17.0.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
     "fetch-mock": "^9.3.1",
@@ -44,17 +53,17 @@
     "html-webpack-plugin": "^4.3.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^24.9.0",
-    "jest-circus": "^25.5.3",
-    "jest-environment-node": "^25.5.0",
     "jest-enzyme": "^7.1.2",
     "jest-junit": "^10.0.0",
+    "kill-port": "^1.6.1",
     "mini-css-extract-plugin": "^0.9.0",
     "mockserver-client": "^5.11.1",
     "mockserver-node": "^5.11.1",
     "node-fetch": "^2.6.0",
     "react-scripts": "3.4.1",
-    "spectron": "^11.1.0",
     "url-loader": "^4.1.1",
+    "wdio-chromedriver-service": "7.2.8",
+    "wdio-electron-service": "^2.1.0",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.11.0",
@@ -109,21 +118,6 @@
         },
         "transform": {
           "^.+\\.js$": "babel-jest"
-        }
-      },
-      {
-        "displayName": "E2E Tests",
-        "rootDir": "<rootDir>/e2e",
-        "verbose": true,
-        "errorOnDeprecated": true,
-        "testEnvironment": "<rootDir>/customEnvironment.js",
-        "testRunner": "jest-circus/runner",
-        "reporters": [
-          "default",
-          "jest-junit"
-        ],
-        "moduleNameMapper": {
-          "^testResources(.*)$": "<rootDir>/../testResources$1"
         }
       }
     ]

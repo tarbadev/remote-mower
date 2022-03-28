@@ -33,5 +33,5 @@ export const getTextFromElementWithTimeout = async (selector, timeout, errorMess
   return await getTextFromElement(selector)
 }
 
-export const select = selector => global.client.$(selector)
-export const selectAll = selector => global.client.$$(selector)
+export const select = selector => $(selector)
+export const selectAll = selector => $$(selector)
