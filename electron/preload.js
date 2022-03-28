@@ -1,7 +1,7 @@
 const {
   contextBridge,
 } = require('electron')
-const { net } = require('electron').remote
+const { net } = require('electron')
 const log = require('electron-log')
 const RequestError = require('../src/shared/RequestError')
 const { setPassword, getPassword, deletePassword } = require('keytar')
