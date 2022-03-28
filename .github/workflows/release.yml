@@ -11,10 +11,10 @@ jobs:
     runs-on: macOS-latest
     steps:
       - uses: actions/checkout@v2
-      - name: "Install Node.js 13.11.0"
+      - name: "Install Node.js 14.19.0"
         uses: actions/setup-node@v1
         with:
-          node-version: 13.11.0
+          node-version: 14.19.0
       - name: "Install dependencies"
         run: yarn --frozen-lockfile
       - name: "Run Unit Tests"
@@ -26,10 +26,10 @@ jobs:
     runs-on: macOS-latest
     steps:
       - uses: actions/checkout@v2
-      - name: "Install Node.js 13.11.0"
+      - name: "Install Node.js 14.19.0"
         uses: actions/setup-node@v1
         with:
-          node-version: 13.11.0
+          node-version: 14.19.0
       - name: "Install dependencies"
         run: yarn --frozen-lockfile
       - name: "Replace package.json with new version"
@@ -56,10 +56,10 @@ jobs:
         with:
           name: "dist"
           path: dist
-      - name: "Install Node.js 13.11.0"
+      - name: "Install Node.js 14.19.0"
         uses: actions/setup-node@v1
         with:
-          node-version: 13.11.0
+          node-version: 14.19.0
       - name: "Install dependencies"
         run: yarn --frozen-lockfile
       - name: "Run E2E Tests"
@@ -90,10 +90,10 @@ jobs:
         with:
           name: "dist"
           path: dist
-      - name: "Install Node.js 13.11.0"
+      - name: "Install Node.js 14.19.0"
         uses: actions/setup-node@v1
         with:
-          node-version: 13.11.0
+          node-version: 14.19.0
       - name: "Install dependencies"
         run: yarn --frozen-lockfile
       - name: "Run E2E Tests"
@@ -121,10 +121,10 @@ jobs:
     runs-on: macOS-latest
     steps:
       - uses: actions/checkout@v2
-      - name: "Install Node.js 13.11.0"
+      - name: "Install Node.js 14.19.0"
         uses: actions/setup-node@v1
         with:
-          node-version: 13.11.0
+          node-version: 14.19.0
       - name: "Install dependencies"
         run: yarn --frozen-lockfile
       - name: "Replace package.json with new version"
