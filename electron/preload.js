@@ -1,12 +1,11 @@
 const {
   contextBridge,
+  ipcRenderer,
 } = require('electron')
-const { net } = require('electron')
 const log = require('electron-log')
 const RequestError = require('../src/shared/RequestError')
 const { setPassword, getPassword, deletePassword } = require('keytar')
 const { bindI18nClient } = require('./internationalization')
-const settings = require('electron-settings')
 
 const SERVICE_NAME = 'RemoteMower'
 const TOKEN_KEY = `${SERVICE_NAME}_token`
@@ -49,57 +48,20 @@ contextBridge.exposeInMainWorld(
       log.debug('Refresh token deleted')
       return result
     },
-    request: ({ body, ...options }) => {
-      return new Promise((resolve, reject) => {
-        if (!navigator.onLine) {
-          reject(RequestError.NO_NETWORK)
-        }
+    request: async (input) => {
+      if (!navigator.onLine) {
+        throw new Error(RequestError.NO_NETWORK)
+      }
 
-        const headers = {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-          ...options.headers,
-        }
+      const { result, error } = await ipcRenderer.invoke('makeRequest', input)
 
-        const requestOptions = {
-          ...options,
-          headers,
-        }
+      if (error) {
+        throw error
+      }
 
-        log.debug(`Starting ${options.method} request to ${options.url}`)
-
-        const request = net.request(requestOptions)
-
-        request.on('response', response => {
-          if (response.statusCode >= 400) {
-            log.error(`Request failed with status ${response.statusCode}`)
-            reject(response.statusCode)
-          } else {
-            let content = ''
-            response.on('end', () => {
-              log.debug('Request successful')
-              resolve(JSON.parse(content))
-            })
-            response.on('data', (chunk) => {
-              content += chunk
-            })
-          }
-        })
-
-        request.on('error', (error) => {
-          log.error(`An error happened while sending a request to ${options.url}`)
-          log.debug(error)
-          reject(error)
-        })
-
-        if (body) {
-          request.write(JSON.stringify(body))
-        }
-
-        request.end()
-      })
+      return result
     },
-    getSetting: key => settings.get(key),
-    setSetting: (key, value) => settings.set(key, value),
+    getSetting: async key => await ipcRenderer.invoke('getSetting', key),
+    setSetting: async (key, value) => await ipcRenderer.invoke('setSetting', key, value),
   },
 )

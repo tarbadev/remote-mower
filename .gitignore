@@ -30,3 +30,5 @@ yarn-error.log*
 junit.xml
 
 CertificateAuthorityCertificate.pem
+
+e2e/screenshots

@@ -15,10 +15,10 @@ Object.freeze(LoginError)
 const makeRequest = (options, onSuccess, onError) => {
   return request(options)
     .then(response => storeRefreshToken(response.data.attributes.refresh_token)
-      .then(() => storeToken(response.data.id))
+        .then(() => storeToken(response.data.id))
       .then(onSuccess))
     .catch(error => {
-      if (error === '400') {
+      if (error === 400) {
         onError(LoginError.WRONG_LOGIN)
       } else if (error === RequestError.NO_NETWORK) {
         onError(LoginError.NO_NETWORK)

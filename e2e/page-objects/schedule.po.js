@@ -1,4 +1,4 @@
-import { isElementVisible, selectAll, tapOnButton, waitForElementExist } from './helpers.po'
+import { isElementVisible, pause, selectAll, tapOnButton, waitForElementExist } from './helpers.po'
 
 const scheduleContainerSelector = '[data-schedule-container]'
 
@@ -13,7 +13,7 @@ export const tapOnEditButton = () => tapOnButton('[data-edit-schedule-button]')
 export const tapOnDeleteButton = () => tapOnButton('[data-delete-schedule-button]')
 export const tapOnSaveButton = async () => {
   await tapOnButton('[data-schedule-save-button]')
-  await global.client.pause(500)
+  await pause(500)
 }
 
 export const getSchedulesCount = async () => {

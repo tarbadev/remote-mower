@@ -56,7 +56,7 @@ describe('LoginService', () => {
       const email = 'someone@example.com'
       const password = 'super-secret'
 
-      window.api.request.mockRejectedValue('400')
+      window.api.request.mockRejectedValue(400)
 
       await login(email, password, jest.fn(), onErrorSpy)
 
@@ -150,7 +150,7 @@ describe('LoginService', () => {
     it('calls error callback on error with WRONG_LOGIN when error is 400',  async () => {
       const onErrorSpy = jest.fn()
 
-      window.api.request.mockRejectedValue('400')
+      window.api.request.mockRejectedValue(400)
 
       await refreshToken(jest.fn(), onErrorSpy)
 

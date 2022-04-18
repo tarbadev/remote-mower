@@ -1,0 +1,17 @@
+{
+  "timers": [
+    {
+      "start": 780,
+      "duration": 255,
+      "days": {
+        "monday": true,
+        "tuesday": true,
+        "wednesday": true,
+        "thursday": false,
+        "friday": false,
+        "saturday": false,
+        "sunday": false
+      }
+    }
+  ]
+}

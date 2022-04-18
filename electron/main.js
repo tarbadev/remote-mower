@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, protocol } = require('electron')
+const { app, BrowserWindow, ipcMain, protocol, net } = require('electron')
 const path = require('path')
 const isDev = require('electron-is-dev') && process.env.NODE_ENV === 'development'
 const log = require('electron-log')
@@ -6,6 +6,7 @@ const Protocol = require('./protocol')
 const createMenu = require('./menu')
 const autoUpdater = require('./autoUpdate')
 const internationalization = require('./internationalization')
+require('./eventHandler')
 
 log.info('App starting...')
 
@@ -75,7 +76,5 @@ app.on('activate', () => {
     createWindow()
   }
 })
-
-app.allowRendererProcessReuse = false
 
 process.on('uncaughtException', error => console.error(error))

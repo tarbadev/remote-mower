@@ -1,0 +1,10 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/app/v1/mowers"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "mowers.json"
+  }
+}

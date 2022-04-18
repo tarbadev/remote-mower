@@ -39,7 +39,7 @@ export const getMowerActivity = async () => {
 
 export const getMowerState = async () => {
   const selector = 'span[data-mower-state]'
-  await global.client.waitUntil(
+  await browser.waitUntil(
       () => select(selector).then(elem => elem.getText()).then(text => text !== ''),
       {
         timeout: 5000,
@@ -53,17 +53,14 @@ export const getMowerState = async () => {
 export const logout = async () => await tapOnButton('[data-logout-button]')
 export const refresh = async () => {
   await tapOnButton('[data-refresh-button]')
-  await global.client.pause(500)
 }
 export const parkUntilFurtherNotice = async () => {
   await tapOnButton('[data-park-button]')
   await tapOnButton('[data-park-until-further-notice-menu]')
-  await global.client.pause(500)
 }
 export const parkUntilNextScheduledRun = async () => {
   await tapOnButton('[data-park-button]')
   await tapOnButton('[data-park-until-next-start-menu]')
-  await global.client.pause(500)
 }
 export const parkForDuration = async (hours) => {
   await tapOnButton('[data-park-button]')
@@ -76,17 +73,13 @@ export const parkForDuration = async (hours) => {
   await fillInput('[data-duration-input]', hours)
 
   await tapOnButton('[data-duration-submit]')
-
-  await global.client.pause(500)
 }
 export const pause = async () => {
   await tapOnButton('[data-pause-button]')
-  await global.client.pause(500)
 }
 export const startAndResume = async () => {
   await tapOnButton('[data-start-button]')
   await tapOnButton('[data-start-and-resume-menu]')
-  await global.client.pause(500)
 }
 export const startForDuration = async (hours) => {
   await tapOnButton('[data-start-button]')
@@ -99,6 +92,4 @@ export const startForDuration = async (hours) => {
   await fillInput('[data-duration-input]', hours)
 
   await tapOnButton('[data-duration-submit]')
-
-  await global.client.pause(500)
 }
