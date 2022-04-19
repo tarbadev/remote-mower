@@ -2,9 +2,8 @@ const {
   secureStoreToken,
   secureRetrieveToken,
   secureDeleteToken,
-  secureStoreRefreshToken,
-  secureRetrieveRefreshToken,
-  secureDeleteRefreshToken,
+  secureRetrieveCredentials,
+  secureStoreCredentials,
 } = window.api
 
 export const storeToken = token => {
@@ -19,14 +18,10 @@ export const deleteToken = () => {
   return secureDeleteToken()
 }
 
-export const storeRefreshToken = token => {
-  return secureStoreRefreshToken(token)
+export const retrieveCredentials = () => {
+  return secureRetrieveCredentials()
 }
 
-export const retrieveRefreshToken = () => {
-  return secureRetrieveRefreshToken()
-}
-
-export const deleteRefreshToken = () => {
-  return secureDeleteRefreshToken()
+export const storeCredentials = (email, password) => {
+  return secureStoreCredentials(email, password)
 }

@@ -1,11 +1,4 @@
-import {
-  deleteRefreshToken,
-  deleteToken,
-  retrieveRefreshToken,
-  retrieveToken,
-  storeRefreshToken,
-  storeToken,
-} from './LoginRepository'
+import { deleteToken, retrieveCredentials, retrieveToken, storeCredentials, storeToken } from './LoginRepository'
 
 describe('LoginRepository', () => {
   describe('storeToken', () => {
@@ -15,16 +8,6 @@ describe('LoginRepository', () => {
       await storeToken(token)
 
       expect(window.api.secureStoreToken).toHaveBeenCalledWith(token)
-    })
-  })
-
-  describe('storeRefreshToken', () => {
-    it('sends data to the main process', async () => {
-      const RefreshToken = 'SuperSecureRefreshToken'
-
-      await storeRefreshToken(RefreshToken)
-
-      expect(window.api.secureStoreRefreshToken).toHaveBeenCalledWith(RefreshToken)
     })
   })
 
@@ -40,18 +23,6 @@ describe('LoginRepository', () => {
     })
   })
 
-  describe('retrieveRefreshToken', () => {
-    it('calls the main process', async () => {
-      const token = 'SuperSecureRefreshToken'
-
-      window.api.secureRetrieveRefreshToken.mockResolvedValueOnce(token)
-
-      expect(await retrieveRefreshToken()).toBe(token)
-
-      expect(window.api.secureRetrieveRefreshToken).toHaveBeenCalled()
-    })
-  })
-
   describe('deleteToken', () => {
     it('calls the main process', async () => {
       window.api.secureDeleteToken.mockResolvedValueOnce(undefined)
@@ -62,13 +33,25 @@ describe('LoginRepository', () => {
     })
   })
 
-  describe('deleteRefreshToken', () => {
+  describe('retrieveCredentials', () => {
     it('calls the main process', async () => {
-      window.api.secureDeleteRefreshToken.mockResolvedValueOnce(undefined)
+      window.api.secureRetrieveCredentials.mockResolvedValueOnce(undefined)
 
-      await deleteRefreshToken()
+      await retrieveCredentials()
 
-      expect(window.api.secureDeleteRefreshToken).toHaveBeenCalled()
+      expect(window.api.secureRetrieveCredentials).toHaveBeenCalled()
+    })
+  })
+
+  describe('storeCredentials', () => {
+    it('calls the main process', async () => {
+      const email = "SomeKindOfEmail"
+      const password = "SuperSecurePassword"
+      window.api.secureStoreCredentials.mockResolvedValueOnce(undefined)
+
+      await storeCredentials(email, password)
+
+      expect(window.api.secureStoreCredentials).toHaveBeenCalledWith(email, password)
     })
   })
 })
