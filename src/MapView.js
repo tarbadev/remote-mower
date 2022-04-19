@@ -11,15 +11,11 @@ export const MapView = () => {
     getMowerPositions().then(setPositions)
   }, [])
 
-  return <MapViewDisplay positions={positions} onMapsChange={() => {
-    console.log('Maps changed')
-    setPositions([...positions])
-  }} />
+  return <MapViewDisplay positions={positions} />
 }
 
-const MapViewDisplay = ({ positions, onMapsChange }) => {
+const MapViewDisplay = ({ positions }) => {
   const [center, setCenter] = useState({ lat: 0, lng: 0 })
-  const pinWidth = 50
 
   useEffect(() => {
     if (positions.length > 0) {
@@ -41,7 +37,7 @@ const MapViewDisplay = ({ positions, onMapsChange }) => {
         path: 'M 0,-1 0,1',
         strokeOpacity: 1,
         scale: 2,
-        strokeWeight: 1,
+        strokeWeight: 2,
       },
       offset: '0',
       repeat: '10px',
