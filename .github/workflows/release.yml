@@ -78,7 +78,7 @@ jobs:
         if: ${{ failure() }}
         with:
           name: "macOsScreenshots"
-          path: screenshots
+          path: e2e/screenshots
 
   e2e-test-windows:
     name: "E2E tests - Windows"
@@ -110,7 +110,7 @@ jobs:
         if: ${{ failure() }}
         with:
           name: "windowsScreenshots"
-          path: screenshots
+          path: e2e/screenshots
 
   deploy:
     name: "Deploy"
