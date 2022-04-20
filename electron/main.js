@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, protocol, net } = require('electron')
+const { app, BrowserWindow, ipcMain, protocol } = require('electron')
 const path = require('path')
 const isDev = require('electron-is-dev') && process.env.NODE_ENV === 'development'
 const log = require('electron-log')
@@ -29,9 +29,9 @@ function createWindow() {
     mainWindow = null
   })
 
-  if (isDev) {
-    mainWindow.webContents.openDevTools()
-  } else {
+  // mainWindow.webContents.openDevTools()
+
+  if (!isDev) {
     protocol.registerBufferProtocol(Protocol.scheme, Protocol.requestHandler)
   }
 
