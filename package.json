@@ -23,7 +23,7 @@
     "start": "concurrently \"yarn dev-server\" \"cross-env NODE_ENV=development electron .\" -k",
     "prod-start": "yarn build && cross-env NODE_ENV=production electron .",
     "test": "jest",
-    "test-e2e": "yarn build && wdio run wdio.conf.js",
+    "test-e2e": "wdio run wdio.conf.js",
     "test-unit": "yarn test src",
     "test:watch": "yarn test --watchAll"
   },

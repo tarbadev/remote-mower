@@ -70,7 +70,7 @@ jobs:
           export DMG_NAME="dist/remote-mower-$CURRENT_VERSION.dmg"
           sudo hdiutil attach $DMG_NAME
 
-          mkdir screenshots
+          mkdir e2e/screenshots
 
           yarn test-e2e
       - name: "Upload failed tests screenshots"
@@ -102,7 +102,7 @@ jobs:
           export CURRENT_VERSION=$(./ci/get_build_version.sh)
           export APP_PATH="dist/Remote Mower $CURRENT_VERSION.exe"
 
-          mkdir screenshots
+          mkdir e2e/screenshots
 
           yarn test-e2e --verbose
       - name: "Upload failed tests screenshots"

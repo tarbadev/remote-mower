@@ -1,6 +1,8 @@
 const kill = require('kill-port')
 const electronPath = require('electron')
 
+const appPath = process.env.APP_PATH ? process.env.APP_PATH : electronPath
+
 exports.config = {
   // ====================
   // Runner Configuration
@@ -30,7 +32,7 @@ exports.config = {
   //
   capabilities: [{
     browserName: 'chrome',
-    'goog:chromeOptions': { binary: electronPath, args: ['app=.'] },
+    'goog:chromeOptions': { binary: appPath, args: ['app=.'] },
     'goog:loggingPrefs': {
       browser: 'ALL',
       driver: 'INFO',
