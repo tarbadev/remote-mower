@@ -8,13 +8,21 @@ jobs:
   unit-test:
     name: "Unit Tests"
     if: "!startsWith(github.event.head_commit.message, 'Bump version in package.json to ')"
-    runs-on: macOS-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
       - name: "Install Node.js 14.19.0"
         uses: actions/setup-node@v1
         with:
           node-version: 14.19.0
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-build-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
       - name: "Install dependencies"
         run: yarn --frozen-lockfile
       - name: "Run Unit Tests"
@@ -23,13 +31,21 @@ jobs:
   build:
     name: "Build"
     needs: unit-test
-    runs-on: macOS-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
       - name: "Install Node.js 14.19.0"
         uses: actions/setup-node@v1
         with:
           node-version: 14.19.0
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-build-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
       - name: "Install dependencies"
         run: yarn --frozen-lockfile
       - name: "Replace package.json with new version"
@@ -38,28 +54,41 @@ jobs:
         run: yarn electron-build
         env:
           GH_TOKEN: ${{ github.token }}
-      - name: "Cleanup dist folder"
-        run: rm -rf dist/win-unpacked dist/mac
-      - name: "Upload dist folder"
-        uses: actions/upload-artifact@v1
+      - name: "Upload dmg"
+        uses: actions/upload-artifact@v3
         with:
-          name: "dist"
-          path: dist
+          name: "dmg"
+          path: dist/remote-mower-*.dmg
+          if-no-files-found: error
+      - name: "Upload exe"
+        uses: actions/upload-artifact@v3
+        with:
+          name: "exe"
+          path: dist/Remote Mower*.exe
+          if-no-files-found: error
 
   e2e-test-macos:
     name: "E2E tests - macOS"
     needs: build
-    runs-on: macOS-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v3
         with:
-          name: "dist"
+          name: "dmg"
           path: dist
       - name: "Install Node.js 14.19.0"
         uses: actions/setup-node@v1
         with:
           node-version: 14.19.0
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-build-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
       - name: "Install dependencies"
         run: yarn --frozen-lockfile
       - name: "Run E2E Tests"
@@ -74,7 +103,7 @@ jobs:
 
           yarn test-e2e
       - name: "Upload failed tests screenshots"
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v3
         if: ${{ failure() }}
         with:
           name: "macOsScreenshots"
@@ -86,16 +115,24 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v3
         with:
-          name: "dist"
+          name: "exe"
           path: dist
       - name: "Install Node.js 14.19.0"
         uses: actions/setup-node@v1
         with:
           node-version: 14.19.0
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-build-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
       - name: "Install dependencies"
-        run: yarn --frozen-lockfile
+        run: yarn
       - name: "Run E2E Tests"
         shell: bash
         run: |
@@ -106,7 +143,7 @@ jobs:
 
           yarn test-e2e --verbose
       - name: "Upload failed tests screenshots"
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v3
         if: ${{ failure() }}
         with:
           name: "windowsScreenshots"
@@ -118,13 +155,21 @@ jobs:
     needs:
       - e2e-test-macos
       - e2e-test-windows
-    runs-on: macOS-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
       - name: "Install Node.js 14.19.0"
         uses: actions/setup-node@v1
         with:
           node-version: 14.19.0
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-build-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
       - name: "Install dependencies"
         run: yarn --frozen-lockfile
       - name: "Replace package.json with new version"

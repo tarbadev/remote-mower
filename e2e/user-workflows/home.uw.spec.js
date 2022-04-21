@@ -82,6 +82,8 @@ describe('Home', () => {
     const hours = 6
     await HomePage.parkForDuration(hours)
 
+    await pause(100)
+
     await verifyUrlCalled(
       '/app/v1/mowers/190415542-190332911/control/park/duration/period',
       'POST',

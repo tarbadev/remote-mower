@@ -1,6 +1,7 @@
 import * as LoginPage from '../page-objects/login.po'
 import * as HomePage from '../page-objects/home.po'
 import { mockTokenRequest, mockValidTokenRequest } from '../wiremockHelpers'
+import { pause } from '../page-objects/helpers.po'
 
 describe('Login', () => {
   const email = 'some.email@remotemower.com'
@@ -21,6 +22,7 @@ describe('Login', () => {
     await LoginPage.fillFormAndSubmit({ email: 'test', password: 'somethingwrong' })
 
     await LoginPage.waitForErrorMessageDisplayed()
+    await pause(100)
     expect(await LoginPage.isErrorMessageVisible()).toBeTruthy()
   })
 
