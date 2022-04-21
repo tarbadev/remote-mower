@@ -15,7 +15,7 @@ module.exports = merge(base, {
     }),
     new webpack.NormalModuleReplacementPlugin(
       /src\/shared\/app\.config\.js/,
-      './app.config.prod.js'
+      path.resolve(__dirname, 'app.config.prod.js')
     ),
     new MiniCssExtractPlugin(),
     new HtmlWebpackPlugin({

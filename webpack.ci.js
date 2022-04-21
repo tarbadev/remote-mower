@@ -11,8 +11,8 @@ module.exports = merge(base, {
   devtool: 'nosources-source-map',
   plugins: [
     new webpack.NormalModuleReplacementPlugin(
-      /electron\/app\.config\.js/,
-      './app.config.ci.js'
+      /src\/shared\/app\.config\.js/,
+      path.resolve(__dirname, 'app.config.ci.js')
     ),
     new MiniCssExtractPlugin(),
     new HtmlWebpackPlugin({
