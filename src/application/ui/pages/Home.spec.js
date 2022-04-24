@@ -28,7 +28,7 @@ jest.mock(
   ),
 )
 
-jest.mock('./MowerService')
+jest.mock('../../../domain/MowerService')
 
 class HomeViewHelper {
   constructor(homeWrapper) {

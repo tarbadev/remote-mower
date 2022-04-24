@@ -3,7 +3,7 @@ import { deleteToken, retrieveCredentials, storeCredentials, storeToken } from '
 import RequestError from '../application/shared/RequestError'
 import AppConfig from '../application/shared/app.config'
 
-jest.mock('./LoginRepository')
+jest.mock('../infrastructure/LoginRepository')
 
 describe('LoginService', () => {
   describe('login', () => {

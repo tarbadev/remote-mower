@@ -16,7 +16,7 @@ jest.mock(
   ),
 )
 
-jest.mock('./MowerScheduleService')
+jest.mock('../../../domain/MowerScheduleService')
 
 describe('Schedule', () => {
   beforeEach(() => {

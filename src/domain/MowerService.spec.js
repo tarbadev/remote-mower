@@ -20,8 +20,8 @@ import { refreshToken } from './LoginService'
 import AppConfig from '../application/shared/app.config'
 
 jest.mock('./LoginService')
-jest.mock('./LoginRepository')
-jest.mock('./MowerRepository')
+jest.mock('../infrastructure/LoginRepository')
+jest.mock('../infrastructure/MowerRepository')
 
 describe('MowerService', () => {
   describe('initializeMowerId', () => {

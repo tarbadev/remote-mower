@@ -5,8 +5,8 @@ import { refreshToken } from './LoginService'
 import { getMowerSchedule, setMowerSchedule } from './MowerScheduleService'
 import AppConfig from '../application/shared/app.config'
 
-jest.mock('./MowerRepository')
-jest.mock('./LoginRepository')
+jest.mock('../infrastructure/MowerRepository')
+jest.mock('../infrastructure/LoginRepository')
 jest.mock('./LoginService')
 
 describe('MowerScheduleService', () => {

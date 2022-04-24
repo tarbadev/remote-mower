@@ -17,7 +17,7 @@ jest.mock(
   ),
 )
 
-jest.mock('./MowerScheduleService')
+jest.mock('../../../domain/MowerScheduleService')
 
 class EditScheduleViewHelper {
   constructor(wrapper) {
