@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { AppBar, Divider, Grid, Paper, Toolbar, Typography } from '@material-ui/core'
+import { AppBar, Grid, Toolbar } from '@material-ui/core'
 import { getMowerSchedule } from '../../../domain/MowerScheduleService'
 import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import { useHistory } from 'react-router-dom'
-import { minuteToTimeString } from '../../Utils'
+import { ScheduleColumn } from '../components/ScheduleColumn'
 
 export const Schedule = () => {
   const [schedule, setSchedule] = useState([])
@@ -16,51 +16,6 @@ export const Schedule = () => {
   }, [])
 
   return <ScheduleDisplay schedule={schedule} onEditClick={() => history.push('/schedule/edit')} />
-}
-
-const ScheduledMowing = ({ schedule }) => {
-  const minutesInDay = 60 * 24
-  const top = schedule.start / minutesInDay * 100
-  const height = schedule.duration / minutesInDay * 100
-
-  const beginTime = minuteToTimeString(schedule.start)
-  const endTime = minuteToTimeString(schedule.start + schedule.duration)
-
-  return <Paper style={{
-    backgroundColor: '#76d275',
-    position: 'relative',
-    top: `${top}%`,
-    height: `${height}%`,
-  }}>
-    <Grid container direction='column' style={{ height: '100%' }}>
-      <Grid item>
-        <Typography align='center' style={{ color: '#333' }}>{beginTime}</Typography>
-        <Divider />
-      </Grid>
-      <Grid item style={{ flexGrow: 1 }} />
-      <Grid item>
-        <Divider />
-        <Typography align='center' style={{ color: '#333' }}>{endTime}</Typography>
-      </Grid>
-    </Grid>
-  </Paper>
-}
-
-const ScheduleColumn = ({ day, schedules = [] }) => {
-  const { t } = useTranslation()
-
-  return <Grid container direction='column' style={{ height: '100%' }} alignContent='stretch'>
-    <Grid item>
-      <Typography align='center'>{t(`schedule.day.${day}`)}</Typography>
-    </Grid>
-    <Grid item style={{ flexGrow: 1 }}>
-      <Paper variant='outlined' style={{ position: 'relative', height: '100%' }}>
-        {schedules.map((schedule, index) =>
-          <ScheduledMowing key={`schedule-${day}-${index}`} schedule={schedule} />,
-        )}
-      </Paper>
-    </Grid>
-  </Grid>
 }
 
 const useStyles = makeStyles((theme) => {
