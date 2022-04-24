@@ -6,7 +6,7 @@ const SRC = path.resolve(__dirname, 'src')
 
 module.exports = {
   target: 'web',
-  entry: ['./src/index.js'],
+  entry: ['./src/application/index.js'],
   output: {
     path: DIST,
     filename: 'bundle.js',

@@ -1,4 +1,5 @@
 import { refreshToken } from '../domain/LoginService'
+import { retrieveToken } from '../infrastructure/LoginRepository'
 
 const { request } = window.api
 
@@ -9,6 +10,28 @@ export const minuteToTimeString = (minutes) => {
   const remainingMinutes = `${(minutes - roundedHours * 60)}`.padStart(2, '0')
   return `${roundedHours}:${remainingMinutes}`
 
+}
+
+const generateHeaders = async () => {
+  const token = await retrieveToken()
+  return {
+    'Authorization-Provider': 'husqvarna',
+    'x-system-validator': 'amc',
+    'Authorization': `Bearer ${token}`,
+  }
+}
+
+export const makeAuthenticatedRequest = async (options, refreshTokenOnError = true) => {
+  const authenticationRequests = await generateHeaders()
+
+  const optionsWithAuthHeader = {
+    ...options,
+    headers: {
+      ...options.headers,
+      ...authenticationRequests,
+    }
+  }
+  return makeRequest(optionsWithAuthHeader, refreshTokenOnError)
 }
 
 export const makeRequest = (options, refreshTokenOnError = true) =>

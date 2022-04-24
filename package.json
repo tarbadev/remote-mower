@@ -142,7 +142,7 @@
     "extends": null,
     "files": [
       "build/dist/**/*",
-      "src/shared/**/*",
+      "src/application/shared/**/*",
       "electron/**/*",
       "locales/**/*"
     ],

@@ -1,7 +1,6 @@
-import { retrieveToken } from '../infrastructure/LoginRepository'
 import AppConfig from '../application/shared/app.config'
 import { getMowerId, storeMowerId } from '../infrastructure/MowerRepository'
-import { makeRequest } from '../application/Utils'
+import { makeAuthenticatedRequest } from '../application/Utils'
 
 export const MowerActivity = {
   UNKNOWN: 'UNKNOWN',
@@ -35,13 +34,11 @@ Object.freeze(MowerState)
 
 export const getMowerStatus = async () => {
   const mowerId = await getMowerId()
-  const headers = await generateHeaders()
   const options = {
     url: `${AppConfig.mowerApiUrl}/app/v1/mowers/${mowerId}/status`,
     method: 'GET',
-    headers,
   }
-  return makeRequest(options).then(data => {
+  return makeAuthenticatedRequest(options).then(data => {
     return ({
       batteryLevel: data.batteryPercent,
       activity: data.mowerStatus.activity,
@@ -50,25 +47,14 @@ export const getMowerStatus = async () => {
   })
 }
 
-const generateHeaders = async () => {
-  const token = await retrieveToken()
-  return {
-    'Authorization-Provider': 'husqvarna',
-    'x-system-validator': 'amc',
-    'Authorization': `Bearer ${token}`,
-  }
-}
-
 export const getMowerSettings = async () => {
   const mowerId = await getMowerId()
-  const headers = await generateHeaders()
 
   const options = {
     url: `${AppConfig.mowerApiUrl}/app/v1/mowers/${mowerId}/settings`,
     method: 'GET',
-    headers,
   }
-  return makeRequest(options).then(data => {
+  return makeAuthenticatedRequest(options).then(data => {
     const settings = data.settings
     return {
       cuttingLevel: settings.cuttingHeight,
@@ -79,42 +65,38 @@ export const getMowerSettings = async () => {
 export const initializeMowerId = async () => {
   const mowerId = await getMowerId()
   if (!mowerId) {
-    const headers = await generateHeaders()
     const options = {
       url: `${AppConfig.mowerApiUrl}/app/v1/mowers`,
       method: 'GET',
-      headers,
     }
-    return makeRequest(options).then(data => storeMowerId(data[0].id))
+    return makeAuthenticatedRequest(options).then(data => storeMowerId(data[0].id))
   }
 }
 
 const getControlOptions = async (urlSuffix, body) => {
   const mowerId = await getMowerId()
-  const headers = await generateHeaders()
 
   return {
     url: `${AppConfig.mowerApiUrl}/app/v1/mowers/${mowerId}/control/${urlSuffix}`,
     method: 'POST',
-    headers,
     body,
   }
 }
 
-export const parkUntilFurtherNotice = async () => makeRequest(await getControlOptions('park'))
+export const parkUntilFurtherNotice = async () => makeAuthenticatedRequest(await getControlOptions('park'))
 
-export const parkUntilNextStart = async () => makeRequest(await getControlOptions('park/duration/timer'))
+export const parkUntilNextStart = async () => makeAuthenticatedRequest(await getControlOptions('park/duration/timer'))
 
-export const parkForDuration = async (minutes) => makeRequest(await getControlOptions(
+export const parkForDuration = async (minutes) => makeAuthenticatedRequest(await getControlOptions(
   'park/duration/period',
   { period: minutes },
 ))
 
-export const pause = async () => makeRequest(await getControlOptions('pause'))
+export const pause = async () => makeAuthenticatedRequest(await getControlOptions('pause'))
 
-export const startAndResume = async () => makeRequest(await getControlOptions('start'))
+export const startAndResume = async () => makeAuthenticatedRequest(await getControlOptions('start'))
 
-export const startForDuration = async (minutes) => makeRequest(await getControlOptions(
+export const startForDuration = async (minutes) => makeAuthenticatedRequest(await getControlOptions(
   'start/override/period',
   { period: minutes },
 ))
