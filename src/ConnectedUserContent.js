@@ -11,12 +11,14 @@ import { makeStyles } from '@material-ui/core/styles'
 import { useTranslation } from 'react-i18next'
 import { useAppContext } from './StoreProvider'
 import { Loader } from './Loader'
-import { LogoutIcon, MapIcon, ScheduleIcon } from './ui/Icons'
+import { MapIcon} from './ui/icons/MapIcon'
 import HomeIcon from '@material-ui/icons/Home'
 import { Schedule } from './Schedule'
 import { Home } from './Home'
 import { EditSchedule } from './EditSchedule'
 import { MapView } from './MapView'
+import { LogoutIcon } from './ui/icons/LogoutIcon'
+import { ScheduleIcon } from './ui/icons/ScheduleIcon'
 
 export const ConnectedUserContent = () => {
   const [userLoggedIn, setUserLoggedIn] = useState()

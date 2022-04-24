@@ -29,10 +29,11 @@ function createWindow() {
     mainWindow = null
   })
 
-  // mainWindow.webContents.openDevTools()
 
   if (!isDev) {
     protocol.registerBufferProtocol(Protocol.scheme, Protocol.requestHandler)
+  } else {
+    mainWindow.webContents.openDevTools()
   }
 
   return mainWindow.loadURL(
