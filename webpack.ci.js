@@ -11,7 +11,7 @@ module.exports = merge(base, {
   devtool: 'nosources-source-map',
   plugins: [
     new webpack.NormalModuleReplacementPlugin(
-      /src\/shared\/app\.config\.js/,
+      /src\/application\/shared\/app\.config\.js/,
       path.resolve(__dirname, 'app.config.ci.js')
     ),
     new MiniCssExtractPlugin(),

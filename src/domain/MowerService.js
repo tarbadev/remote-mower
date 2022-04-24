@@ -1,6 +1,6 @@
-import { retrieveToken } from './LoginRepository'
-import AppConfig from './shared/app.config'
-import { getMowerId, storeMowerId } from './MowerRepository'
+import { retrieveToken } from '../infrastructure/LoginRepository'
+import AppConfig from '../application/shared/app.config'
+import { getMowerId, storeMowerId } from '../infrastructure/MowerRepository'
 import { refreshToken } from './LoginService'
 
 const { request } = window.api

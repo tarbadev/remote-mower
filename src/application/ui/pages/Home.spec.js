@@ -12,9 +12,9 @@ import {
   pause,
   startAndResume,
   startForDuration,
-} from './MowerService'
+} from '../../../domain/MowerService'
 import { Home } from './Home'
-import { waitForUpdate } from './testUtils'
+import { waitForUpdate } from '../../../testUtils'
 
 const mockTranslate = jest.fn()
 jest.mock(

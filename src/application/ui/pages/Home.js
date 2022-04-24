@@ -8,7 +8,7 @@ import RefreshIcon from '@material-ui/icons/Refresh'
 import Button from '@material-ui/core/Button'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
-import { DurationModal } from './DurationModal'
+import { DurationModal } from '../components/DurationModal'
 import {
   getMowerSettings,
   getMowerStatus,
@@ -21,8 +21,8 @@ import {
   pause,
   startAndResume,
   startForDuration,
-} from './MowerService'
-import { CuttingLevelIcon } from './ui/icons/CuttingLevelIcon'
+} from '../../../domain/MowerService'
+import { CuttingLevelIcon } from '../icons/CuttingLevelIcon'
 
 const activityToDisplayActivity = activity => {
   switch (activity) {

@@ -1,8 +1,8 @@
 import React from 'react'
 import { mount } from 'enzyme'
-import { getMowerSchedule } from './MowerScheduleService'
+import { getMowerSchedule } from '../../../domain/MowerScheduleService'
 import { Schedule } from './Schedule'
-import { waitForUpdate } from './testUtils'
+import { waitForUpdate } from '../../../testUtils'
 
 const mockTranslate = jest.fn()
 jest.mock(

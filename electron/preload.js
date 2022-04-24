@@ -3,7 +3,7 @@ const {
   ipcRenderer,
 } = require('electron')
 const log = require('electron-log')
-const RequestError = require('../src/shared/RequestError')
+const RequestError = require('../src/application/shared/RequestError')
 const { setPassword, getPassword, deletePassword, findCredentials } = require('keytar')
 const { bindI18nClient } = require('./internationalization')
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import { CssBaseline } from '@material-ui/core'
-import { Login } from './Login'
+import { Login } from '../pages/Login'
 import { Route, Switch } from 'react-router-dom'
 import { ConnectedUserContent } from './ConnectedUserContent'
 

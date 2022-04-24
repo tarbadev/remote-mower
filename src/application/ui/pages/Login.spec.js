@@ -1,9 +1,9 @@
 import React from 'react'
 import { mount } from 'enzyme'
 import { Login } from './Login'
-import { mockAppContext } from './testUtils'
-import * as LoginService from './LoginService'
-import { LoginError } from './LoginService'
+import { mockAppContext } from '../../../testUtils'
+import * as LoginService from '../../../domain/LoginService'
+import { LoginError } from '../../../domain/LoginService'
 
 const mockTranslate = jest.fn()
 jest.mock(

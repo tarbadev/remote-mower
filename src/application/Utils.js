@@ -5,10 +5,3 @@ export const minuteToTimeString = (minutes) => {
 
   return `${roundedHours}:${remainingMinutes}`
 }
-
-export const dateToTimeString = (date) => {
-  const hours = `${date.getHours()}`.padStart(2, '0')
-  const minutes = `${date.getMinutes()}`.padStart(2, '0')
-
-  return `${hours}:${minutes}`
-}

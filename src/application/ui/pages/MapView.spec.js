@@ -1,8 +1,8 @@
 import React from 'react'
 import { mount } from 'enzyme'
-import { waitForUpdate } from './testUtils'
+import { waitForUpdate } from '../../../testUtils'
 import { MapView } from './MapView'
-import { getMowerPositions } from './MowerPositionsService'
+import { getMowerPositions } from '../../../domain/MowerPositionsService'
 
 const mockTranslate = jest.fn()
 jest.mock(

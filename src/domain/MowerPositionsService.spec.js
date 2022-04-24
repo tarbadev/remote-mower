@@ -1,9 +1,9 @@
 import positionsResponse from 'testResources/positions.json'
-import { retrieveToken } from './LoginRepository'
-import { getMowerId } from './MowerRepository'
+import { retrieveToken } from '../infrastructure/LoginRepository'
+import { getMowerId } from '../infrastructure/MowerRepository'
 import { refreshToken } from './LoginService'
 import { getMowerPositions } from './MowerPositionsService'
-import AppConfig from './shared/app.config'
+import AppConfig from '../application/shared/app.config'
 
 jest.mock('./MowerRepository')
 jest.mock('./LoginRepository')

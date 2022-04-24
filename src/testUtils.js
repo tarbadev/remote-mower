@@ -1,5 +1,5 @@
-import { initialState } from './RootReducer'
-import * as StoreProvider from './StoreProvider'
+import { initialState } from './application/RootReducer'
+import * as StoreProvider from './application/StoreProvider'
 import { act } from 'react-dom/test-utils'
 
 export const mockAppContext = () => {

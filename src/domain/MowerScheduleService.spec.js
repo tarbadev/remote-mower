@@ -1,9 +1,9 @@
 import timersResponse from 'testResources/timers.json'
-import { retrieveToken } from './LoginRepository'
-import { getMowerId } from './MowerRepository'
+import { retrieveToken } from '../infrastructure/LoginRepository'
+import { getMowerId } from '../infrastructure/MowerRepository'
 import { refreshToken } from './LoginService'
 import { getMowerSchedule, setMowerSchedule } from './MowerScheduleService'
-import AppConfig from './shared/app.config'
+import AppConfig from '../application/shared/app.config'
 
 jest.mock('./MowerRepository')
 jest.mock('./LoginRepository')

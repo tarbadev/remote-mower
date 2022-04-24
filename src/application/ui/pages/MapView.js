@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { getMowerPositions } from './MowerPositionsService'
+import { getMowerPositions } from '../../../domain/MowerPositionsService'
 import { GoogleMap, LoadScript, Marker, Polyline } from '@react-google-maps/api'
-import AppConfig from './shared/app.config'
-import MowerPin from './images/mower_pin.png'
+import AppConfig from '../../shared/app.config'
+import MowerPin from '../../images/mower_pin.png'
 
 export const MapView = () => {
   const [positions, setPositions] = useState([])

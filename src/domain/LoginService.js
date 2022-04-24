@@ -1,6 +1,6 @@
-import { deleteToken, retrieveCredentials, storeCredentials, storeToken } from './LoginRepository'
-import RequestError from './shared/RequestError'
-import AppConfig from './shared/app.config'
+import { deleteToken, retrieveCredentials, storeCredentials, storeToken } from '../infrastructure/LoginRepository'
+import RequestError from '../application/shared/RequestError'
+import AppConfig from '../application/shared/app.config'
 
 const { request } = window.api
 

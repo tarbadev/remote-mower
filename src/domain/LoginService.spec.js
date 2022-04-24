@@ -1,7 +1,7 @@
 import { login, LoginError, logout, refreshToken } from './LoginService'
-import { deleteToken, retrieveCredentials, storeCredentials, storeToken } from './LoginRepository'
-import RequestError from './shared/RequestError'
-import AppConfig from './shared/app.config'
+import { deleteToken, retrieveCredentials, storeCredentials, storeToken } from '../infrastructure/LoginRepository'
+import RequestError from '../application/shared/RequestError'
+import AppConfig from '../application/shared/app.config'
 
 jest.mock('./LoginRepository')
 

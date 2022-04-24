@@ -1,9 +1,9 @@
 import React from 'react'
 import { mount } from 'enzyme'
 import { ConnectedUserContent } from './ConnectedUserContent'
-import { mockAppContext, waitForUpdate } from './testUtils'
+import { mockAppContext, waitForUpdate } from '../../../testUtils'
 import { BrowserRouter } from 'react-router-dom'
-import * as LoginService from './LoginService'
+import * as LoginService from '../../../domain/LoginService'
 
 const { act } = require('react-dom/test-utils')
 

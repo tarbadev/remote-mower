@@ -1,7 +1,7 @@
 import React from 'react'
 import { mount } from 'enzyme'
-import { getMowerSchedule, setMowerSchedule } from './MowerScheduleService'
-import { waitForUpdate } from './testUtils'
+import { getMowerSchedule, setMowerSchedule } from '../../../domain/MowerScheduleService'
+import { waitForUpdate } from '../../../testUtils'
 import { EditSchedule } from './EditSchedule'
 import { TimePicker } from '@material-ui/pickers'
 

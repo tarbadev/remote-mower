@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AppBar, Divider, Grid, Paper, Toolbar, Typography } from '@material-ui/core'
-import { getMowerSchedule } from './MowerScheduleService'
+import { getMowerSchedule } from '../../../domain/MowerScheduleService'
 import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import { useHistory } from 'react-router-dom'
-import { minuteToTimeString } from './Utils'
+import { minuteToTimeString } from '../../Utils'
 
 export const Schedule = () => {
   const [schedule, setSchedule] = useState([])

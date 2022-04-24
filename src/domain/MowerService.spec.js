@@ -14,10 +14,10 @@ import {
   startAndResume,
   startForDuration,
 } from './MowerService'
-import { retrieveToken } from './LoginRepository'
-import { getMowerId, storeMowerId } from './MowerRepository'
+import { retrieveToken } from '../infrastructure/LoginRepository'
+import { getMowerId, storeMowerId } from '../infrastructure/MowerRepository'
 import { refreshToken } from './LoginService'
-import AppConfig from './shared/app.config'
+import AppConfig from '../application/shared/app.config'
 
 jest.mock('./LoginService')
 jest.mock('./LoginRepository')

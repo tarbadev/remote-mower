@@ -1,7 +1,7 @@
 import React, { createContext, useContext } from 'react'
 import { initialState } from './RootReducer'
 import PropTypes from 'prop-types'
-import { retrieveToken } from './LoginRepository'
+import { retrieveToken } from '../infrastructure/LoginRepository'
 
 const StoreContext = createContext(initialState)
 

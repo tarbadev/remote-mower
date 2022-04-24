@@ -14,7 +14,7 @@ module.exports = merge(base, {
       'process.env.MAPS_KEY': JSON.stringify(process.env.MAPS_KEY)
     }),
     new webpack.NormalModuleReplacementPlugin(
-      /src\/shared\/app\.config\.js/,
+      /src\/application\/shared\/app\.config\.js/,
       path.resolve(__dirname, 'app.config.prod.js')
     ),
     new MiniCssExtractPlugin(),

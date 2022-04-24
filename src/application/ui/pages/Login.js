@@ -1,10 +1,10 @@
 import React, { Suspense, useState } from 'react'
 import { Button, Container, makeStyles, TextField, Typography } from '@material-ui/core'
-import { login, LoginError } from './LoginService'
+import { login, LoginError } from '../../../domain/LoginService'
 import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
 import { useTranslation } from 'react-i18next'
-import { Loader } from './Loader'
+import { Loader } from '../components/Loader'
 
 export const Login = ({ history }) => {
   const [email, setEmail] = useState('')

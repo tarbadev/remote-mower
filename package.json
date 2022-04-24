@@ -12,7 +12,7 @@
   "homepage": "./",
   "main": "electron/main.js",
   "scripts": {
-    "build-shared": "babel ./src/shared -d ./lib",
+    "build-shared": "babel src/application/shared -d ./lib",
     "build": "webpack --mode=production --config ./webpack.ci.js",
     "build-prod": "webpack --mode=production --config ./webpack.production.js",
     "electron-build": "yarn build && electron-builder -mw",
