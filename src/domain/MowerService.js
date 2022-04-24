@@ -1,9 +1,7 @@
 import { retrieveToken } from '../infrastructure/LoginRepository'
 import AppConfig from '../application/shared/app.config'
 import { getMowerId, storeMowerId } from '../infrastructure/MowerRepository'
-import { refreshToken } from './LoginService'
-
-const { request } = window.api
+import { makeRequest } from '../application/Utils'
 
 export const MowerActivity = {
   UNKNOWN: 'UNKNOWN',
@@ -34,16 +32,6 @@ export const MowerState = {
 }
 
 Object.freeze(MowerState)
-
-const makeRequest = (options, refreshTokenOnError = true) =>
-  request(options)
-    .catch((err) => {
-      if (typeof err === 'number' && err === 401 && refreshTokenOnError) {
-        return refreshToken().then(() => makeRequest(options, false))
-      } else {
-        console.log({ err })
-      }
-    })
 
 export const getMowerStatus = async () => {
   const mowerId = await getMowerId()

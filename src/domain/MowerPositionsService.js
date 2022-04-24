@@ -1,19 +1,7 @@
 import { getMowerId } from '../infrastructure/MowerRepository'
-import { refreshToken } from './LoginService'
 import AppConfig from '../application/shared/app.config'
 import { retrieveToken } from '../infrastructure/LoginRepository'
-
-const { request } = window.api
-
-const makeRequest = (options, refreshTokenOnError = true) =>
-  request(options)
-    .catch((err) => {
-      if (typeof err === 'number' && err === 401 && refreshTokenOnError) {
-        return refreshToken().then(() => makeRequest(options, false))
-      } else {
-        console.log({ err })
-      }
-    })
+import { makeRequest } from '../application/Utils'
 
 const generateHeaders = async () => {
   const token = await retrieveToken()
