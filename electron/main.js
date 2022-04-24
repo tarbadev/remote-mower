@@ -30,10 +30,10 @@ function createWindow() {
   })
 
 
-  if (!isDev) {
-    protocol.registerBufferProtocol(Protocol.scheme, Protocol.requestHandler)
-  } else {
+  if (isDev) {
     mainWindow.webContents.openDevTools()
+  } else {
+    protocol.registerBufferProtocol(Protocol.scheme, Protocol.requestHandler)
   }
 
   return mainWindow.loadURL(
