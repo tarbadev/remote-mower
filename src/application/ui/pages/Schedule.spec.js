@@ -32,6 +32,16 @@ describe('Schedule', () => {
     const schedule = mount(<Schedule />)
     await waitForUpdate(schedule)
 
+    const schedules = schedule.find('[data-schedule-column-title] p')
+
     expect(getMowerSchedule).toHaveBeenCalled()
+    expect(schedules).toHaveLength(7)
+    expect(mockTranslate).toHaveBeenCalledWith('schedule.day.monday')
+    expect(mockTranslate).toHaveBeenCalledWith('schedule.day.tuesday')
+    expect(mockTranslate).toHaveBeenCalledWith('schedule.day.wednesday')
+    expect(mockTranslate).toHaveBeenCalledWith('schedule.day.thursday')
+    expect(mockTranslate).toHaveBeenCalledWith('schedule.day.friday')
+    expect(mockTranslate).toHaveBeenCalledWith('schedule.day.saturday')
+    expect(mockTranslate).toHaveBeenCalledWith('schedule.day.sunday')
   })
 })

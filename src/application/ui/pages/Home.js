@@ -23,6 +23,8 @@ import {
   startForDuration,
 } from '../../../domain/MowerService'
 import { CuttingLevelIcon } from '../icons/CuttingLevelIcon'
+import { useSchedule } from '../../hooks/useSchedule'
+import { ScheduleColumn } from '../components/ScheduleColumn'
 
 const activityToDisplayActivity = activity => {
   switch (activity) {
@@ -81,6 +83,14 @@ export const Home = () => {
   const [displayStartDurationModal, setDisplayStartDurationModal] = useState(false)
   const [parkAnchorEl, setParkAnchorEl] = React.useState()
   const [startAnchorEl, setStartAnchorEl] = React.useState()
+  const [schedule] = useSchedule()
+
+  const currentDate = new Date()
+  const today = currentDate.toLocaleDateString('en-US', { weekday: 'long' })
+
+  currentDate.setDate(currentDate.getDate() + 1)
+  const tomorrow = currentDate
+    .toLocaleDateString('en-US', { weekday: 'long' })
 
   const loadMowerDetails = () =>
     initializeMowerId()
@@ -159,6 +169,9 @@ export const Home = () => {
     displayStartDurationModal={displayStartDurationModal}
     closeStartDurationModal={closeStartDurationModal}
     submitStartForDuration={submitStartForDuration}
+    schedule={schedule}
+    today={today.toLowerCase()}
+    tomorrow={tomorrow.toLowerCase()}
   />
 }
 
@@ -186,12 +199,15 @@ const HomeDisplay = ({
   displayStartDurationModal,
   closeStartDurationModal,
   submitStartForDuration,
+  schedule,
+  today,
+  tomorrow,
 }) => {
   const { t } = useTranslation()
 
   return <div data-home-container>
-    <Grid container direction='row'>
-      <Grid item xs={8} container direction='row' spacing={1} alignContent='center'>
+    <Grid container direction="row">
+      <Grid item xs={8} container direction="row" spacing={1} alignContent="center">
         <Grid item>
           <Typography data-battery-level><Battery50Icon />{batteryLevel}</Typography>
         </Grid>
@@ -199,47 +215,66 @@ const HomeDisplay = ({
           <Typography data-cutting-level><CuttingLevelIcon />{cuttingLevel}</Typography>
         </Grid>
       </Grid>
-      <Grid item xs container alignContent='flex-end' direction='column'>
+      <Grid item xs container alignContent="flex-end" direction="column">
         <IconButton data-refresh-button
                     onClick={onRefreshClick}
-                    color='primary'><RefreshIcon /></IconButton>
+                    color="primary"><RefreshIcon /></IconButton>
+      </Grid>
+      <Grid item xs={12}>
+        <Typography>
+          {t('home.activity.label')}: <span data-mower-activity>{t(`home.activity.${mowerActivity}`)}</span>
+        </Typography>
+      </Grid>
+      <Grid item xs={12}>
+        <Typography>
+          {t('home.state.label')}: <span data-mower-state>{t(`home.state.${mowerState}`)}</span>
+        </Typography>
+      </Grid>
+      <Grid item xs={12}>
+        <Button variant="outlined" color="primary" onClick={openParkMenu}
+                data-park-button>{t('home.menus.park.label')}</Button>
+        <Menu
+          anchorEl={parkAnchorEl}
+          keepMounted
+          open={Boolean(parkAnchorEl)}
+          onClose={closeParkMenu}
+        >
+          <MenuItem onClick={onParkUntilFurtherNoticeClick} data-park-until-further-notice-menu>{t(
+            'home.menus.park.untilFurtherNotice')}</MenuItem>
+          <MenuItem onClick={onParkUntilNextStartClick} data-park-until-next-start-menu>{t(
+            'home.menus.park.untilNextStart')}</MenuItem>
+          <MenuItem onClick={onParkForDurationClick} data-park-for-duration-menu>{t(
+            'home.menus.park.forDuration')}</MenuItem>
+        </Menu>
+        <Button variant="outlined" color="primary" onClick={openStartMenu}
+                data-start-button>{t('home.menus.start.label')}</Button>
+        <Menu
+          anchorEl={startAnchorEl}
+          keepMounted
+          open={Boolean(startAnchorEl)}
+          onClose={closeStartMenu}
+        >
+          <MenuItem onClick={onStartAndResumeClick} data-start-and-resume-menu>{t(
+            'home.menus.start.startAndResume')}</MenuItem>
+          <MenuItem onClick={onStartForDurationClick} data-start-for-duration-menu>{t(
+            'home.menus.start.forDuration')}</MenuItem>
+        </Menu>
+        <Button variant="outlined" color="primary" onClick={onPauseClick}
+                data-pause-button>{t('home.menus.pause')}</Button>
+      </Grid>
+      <Grid item xs={12} container direction="row" spacing={1} alignItems="stretch" style={{ height: '400px' }}>
+        <Grid item xs>
+          <ScheduleColumn day={today} schedule={schedule} />
+        </Grid>
+        <Grid item xs>
+          <ScheduleColumn day={tomorrow} schedule={schedule} />
+        </Grid>
       </Grid>
     </Grid>
-    <Typography>{t('home.activity.label')}: <span
-      data-mower-activity>{t(`home.activity.${mowerActivity}`)}</span></Typography>
-    <Typography>{t('home.state.label')}: <span data-mower-state>{t(`home.state.${mowerState}`)}</span></Typography>
-    <Button variant='outlined' color='primary' onClick={openParkMenu}
-            data-park-button>{t('home.menus.park.label')}</Button>
-    <Menu
-      anchorEl={parkAnchorEl}
-      keepMounted
-      open={Boolean(parkAnchorEl)}
-      onClose={closeParkMenu}
-    >
-      <MenuItem onClick={onParkUntilFurtherNoticeClick} data-park-until-further-notice-menu>{t(
-        'home.menus.park.untilFurtherNotice')}</MenuItem>
-      <MenuItem onClick={onParkUntilNextStartClick} data-park-until-next-start-menu>{t(
-        'home.menus.park.untilNextStart')}</MenuItem>
-      <MenuItem onClick={onParkForDurationClick} data-park-for-duration-menu>{t(
-        'home.menus.park.forDuration')}</MenuItem>
-    </Menu>
+
     <DurationModal open={displayParkDurationModal} onClose={closeParkDurationModal}
                    onSubmit={submitParkForDuration} submitLabel={t('home.menus.park.dialog.submit')} />
-    <Button variant='outlined' color='primary' onClick={openStartMenu}
-            data-start-button>{t('home.menus.start.label')}</Button>
-    <Menu
-      anchorEl={startAnchorEl}
-      keepMounted
-      open={Boolean(startAnchorEl)}
-      onClose={closeStartMenu}
-    >
-      <MenuItem onClick={onStartAndResumeClick} data-start-and-resume-menu>{t(
-        'home.menus.start.startAndResume')}</MenuItem>
-      <MenuItem onClick={onStartForDurationClick} data-start-for-duration-menu>{t(
-        'home.menus.start.forDuration')}</MenuItem>
-    </Menu>
-    <Button variant='outlined' color='primary' onClick={onPauseClick}
-            data-pause-button>{t('home.menus.pause')}</Button>
+
     <DurationModal open={displayStartDurationModal} onClose={closeStartDurationModal}
                    onSubmit={submitStartForDuration} submitLabel={t('home.menus.start.dialog.submit')} />
   </div>

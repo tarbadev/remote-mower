@@ -15,6 +15,8 @@ import {
 } from '../../../domain/MowerService'
 import { Home } from './Home'
 import { waitForUpdate } from '../../../testUtils'
+import { getMowerSchedule } from '../../../domain/MowerScheduleService'
+import MockDate from 'mockdate'
 
 const mockTranslate = jest.fn()
 jest.mock(
@@ -29,6 +31,7 @@ jest.mock(
 )
 
 jest.mock('../../../domain/MowerService')
+jest.mock('../../../domain/MowerScheduleService')
 
 class HomeViewHelper {
   constructor(homeWrapper) {
@@ -47,6 +50,7 @@ class HomeViewHelper {
     this.startButtonSelector = '[data-start-button]'
     this.startAndResumeMenuSelector = '[data-start-and-resume-menu]'
     this.startForDurationMenuSelector = '[data-start-for-duration-menu]'
+    this.scheduleColumnTitle = '[data-schedule-column-title] p'
   }
 
   refresh() {
@@ -101,6 +105,10 @@ class HomeViewHelper {
   getCuttingLevel() {
     return this.homeWrapper.find(this.cuttingLevelSelector).text()
   }
+
+  getScheduleDays() {
+    return this.homeWrapper.find(this.scheduleColumnTitle)
+  }
 }
 
 describe('Home', () => {
@@ -111,6 +119,7 @@ describe('Home', () => {
     getMowerStatus.mockResolvedValue({})
     getMowerSettings.mockResolvedValue({})
     initializeMowerId.mockResolvedValue({})
+    getMowerSchedule.mockResolvedValue([])
   })
 
   it('Initializes the MowerService before retrieving data', async () => {
@@ -389,6 +398,25 @@ describe('Home', () => {
 
     it('when state is ERROR_AT_POWER_UP', async () => {
       await testState(MowerState.ERROR_AT_POWER_UP, 'error')
+    })
+  })
+
+  describe('Schedule', () => {
+    const thursday = new Date(2022, 3, 21)
+    const sunday = new Date(2022, 3, 24)
+
+    it('Loads schedule on load and displays current day and next day', async () => {
+      MockDate.set(thursday)
+
+      const home = mount(<Home />)
+      const homeView = new HomeViewHelper(home)
+
+      await waitForUpdate(home)
+
+      expect(homeView.getScheduleDays()).toHaveLength(2)
+      expect(mockTranslate).toHaveBeenCalledWith('schedule.day.thursday')
+      expect(mockTranslate).toHaveBeenCalledWith('schedule.day.friday')
+      expect(getMowerSchedule).toHaveBeenCalled()
     })
   })
 })
