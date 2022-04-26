@@ -58,6 +58,7 @@
     "jest-junit": "^10.0.0",
     "kill-port": "^1.6.1",
     "mini-css-extract-plugin": "^0.9.0",
+    "mockdate": "^3.0.5",
     "mockserver-client": "^5.11.1",
     "mockserver-node": "^5.11.1",
     "node-fetch": "^2.6.7",
